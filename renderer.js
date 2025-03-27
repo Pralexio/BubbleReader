@@ -124,13 +124,12 @@ async function fetchChapterImages(chapterUrl) {
     try {
         console.log('Chargement du chapitre:', chapterUrl);
         
-        // Simuler un navigateur web
         const response = await fetch(chapterUrl, {
             method: 'GET',
             headers: {
-                'Accept': 'text/html'
-            },
-            credentials: 'omit'
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            }
         });
 
         if (!response.ok) {
@@ -141,16 +140,15 @@ async function fetchChapterImages(chapterUrl) {
         const $ = cheerio.load(html);
         const images = [];
 
-        // Chercher directement dans le HTML
+        // Chercher les images dans le HTML
         $('img').each((index, element) => {
             const $img = $(element);
             let src = $img.attr('src') || $img.attr('data-src') || $img.attr('data-lazy-src');
             
-            if (src && src.includes('api.phenix-scans.com/uploads/manga/')) {
-                // Nettoyer l'URL
+            if (src && (src.includes('/uploads/manga/') || src.includes('api.phenix-scans.com'))) {
                 src = src.trim();
                 if (!src.startsWith('http')) {
-                    src = `https:${src}`;
+                    src = src.startsWith('//') ? `https:${src}` : `https://${src}`;
                 }
                 
                 // Ajouter le paramètre de largeur pour une meilleure qualité
@@ -158,7 +156,6 @@ async function fetchChapterImages(chapterUrl) {
                     src = `${src}${src.includes('?') ? '&' : '?'}width=1080`;
                 }
 
-                console.log(`Image ${index + 1} trouvée:`, src);
                 images.push({
                     url: src,
                     pageNumber: index + 1
@@ -166,7 +163,7 @@ async function fetchChapterImages(chapterUrl) {
             }
         });
 
-        // Si aucune image n'a été trouvée, chercher dans les scripts
+        // Si aucune image n'est trouvée, chercher dans les scripts
         if (images.length === 0) {
             const scriptContent = $('script:contains("chapter_data")').html();
             if (scriptContent) {
@@ -175,17 +172,16 @@ async function fetchChapterImages(chapterUrl) {
                     try {
                         const chapterData = JSON.parse(match[1].replace(/'/g, '"'));
                         chapterData.forEach((src, index) => {
-                            if (typeof src === 'string' && src.includes('api.phenix-scans.com/uploads/manga/')) {
+                            if (typeof src === 'string') {
                                 src = src.trim();
                                 if (!src.startsWith('http')) {
-                                    src = `https:${src}`;
+                                    src = src.startsWith('//') ? `https:${src}` : `https://${src}`;
                                 }
                                 
                                 if (!src.includes('width=')) {
                                     src = `${src}${src.includes('?') ? '&' : '?'}width=1080`;
                                 }
 
-                                console.log(`Image ${index + 1} trouvée dans script:`, src);
                                 images.push({
                                     url: src,
                                     pageNumber: index + 1
@@ -384,8 +380,8 @@ async function loadChapter(manga, chapterNumber) {
     }
 }
 
-// Fonction pour afficher un chapitre
-function displayChapter(images, chapterNumber, manga) {
+// Fonction pour afficher le chapitre
+async function displayChapter(images, chapterNumber, manga) {
     try {
         const contentArea = document.getElementById('content-area');
         if (!contentArea) {
@@ -396,13 +392,11 @@ function displayChapter(images, chapterNumber, manga) {
             throw new Error('Cache des chapitres non trouvé pour ce manga');
         }
         
-        // Créer la structure du lecteur avec navigation minimaliste
         contentArea.innerHTML = `
             <div class="chapter-reader">
                 <div class="chapter-content">
                     ${images.map((image, index) => `
                         <div class="page-container">
-                            <div class="page-number">${index + 1} / ${images.length}</div>
                             <img 
                                 src="${image.url}" 
                                 alt="Page ${index + 1}"
@@ -415,29 +409,25 @@ function displayChapter(images, chapterNumber, manga) {
                 </div>
                 
                 <div class="chapter-navigation">
-                    <button onclick="window.navigateChapter(1)" class="nav-button" title="Chapitre Précédent">←</button>
-                    <select id="chapter-select" onchange="window.loadChapter(currentManga, parseInt(this.value))">
+                    <button onclick="navigateChapter(-1)" class="nav-button">◀</button>
+                    <select id="chapter-select" onchange="loadChapter(currentManga, parseInt(this.value))">
                         ${chaptersCache[manga.slug].chapters.map(chapter => `
                             <option value="${chapter.number}" ${chapter.number === chapterNumber ? 'selected' : ''}>
-                                ${chapter.number}
+                                Chap-${chapter.number}
                             </option>
                         `).join('')}
                     </select>
-                    <button onclick="window.navigateChapter(-1)" class="nav-button" title="Chapitre Suivant">→</button>
+                    <button onclick="navigateChapter(1)" class="nav-button">▶</button>
                 </div>
             </div>
         `;
-
-        // Faire défiler vers le haut
-        window.scrollTo(0, 0);
         
-        // Mettre à jour le titre de la page
-        document.title = `${manga.title} - Chapitre ${chapterNumber}`;
+        // Sauvegarder le dernier chapitre lu
+        saveLastReadChapter(manga.slug, chapterNumber);
+        
     } catch (error) {
         console.error('Erreur lors de l\'affichage du chapitre:', error);
-        if (contentArea) {
-            contentArea.innerHTML = `<div class="error">Erreur lors de l'affichage du chapitre: ${error.message}</div>`;
-        }
+        contentArea.innerHTML = '<div class="error">Erreur lors du chargement du chapitre</div>';
     }
 }
 
@@ -456,28 +446,172 @@ async function navigateChapter(delta) {
     
     if (currentIndex === -1) return;
     
-    const newIndex = currentIndex + delta;
+    // Inverser le delta car les chapitres sont triés du plus récent au plus ancien
+    const newIndex = currentIndex - delta;
     if (newIndex >= 0 && newIndex < chapters.length) {
         const newChapter = chapters[newIndex];
         loadChapter(currentManga, newChapter.number);
     }
 }
 
-// Fonction de recherche
+// Fonction de recherche simplifiée
 function searchManga(query) {
     const mangas = loadMangaList();
-    if (!query) {
-        displayMangaList(mangas);
-        return;
-    }
-
-    const searchTerm = query.toLowerCase();
-    const filteredMangas = mangas.filter(manga => 
-        manga.title.toLowerCase().includes(searchTerm) ||
-        manga.genres.some(genre => genre.toLowerCase().includes(searchTerm))
-    );
+    const searchTerm = query.toLowerCase().trim();
+    const statusFilter = document.getElementById('status-filter').value;
+    const typeFilter = document.getElementById('type-filter').value;
+    
+    const filteredMangas = mangas.filter(manga => {
+        const matchesSearch = !searchTerm || 
+            manga.title.toLowerCase().includes(searchTerm) ||
+            manga.slug.toLowerCase().includes(searchTerm);
+            
+        const matchesStatus = statusFilter === 'all' || manga.status === statusFilter;
+        const matchesType = typeFilter === 'all' || manga.type === typeFilter;
+        
+        return matchesSearch && matchesStatus && matchesType;
+    });
 
     displayMangaList(filteredMangas);
+}
+
+// Fonction pour supprimer les doublons
+function removeDuplicates(mangas) {
+    const seen = new Map();
+    return mangas.filter(manga => {
+        if (seen.has(manga.slug)) {
+            return false;
+        }
+        seen.set(manga.slug, true);
+        return true;
+    });
+}
+
+// Fonction pour mettre à jour les compteurs de filtres
+function updateFilterCounts(mangas) {
+    const counts = {
+        status: {
+            'EN COURS': 0,
+            'TERMINÉ': 0
+        },
+        type: {
+            'MANHWA': 0,
+            'MANGA': 0,
+            'MANHUA': 0
+        }
+    };
+
+    mangas.forEach(manga => {
+        if (manga.status) counts.status[manga.status]++;
+        if (manga.type) counts.type[manga.type]++;
+    });
+
+    // Mettre à jour l'interface utilisateur avec les compteurs
+    updateFilterUI(counts);
+}
+
+// Fonction pour créer les filtres dans l'interface
+function createFilters() {
+    const filterContainer = document.createElement('div');
+    filterContainer.className = 'filter-container';
+    
+    // Filtres de statut
+    const statusFilter = document.createElement('div');
+    statusFilter.className = 'filter-group';
+    statusFilter.innerHTML = `
+        <h3>Statut</h3>
+        <label>
+            <input type="checkbox" data-filter="status" value="EN COURS"> En cours
+            <span class="count" id="count-en-cours"></span>
+        </label>
+        <label>
+            <input type="checkbox" data-filter="status" value="TERMINÉ"> Terminé
+            <span class="count" id="count-termine"></span>
+        </label>
+    `;
+
+    // Filtres de type
+    const typeFilter = document.createElement('div');
+    typeFilter.className = 'filter-group';
+    typeFilter.innerHTML = `
+        <h3>Type</h3>
+        <label>
+            <input type="checkbox" data-filter="type" value="MANHWA"> Manhwa
+            <span class="count" id="count-manhwa"></span>
+        </label>
+        <label>
+            <input type="checkbox" data-filter="type" value="MANGA"> Manga
+            <span class="count" id="count-manga"></span>
+        </label>
+        <label>
+            <input type="checkbox" data-filter="type" value="MANHUA"> Manhua
+            <span class="count" id="count-manhua"></span>
+        </label>
+    `;
+
+    filterContainer.appendChild(statusFilter);
+    filterContainer.appendChild(typeFilter);
+
+    // Ajouter les écouteurs d'événements pour les filtres
+    filterContainer.addEventListener('change', (e) => {
+        if (e.target.matches('input[type="checkbox"]')) {
+            applyFilters();
+        }
+    });
+
+    return filterContainer;
+}
+
+// Fonction pour appliquer les filtres
+function applyFilters() {
+    const filters = {
+        status: [],
+        type: []
+    };
+
+    // Collecter les filtres actifs
+    document.querySelectorAll('input[data-filter]:checked').forEach(checkbox => {
+        const filterType = checkbox.dataset.filter;
+        const value = checkbox.value;
+        filters[filterType].push(value);
+    });
+
+    // Appliquer les filtres
+    let mangas = loadMangaList();
+    mangas = removeDuplicates(mangas);
+
+    if (filters.status.length > 0) {
+        mangas = mangas.filter(manga => filters.status.includes(manga.status));
+    }
+    if (filters.type.length > 0) {
+        mangas = mangas.filter(manga => filters.type.includes(manga.type));
+    }
+
+    // Appliquer la recherche textuelle si elle existe
+    const searchInput = document.getElementById('search-input');
+    if (searchInput && searchInput.value.trim()) {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        mangas = mangas.filter(manga => {
+            const title = manga.title.toLowerCase();
+            const slug = manga.slug.toLowerCase();
+            return title.includes(searchTerm) || slug.includes(searchTerm);
+        });
+    }
+
+    displayMangaList(mangas);
+    updateFilterCounts(mangas);
+}
+
+// Fonction pour mettre à jour l'interface des filtres
+function updateFilterUI(counts) {
+    // Mettre à jour les compteurs de statut
+    document.getElementById('count-en-cours').textContent = `(${counts.status['EN COURS']})`;
+    document.getElementById('count-termine').textContent = `(${counts.status['TERMINÉ']})`;
+    
+    // Mettre à jour les compteurs de type
+    document.getElementById('count-manhwa').textContent = `(${counts.type['MANHWA']})`;
+    document.getElementById('count-manga').textContent = `(${counts.type['MANGA']})`;
+    document.getElementById('count-manhua').textContent = `(${counts.type['MANHUA']})`;
 }
 
 // Fonction pour filtrer les mangas
@@ -519,8 +653,15 @@ function showHistoryPopup() {
         <div class="history-list">
     `;
     
-    // Filtrer les mangas qui ont un historique
-    const mangasWithHistory = mangas.filter(manga => lastReadChapters[manga.slug]);
+    // Filtrer les mangas qui ont un historique et éviter les doublons
+    const processedSlugs = new Set();
+    const mangasWithHistory = mangas.filter(manga => {
+        if (lastReadChapters[manga.slug] && !processedSlugs.has(manga.slug)) {
+            processedSlugs.add(manga.slug);
+            return true;
+        }
+        return false;
+    });
     
     if (mangasWithHistory.length === 0) {
         historyContent += '<div class="history-item">Aucun historique de lecture</div>';
@@ -618,9 +759,45 @@ function deleteHistory(mangaSlug) {
     showHistoryPopup();
 }
 
-// Initialisation
+// Gestion de la sidebar
+function initSidebar() {
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const contentArea = document.getElementById('content-area');
+    const overlay = document.getElementById('sidebar-overlay');
+
+    function toggleSidebar() {
+        sidebar.classList.toggle('active');
+        contentArea.classList.toggle('sidebar-active');
+        overlay.classList.toggle('active');
+        menuToggle.classList.toggle('active');
+    }
+
+    // Gestionnaire pour le bouton toggle
+    if (menuToggle) {
+        menuToggle.addEventListener('click', toggleSidebar);
+    }
+
+    // Fermer la sidebar quand on clique sur l'overlay
+    if (overlay) {
+        overlay.addEventListener('click', toggleSidebar);
+    }
+
+    // Fermer la sidebar quand on sélectionne un manga
+    document.getElementById('manga-list').addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        contentArea.classList.remove('sidebar-active');
+        overlay.classList.remove('active');
+        menuToggle.classList.remove('active');
+    });
+}
+
+// Mise à jour de l'initialisation
 document.addEventListener('DOMContentLoaded', () => {
     try {
+        // Initialiser la sidebar
+        initSidebar();
+
         // Charger le cache au démarrage
         const savedCache = localStorage.getItem('chaptersCache');
         if (savedCache) {
@@ -631,18 +808,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const mangas = loadMangaList();
         displayMangaList(mangas);
 
-        // Configurer la recherche
+        // Configurer la recherche et les filtres
         const searchInput = document.getElementById('search-input');
+        const statusFilter = document.getElementById('status-filter');
+        const typeFilter = document.getElementById('type-filter');
+
         if (searchInput) {
-            searchInput.addEventListener('input', (e) => {
-                searchManga(e.target.value);
-            });
+            searchInput.addEventListener('input', (e) => searchManga(e.target.value));
         }
 
-        // Ajouter l'écouteur d'événement pour la recherche
-        document.getElementById('search-input').addEventListener('input', (e) => {
-            filterMangas(e.target.value);
-        });
+        if (statusFilter) {
+            statusFilter.addEventListener('change', () => searchManga(searchInput.value));
+        }
+
+        if (typeFilter) {
+            typeFilter.addEventListener('change', () => searchManga(searchInput.value));
+        }
 
         // Ajouter le bouton d'historique
         const historyButton = document.createElement('button');
@@ -650,13 +831,6 @@ document.addEventListener('DOMContentLoaded', () => {
         historyButton.innerHTML = '📖';
         historyButton.onclick = showHistoryPopup;
         document.body.appendChild(historyButton);
-
-        // Fermer la popup quand on clique sur l'overlay
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('overlay')) {
-                hideHistoryPopup();
-            }
-        });
 
         console.log('Application initialisée avec succès');
     } catch (error) {

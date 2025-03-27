@@ -20,7 +20,7 @@ BubbleReader est une application de lecture de scans de mangas, manhwas, webtoon
 
 ## 🚀 Installation
 
-1. Téléchargez la dernière version de BubbleReader depuis la section [Releases](https://github.com/pralexio/BubbleReader/releases)
+1. Téléchargez la dernière version de BubbleReader depuis la section [Releases](https://github.com/votre-repo/BubbleReader/releases)
 2. Exécutez le fichier d'installation `BubbleReader Setup.exe`
 3. Choisissez votre dossier d'installation
 4. Lancez l'application depuis le raccourci créé sur le bureau ou le menu démarrer

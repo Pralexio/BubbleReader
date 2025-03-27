@@ -3,8 +3,9 @@ const path = require('path');
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 1200,
-    height: 800,
+    width: 720,
+    height: 1000,
+    minWidth: 360,
     autoHideMenuBar: true,
     frame: true,
     icon: 'icon.png',
@@ -15,6 +16,9 @@ function createWindow() {
   });
 
   win.loadFile('index.html');
+  
+  // Centrer la fenêtre
+  win.center();
 }
 
 app.whenReady().then(() => {

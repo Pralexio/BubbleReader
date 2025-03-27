@@ -1193,14 +1193,6 @@
       "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/f7a37090d8f240149c2459ac035296b4.jpg&output=webp&w=500&ll"
     },
     {
-      "title": "Solo Leveling",
-      "type": "MANHWA",
-      "status": "EN COURS",
-      "slug": "solo-leveling",
-      "chapterUrlPattern": "https://phenix-scans.com/manga/solo-leveling/chapitre/{chapter}",
-      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/015a0e3a-1d15-4cff-b27f-a3a1bce1358d.jpg&output=webp&w=500&ll"
-    },
-    {
       "title": "Latna Saga: Survival of a Sword King",
       "type": "MANHWA",
       "status": "EN COURS",

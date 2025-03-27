@@ -1,6 +1,6 @@
 {
   "name": "bubblereader",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "Application de lecture de scans de mangas / Manwha / Webtoon / Manhua",
   "main": "main.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "axios": "^1.6.2",
     "cheerio": "^1.0.0-rc.12",
     "electron-store": "^8.1.0",
-    "puppeteer": "^21.6.1"
+    "puppeteer": "^21.11.0"
   },
   "devDependencies": {
     "electron": "^28.1.0",

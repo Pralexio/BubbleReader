@@ -1,25 +1,53 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BubbleReader</title>
-    <link rel="stylesheet" href="dark-theme.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BubbleReader</title>
+  <link rel="stylesheet" href="dark-theme.css">
 </head>
 <body>
-    <div class="app-container">
-        <div class="sidebar">
-            <h1>BubbleReader</h1>
-            <input type="text" id="search-input" placeholder="Rechercher un manga...">
-            <div id="manga-list"></div>
+  <button class="menu-toggle" id="menu-toggle">
+    <div class="bar"></div>
+  </button>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+  <div class="app-container">
+    <div class="sidebar" id="sidebar">
+      <h1>BubbleReader</h1>
+      <div class="search-container">
+        <input type="text" id="search-input" placeholder="Rechercher un manga...">
+      </div>
+      
+      <div class="filter-container">
+        <div class="filter-group">
+          <h3>Statut</h3>
+          <select id="status-filter" class="filter-select">
+            <option value="all">Tout</option>
+            <option value="EN COURS">En cours</option>
+            <option value="TERMINÉ">Terminé</option>
+          </select>
         </div>
-        <div class="content-area" id="content-area">
-            <div class="welcome-message">
-                <h2>Bienvenue sur BubbleReader</h2>
-                <p>Sélectionnez un scan pour commencer la lecture</p>
-            </div>
+
+        <div class="filter-group">
+          <h3>Type</h3>
+          <select id="type-filter" class="filter-select">
+            <option value="all">Tout</option>
+            <option value="MANHWA">Manhwa</option>
+            <option value="MANGA">Manga</option>
+            <option value="MANHUA">Manhua</option>
+          </select>
         </div>
+      </div>
+
+      <div id="manga-list"></div>
     </div>
-    <script src="renderer.js"></script>
+    <div class="content-area" id="content-area">
+      <div class="welcome-message">
+        <h2>Bienvenue sur BubbleReader</h2>
+        <p>Sélectionnez un scan pour commencer la lecture</p>
+      </div>
+    </div>
+  </div>
+  <script src="renderer.js"></script>
 </body>
-</html> 
+</html>
