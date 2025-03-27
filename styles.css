@@ -1,0 +1,256 @@
+/* Layout principal */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    min-height: 100vh;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+}
+
+/* Barre latérale fixe */
+#sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 240px;
+    background-color: #2a2a2a;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+/* Zone de recherche fixe */
+.search-container {
+    position: sticky;
+    top: 0;
+    padding: 15px;
+    background-color: #2a2a2a;
+    border-bottom: 1px solid #3a3a3a;
+    z-index: 10;
+}
+
+#search-input {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    background-color: #3a3a3a;
+    color: #ffffff;
+    font-size: 0.9em;
+}
+
+/* Liste des mangas scrollable */
+#manga-list {
+    flex: 1;
+    padding: 15px;
+}
+
+/* Zone de contenu principale */
+#content-area {
+    margin-left: 240px;
+    flex: 1;
+    min-height: 100vh;
+    position: relative;
+    background-color: #1a1a1a;
+    padding: 15px;
+    width: calc(100% - 240px);
+}
+
+/* Lecteur de chapitre */
+.chapter-reader {
+    display: flex;
+    gap: 15px;
+    position: relative;
+    max-width: 1800px;
+    margin: 0 auto;
+}
+
+/* Navigation du chapitre */
+.chapter-navigation {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 3px;
+    border-radius: 4px;
+    backdrop-filter: blur(2px);
+    z-index: 1000;
+}
+
+.nav-button {
+    padding: 2px 8px;
+    background: transparent;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.nav-button:hover {
+    opacity: 1;
+}
+
+#chapter-select {
+    background: transparent;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 2px;
+    width: 60px;
+    -webkit-appearance: none;
+    appearance: none;
+    text-align: center;
+}
+
+#chapter-select:focus {
+    outline: none;
+}
+
+.chapter-header {
+    display: none;
+}
+
+/* Contenu du chapitre */
+.chapter-content {
+    flex: 1;
+    max-width: 100%;
+    margin: 0 auto;
+    padding-bottom: 40px;
+}
+
+/* Images du chapitre */
+.page-container {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.page-number {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 0.7em;
+    opacity: 0.7;
+}
+
+.chapter-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Éléments de la liste des mangas */
+.manga-item {
+    background-color: #333;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    transition: transform 0.2s;
+    cursor: pointer;
+    border: 1px solid #3a3a3a;
+}
+
+.manga-item:hover {
+    transform: translateX(5px);
+    background-color: #444;
+}
+
+.manga-cover {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+}
+
+.manga-info {
+    padding: 10px;
+}
+
+.manga-title {
+    font-size: 0.9em;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #ffffff;
+}
+
+.manga-badges {
+    display: flex;
+    gap: 6px;
+}
+
+.manga-type, .manga-status {
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-size: 0.75em;
+}
+
+.manga-type {
+    background-color: #4a4a4a;
+}
+
+.manga-status[data-status="EN COURS"] {
+    background-color: #2ecc71;
+}
+
+.manga-status[data-status="TERMINÉ"] {
+    background-color: #e74c3c;
+}
+
+/* Scrollbar personnalisée */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #3a3a3a;
+    border-radius: 3px;
+}
+
+/* Media queries */
+@media (max-width: 1200px) {
+    .chapter-reader {
+        flex-direction: column;
+    }
+
+    .chapter-content {
+        max-width: 100%;
+    }
+
+    .chapter-navigation {
+        width: 100%;
+        position: relative;
+        top: 0;
+        order: -1;
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        width: 220px;
+    }
+
+    #content-area {
+        margin-left: 220px;
+        width: calc(100% - 220px);
+    }
+} 
