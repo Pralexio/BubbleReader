@@ -201,11 +201,12 @@
       "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/c084eb14-54a9-4ebc-a4c4-43b549fd2e0b.jpg&output=webp&w=500&ll"
     },
     {
-      "title": "The Unexpectedly Strong Knight in the Magic Academy",
+      "title": "The Unexpectedly Strong Knight in the Elf’s Arena",
       "type": "MANHWA",
       "status": "EN COURS",
-      "slug": "the-unexpectedly-strong-knight-in-the-magic-academy",
-      "chapterUrlPattern": "https://phenix-scans.com/manga/the-unexpectedly-strong-knight-in-the-magic-academy/chapitre/{chapter}"
+      "slug": "the-unexpectedly-strong-knight-in-the-elfs-arena",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-unexpectedly-strong-knight-in-the-elfs-arena/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/cd611338-f234-4fb8-9d5b-8e6c9f17b4fb.jpg&output=webp&w=500&ll"
     },
     {
       "title": "The Unbeatable Dungeon's Lazy Boss Monster",
@@ -328,11 +329,12 @@
       "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/eab7199b-912d-45a5-a633-bb26361bc9f0.jpg&output=webp&w=500&ll"
     },
     {
-      "title": "A Modern Who Transmigrated Into The Past",
+      "title": "A Modern Man Who Transmigrated Into the Murim World",
       "type": "MANHWA",
       "status": "EN COURS",
-      "slug": "a-modern-who-transmigrated-into-the-past",
-      "chapterUrlPattern": "https://phenix-scans.com/manga/a-modern-who-transmigrated-into-the-past/chapitre/{chapter}"
+      "slug": "a-modern-man-who-transmigrated-into-the-murim-world",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/a-modern-man-who-transmigrated-into-the-murim-world/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/2647383a-a71f-48bd-82af-5a948b2b7039.jpg&output=webp&w=500&ll"
     },
     {
       "title": "A Dragonslayer's Peerless Regression",
@@ -463,11 +465,12 @@
       "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/53dffadc-7595-439d-8236-19d11fc433f1.jpg&output=webp&w=500&ll"
     },
     {
-      "title": "Savior of Divine Blood",
+      "title": "Savior of Divine Blood ~Draw Out 0.00000001% To Become the Strongest",
       "type": "MANHWA",
       "status": "EN COURS",
-      "slug": "savior-of-divine-blood",
-      "chapterUrlPattern": "https://phenix-scans.com/manga/savior-of-divine-blood/chapitre/{chapter}"
+      "slug": "savior-of-divine-blood-draw-out-0-00000001-to-become-the-strongest",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/savior-of-divine-blood-draw-out-0-00000001-to-become-the-strongest/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/92fe4903-fab2-47a9-b20b-b715d729afca.jpg&output=webp&w=500&ll"
     },
     {
       "title": "The Kings Of Insects",
@@ -502,11 +505,12 @@
       "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/a0c9ba00-2dd8-4323-be86-e6aa0d11bf2e.jpg&output=webp&w=500&ll"
     },
     {
-      "title": "Star Instructor Master Back",
+      "title": "Star Instructor, Master Baek",
       "type": "MANHWA",
       "status": "EN COURS",
       "slug": "star-instructor-master-back",
-      "chapterUrlPattern": "https://phenix-scans.com/manga/star-instructor-master-back/chapitre/{chapter}"
+      "chapterUrlPattern": "https://phenix-scans.com/manga/star-instructor-master-baek/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/9eb7362b-7627-46aa-9b12-dbd1e5b7dded.jpg&output=webp&w=500&ll"
     },
     {
       "title": "Standard of Reincarnation",
@@ -589,11 +593,12 @@
       "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/f4a4b66d-1264-4de9-95d7-eb3576bdf9f4.jpg&output=webp&w=500&ll"
     },
     {
-      "title": "I'm the Max-Level Newbie",
+      "title": "Solo Max-Level Newbie",
       "type": "MANHWA",
       "status": "EN COURS",
-      "slug": "im-the-max-level-newbie",
-      "chapterUrlPattern": "https://phenix-scans.com/manga/im-the-max-level-newbie/chapitre/{chapter}"
+      "slug": "solo-max-level-newbie",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/solo-max-level-newbie/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/3c245f72-ff40-4d31-91be-4858734ebd59.jpg&output=webp&w=500&ll"
     },
     {
       "title": "Empress Maria",
@@ -1060,18 +1065,20 @@
       "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/b035ba85-5671-4a27-8592-9ed1530385f0.jpg&output=webp&w=500&ll"
     },
     {
-      "title": "Regressing as the Reincarnated Bastard Child of a Noble Family",
+      "title": "Regressing as the Reincarnated Bastard of the Sword Clan",
       "type": "MANHWA",
       "status": "EN COURS",
       "slug": "regressing-as-the-reincarnated-bastard-child-of-a-noble-family",
-      "chapterUrlPattern": "https://phenix-scans.com/manga/regressing-as-the-reincarnated-bastard-child-of-a-noble-family/chapitre/{chapter}"
+      "chapterUrlPattern": "https://phenix-scans.com/manga/regressing-as-the-reincarnated-bastard-of-the-sword-clan/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/bea219db-34ef-41b2-bb47-18ed8c6ef9c8.jpg&output=webp&w=500&ll"
     },
     {
-      "title": "Reformation of the Noble Family",
+      "title": "Reformation of the Deadbeat Noble",
       "type": "MANHWA",
       "status": "EN COURS",
       "slug": "reformation-of-the-noble-family",
-      "chapterUrlPattern": "https://phenix-scans.com/manga/reformation-of-the-noble-family/chapitre/{chapter}"
+      "chapterUrlPattern": "https://phenix-scans.com/manga/reformation-of-the-deadbeat-noble/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/00cbaf27-c73e-4974-9359-e0cfb9207e2d.jpg&output=webp&w=500&ll"
     },
     {
       "title": "Reaper of the Drifting Moon",
@@ -1226,11 +1233,12 @@
       "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/bf57a835-39a0-45e0-944c-81ba9d8c79b3.jpg&output=webp&w=500&ll"
     },
     {
-      "title": "Mount Hua Sect's Genius Phantom",
+      "title": "Mount Hua Sect’s Genius Phantom Swordsman",
       "type": "MANHWA",
       "status": "EN COURS",
       "slug": "mount-hua-sects-genius-phantom",
-      "chapterUrlPattern": "https://phenix-scans.com/manga/mount-hua-sects-genius-phantom/chapitre/{chapter}"
+      "chapterUrlPattern": "https://phenix-scans.com/manga/mount-hua-sects-genius-phantom-swordsman/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/070a6d9a-086a-4b93-b447-45e29307e0db.jpg&output=webp&w=500&ll"
     },
     {
       "title": "White Dragon Duke: Pendragon",
@@ -1257,11 +1265,12 @@
       "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/6dd6f40620cd470f9faa54c9ff25319d.jpg&output=webp&w=500&ll"
     },
     {
-      "title": "Mercenary Enrollment",
+      "title": "Mercenary Enrolment",
       "type": "MANHWA",
       "status": "EN COURS",
       "slug": "mercenary-enrollment",
-      "chapterUrlPattern": "https://phenix-scans.com/manga/mercenary-enrollment/chapitre/{chapter}"
+      "chapterUrlPattern": "https://phenix-scans.com/manga/mercenary-enrolment/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/ff73abbb65a742ef8900dac1fb0813c4.jpg&output=webp&w=500&ll"
     },
     {
       "title": "Eleceed",
@@ -1320,11 +1329,12 @@
       "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/8a4da7d0-01a4-4afd-a3a6-a05853347c98.jpg&output=webp&w=500&ll"
     },
     {
-      "title": "Necromancer Academy's Genius Student",
+      "title": "Necromancer Academy’s Genius Summoner",
       "type": "MANHWA",
       "status": "EN COURS",
       "slug": "necromancer-academys-genius-student",
-      "chapterUrlPattern": "https://phenix-scans.com/manga/necromancer-academys-genius-student/chapitre/{chapter}"
+      "chapterUrlPattern": "https://phenix-scans.com/manga/necromancer-academys-genius-summoner/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/86e3fd50-1342-4c87-a74f-ccf3be693a25.jpg&output=webp&w=500&ll"
     },
     {
       "title": "I'm Going to Destroy this Country",
@@ -1391,11 +1401,12 @@
       "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/8697aa24-8aed-4506-96ee-0f4abdd519e0.jpg&output=webp&w=500&ll"
     },
     {
-      "title": "During the Live Streaming, I Propose",
+      "title": "During the Live Streaming, I Proposed to a Female Ghost – And She Actually Agreed?!",
       "type": "MANHWA",
       "status": "EN COURS",
       "slug": "during-the-live-streaming-i-propose",
-      "chapterUrlPattern": "https://phenix-scans.com/manga/during-the-live-streaming-i-propose/chapitre/{chapter}"
+      "chapterUrlPattern": "https://phenix-scans.com/manga/during-the-live-streaming-i-proposed-to-a-female-ghost-and-she-actually-agreed/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/944a7055-a2ff-4edf-ba4b-e27fb90c359c.jpg&output=webp&w=500&ll"
     },
     {
       "title": "I'll Be Taking A Break For Personal Reasons",
@@ -1582,11 +1593,12 @@
       "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/3e8371bb-1f7e-4002-a8a1-d16104bc2846.jpg&output=webp&w=500&ll"
     },
     {
-      "title": "Hyouketsu Reijou-sama wo Follow Shitara",
+      "title": "Hyouketsu Reijou-sama wo Follow Shitara, Mechamecha Dekiai Sareteshimatta Ken",
       "type": "MANHWA",
       "status": "EN COURS",
       "slug": "hyouketsu-reijou-sama-wo-follow-shitara",
-      "chapterUrlPattern": "https://phenix-scans.com/manga/hyouketsu-reijou-sama-wo-follow-shitara/chapitre/{chapter}"
+      "chapterUrlPattern": "https://phenix-scans.com/manga/hyouketsu-reijou-sama-wo-follow-shitara-mechamecha-dekiai-sareteshimatta-ken/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/def57a05-682e-492b-b3a7-3d5ab4308b09.jpg&output=webp&w=500&ll"
     },
     {
       "title": "Your Eternal Lies",
@@ -1741,11 +1753,12 @@
       "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/08f0a11d-eb9e-482f-9ad4-348dab1661b6.jpg&output=webp&w=500&ll"
     },
     {
-      "title": "The Regressed Mercenary's Revenge",
+      "title": "The Regressed Mercenary’s Machinations",
       "type": "MANHWA",
       "status": "EN COURS",
       "slug": "the-regressed-mercenarys-revenge",
-      "chapterUrlPattern": "https://phenix-scans.com/manga/the-regressed-mercenarys-revenge/chapitre/{chapter}"
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-regressed-mercenarys-machinations/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/d2711cde-7f44-49d7-a8d7-c9b65add680f.jpg&output=webp&w=500&ll"
     },
     {
       "title": "Tsuki ga Michibiku Isekai Douchuu",
@@ -1828,11 +1841,12 @@
       "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/3a7da3d1-5754-4e5d-9402-edb374e892b7.jpg&output=webp&w=500&ll"
     },
     {
-      "title": "Assassin de aru ore no Sutetasu ga Yuusha yori mo Akiraka ni Tsuyoi Ken",
+      "title": "Assassin de aru ore no Sutetasu ga Yuusha yori mo Akiraka ni Tsuyoi Nodaga",
       "type": "MANHWA",
       "status": "EN COURS",
       "slug": "assassin-de-aru-ore-no-sutetasu-ga-yuusha-yori-mo-akiraka-ni-tsuyoi-ken",
-      "chapterUrlPattern": "https://phenix-scans.com/manga/assassin-de-aru-ore-no-sutetasu-ga-yuusha-yori-mo-akiraka-ni-tsuyoi-ken/chapitre/{chapter}"
+      "chapterUrlPattern": "https://phenix-scans.com/manga/assassin-de-aru-ore-no-sutetasu-ga-yuusha-yori-mo-akiraka-ni-tsuyoi-nodaga/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/4fbc9e0a-2671-4775-9a05-bb23969602d0.jpg&output=webp&w=500&ll"
     },
     {
       "title": "My Ruined Academy",
@@ -1959,7 +1973,8 @@
       "type": "MANHWA",
       "status": "EN COURS",
       "slug": "tensei-shitara-dainana-ouji-dattanode-kimamani-majutsu-o-kiwamemasu",
-      "chapterUrlPattern": "https://phenix-scans.com/manga/tensei-shitara-dainana-ouji-dattanode-kimamani-majutsu-o-kiwamemasu/chapitre/{chapter}"
+      "chapterUrlPattern": "https://phenix-scans.com/manga/tensei-shitara-dainana-ouji-dattanode-kimama-ni-majutsu-wo-kiwamemasu/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/fd7eb675-b0f6-4baf-b7f3-6f4d30e89d9f.jpg&output=webp&w=500&ll"
     },
     {
       "title": "Individualistic Love",
@@ -1970,11 +1985,12 @@
       "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/f4d67a88-eb2e-42a9-847a-ec96bd6a3543.jpg&output=webp&w=500&ll"
     },
     {
-      "title": "Genkai Level 1 kara no Nariagari Saijaku Level",
+      "title": "Genkai Level 1 kara no Nariagari Saijaku Level no Ore ga Isekai Saikyou ni Naru made",
       "type": "MANHWA",
       "status": "EN COURS",
-      "slug": "genkai-level-1-kara-no-nariagari-saijaku-level",
-      "chapterUrlPattern": "https://phenix-scans.com/manga/genkai-level-1-kara-no-nariagari-saijaku-level/chapitre/{chapter}"
+      "slug": "genkai-level-1-kara-no-nariagari-saijaku-level-no-ore-ga-isekai-saikyou-ni-naru-made",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/genkai-level-1-kara-no-nariagari-saijaku-level-no-ore-ga-isekai-saikyou-ni-naru-made/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/349cc822-7cbf-48d3-9fb6-a202ff8c997e.jpg&output=webp&w=500&ll"
     },
     {
       "title": "Rust",
@@ -2033,11 +2049,12 @@
       "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/f0a82638-a4b5-4d0f-8a8a-1a8dc43b39c3.jpg&output=webp&w=500&ll"
     },
     {
-      "title": "Start by Signing in and Obtaining the Ancient Power",
+      "title": "Start by Signing in and Obtaining the Ancient Divine Body",
       "type": "MANHWA",
       "status": "EN COURS",
       "slug": "start-by-signing-in-and-obtaining-the-ancient-power",
-      "chapterUrlPattern": "https://phenix-scans.com/manga/start-by-signing-in-and-obtaining-the-ancient-power/chapitre/{chapter}"
+      "chapterUrlPattern": "https://phenix-scans.com/manga/start-by-signing-in-and-obtaining-the-ancient-divine-body/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/63532a47-f240-407f-a237-9f6d904afcb6.jpg&output=webp&w=500&ll"
     },
     {
       "title": "Tragedy of the Villainess",
@@ -2048,11 +2065,12 @@
       "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/dbe1bb72-a53c-4840-b17d-fa7b94c04c7f.jpg&output=webp&w=500&ll"
     },
     {
-      "title": "Betrayed Thief, the Phantom Thief as a Hero",
+      "title": "Betrayed Thief, the Phantom Thief as a Demon King Goes for World Domination",
       "type": "MANHWA",
       "status": "EN COURS",
       "slug": "betrayed-thief-the-phantom-thief-as-a-hero",
-      "chapterUrlPattern": "https://phenix-scans.com/manga/betrayed-thief-the-phantom-thief-as-a-hero/chapitre/{chapter}"
+      "chapterUrlPattern": "https://phenix-scans.com/manga/betrayed-thief-the-phantom-thief-as-a-demon-king-goes-for-world-domination/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/d9c7bbdc-ac1e-4fff-ba6b-00fa72d337ad.jpg&output=webp&w=500&ll"
     },
     {
       "title": "Login as Monster",
