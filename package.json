@@ -1,0 +1,14 @@
+{
+  "name": "bubblereader-project",
+  "version": "1.1.1",
+  "description": "Application de lecture de scans de mangas / Manwha / Webtoon / Manhua",
+  "scripts": {
+    "start:app": "cd app && npm run start",
+    "start:server": "cd server && npm run start",
+    "install:all": "npm install && cd app && npm install && cd ../server && npm install",
+    "build:app": "cd app && npm run dist"
+  },
+  "author": "Pralexio",
+  "license": "MIT",
+  "keywords": []
+}

@@ -1,0 +1,2132 @@
+{
+  "mangas": [
+    {
+      "title": "Solo Leveling",
+      "type": "MANHWA",
+      "status": "TERMINÉ",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/015a0e3a-1d15-4cff-b27f-a3a1bce1358d.jpg&output=webp&w=500&ll",
+      "slug": "solo-leveling",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/solo-leveling/chapitre/{chapter}"
+    },
+    {
+      "title": "The Beginning After the End",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/10e14bf9-a358-4a6e-ac41-e6a02b6b8eed.jpg&output=webp&w=500&ll",
+      "slug": "the-beginning-after-the-end",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-beginning-after-the-end/chapitre/{chapter}"
+    },
+    {
+      "title": "The Nebula's Civilization",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-nebulas-civilization",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-nebulas-civilization/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/8ec0c31f-f7d2-4041-b26d-0824f0d9ea7f.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Max-Level Player's 100th Regression",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-max-level-players-100th-regression",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-max-level-players-100th-regression/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/34a6e92d-18b8-4467-ab6c-d9456e22226f.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Martial God who Regressed Back to Level 2",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-martial-god-who-regressed-back-to-level-2",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-martial-god-who-regressed-back-to-level-2/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/b96223a3-bb65-4440-9522-294417c64cf2.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Lord's Coins Aren't Decreasing?!",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-lords-coins-arent-decreasing",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-lords-coins-arent-decreasing/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/4a38e130-2834-4fa0-ad8f-d6783bf925c1.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Lady's Peculiar Hobby",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-ladys-peculiar-hobby",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-ladys-peculiar-hobby/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/c1ecbbe8-8b4e-4c41-9751-12ade0fc280e.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Lady Wants to Rest",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-lady-wants-to-rest",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-lady-wants-to-rest/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/a7f802d1-5555-49f6-b29b-443467479b8c.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Heavenly Demon's Descendant",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-heavenly-demons-descendant",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-heavenly-demons-descendant/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/7b4659ae-464b-4cf6-b063-dc861aae8c76.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Great Mage Returns After 4000 Years",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-great-mage-returns-after-4000-years",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-great-mage-returns-after-4000-years/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/62bee35d-eee3-40ae-a269-863031f1739f.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Genius Assassin Who Takes It All",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-genius-assassin-who-takes-it-all",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-genius-assassin-who-takes-it-all/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/1f6f0eab-c1cc-4b21-8ddb-282b92df54fb.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Extra's Academy Survival Guide",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-extras-academy-survival-guide",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-extras-academy-survival-guide/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/0e367d62-1174-4247-9ec0-c87254e9704a.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Executioner",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-executioner",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-executioner/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/be6c1a3e-182b-4e30-8260-c953a9295ae8.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Descent of the Demonic Master",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-descent-of-the-demonic-master",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-descent-of-the-demonic-master/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/bbdedad6-0ddd-46d8-91cc-dabbd952d32a.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Demon Lord Levels Up With Martial Arts",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-demon-lord-levels-up-with-martial-arts",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-demon-lord-levels-up-with-martial-arts/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/5227e538-b326-4569-8214-ff7f7acb72bf.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Dark Magician Transmigrates After 66666 Years",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-dark-magician-transmigrates-after-66666-years",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-dark-magician-transmigrates-after-66666-years/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/043b187a-a2a7-44cf-b94f-c5e616516015.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Dark Mage's Return to Enlistment",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-dark-mages-return-to-enlistment",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-dark-mages-return-to-enlistment/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/e81ecac8-7d0f-4360-85a1-3e69ee343922.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Constellation That Returned From Hell",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-constellation-that-returned-from-hell",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-constellation-that-returned-from-hell/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/45f22a03-dfbb-4cd2-a66f-09bbb3996bc4.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Book Eating Magician",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-book-eating-magician",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-book-eating-magician/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/fc6e7ba4-6d8a-489b-ba41-87d013471141.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Beast Tamed By The Villainess",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-beast-tamed-by-the-villainess",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-beast-tamed-by-the-villainess/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/a405a00c-9613-4f43-85dd-ddb9837d14a7.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Heavenly Demon Can't Live a Normal Life",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-heavenly-demon-cant-live-a-normal-life",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-heavenly-demon-cant-live-a-normal-life/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/6d3ebea4-d269-4b46-aef5-2aecb7bec83c.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Star-Embracing Swordmaster",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "star-embracing-swordmaster",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/star-embracing-swordmaster/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/e577eef0-7ecc-44bb-90f1-4cec8fae2b72.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Wedding Business",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-wedding-business",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-wedding-business/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/f3edee41-9e32-4e14-afee-58e52fe410ca.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Warrior Returns",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-warrior-returns",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-warrior-returns/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/b5c12797-8351-45b8-9192-4bafc5e6aa10.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Villainess is a Marionette",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-villainess-is-a-marionette",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-villainess-is-a-marionette/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/c084eb14-54a9-4ebc-a4c4-43b549fd2e0b.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Unexpectedly Strong Knight in the Elf's Arena",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-unexpectedly-strong-knight-in-the-elfs-arena",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-unexpectedly-strong-knight-in-the-elfs-arena/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/cd611338-f234-4fb8-9d5b-8e6c9f17b4fb.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Unbeatable Dungeon's Lazy Boss Monster",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-unbeatable-dungeons-lazy-boss-monster",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-unbeatable-dungeons-lazy-boss-monster/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/16b44332-0f92-469d-a01d-4fc9a186e55b.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Tutorial Tower of the Advanced Player",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-tutorial-tower-of-the-advanced-player",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-tutorial-tower-of-the-advanced-player/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/37d2df38-aacb-4826-85dd-c1f483ec3bdf.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Taming of the Shrew",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-taming-of-the-shrew",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-taming-of-the-shrew/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/02369ec7-37bf-41de-adb2-8e4e9346f696.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Second Coming of Gluttony",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-second-coming-of-gluttony",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-second-coming-of-gluttony/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/bf0aeda1-1c17-4370-85ee-0601a26ef973.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Saint's Power Comes From Modern Medicine",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-saints-power-comes-from-modern-medicine",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-saints-power-comes-from-modern-medicine/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/2e6683eb-b543-4f1b-a0b2-7f6d3ab1a50b.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The S-Classes That I Raised",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-s-classes-that-i-raised",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-s-classes-that-i-raised/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/5afdbcf1-9fef-4d58-9f82-c2d4bb3d1c48.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Return of the Disaster-Class Hero",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-return-of-the-disaster-class-hero",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-return-of-the-disaster-class-hero/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/623838d6-45b2-4864-b55a-8978f480c948.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Return of Elena the Knight",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-return-of-elena-the-knight",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-return-of-elena-the-knight/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/cfd152c0-28ce-46b7-a077-19f4deda7dc4.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Reincarnated Assassin is a Genius Swordsman",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-reincarnated-assassin-is-a-genius-swordsman",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-reincarnated-assassin-is-a-genius-swordsman/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/67c63556-53b9-4418-95d8-752fe94f10df.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Princess Imprints the Traitor",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-princess-imprints-the-traitor",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-princess-imprints-the-traitor/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/a3b54ded-481e-459c-80ac-3fed80eda26d.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Player Hides His Past",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-player-hides-his-past",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-player-hides-his-past/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/5c9d5e15-a257-4e86-8172-8c7bea4dde4d.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Newbie is Too Strong",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-newbie-is-too-strong",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-newbie-is-too-strong/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/8be2bc67-6dc6-4203-a407-74b4fb649f8f.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Bad Born Blood",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "bad-born-blood",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/bad-born-blood/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/c4ed4fba-2c84-4ad6-a674-891b64790f19.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Archmage Transcending Through Regression",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "archmage-transcending-through-regression",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/archmage-transcending-through-regression/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/baf59889-ce6d-4e64-9f96-f9255eba1f29.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Absolute Dominion",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "absolute-dominion",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/absolute-dominion/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/eab7199b-912d-45a5-a633-bb26361bc9f0.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "A Modern Man Who Transmigrated Into the Murim World",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "a-modern-man-who-transmigrated-into-the-murim-world",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/a-modern-man-who-transmigrated-into-the-murim-world/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/2647383a-a71f-48bd-82af-5a948b2b7039.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "A Dragonslayer's Peerless Regression",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "a-dragonslayers-peerless-regression",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/a-dragonslayers-peerless-regression/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/1b00c133-0db1-432a-90a1-c2b2b1883115.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "A Barbarian Was Admitted to the Academy",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "a-barbarian-was-admitted-to-the-academy",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/a-barbarian-was-admitted-to-the-academy/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/a7492f42-90c1-4150-b690-cad25b741a67.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Dreaming Freedom",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "dreaming-freedom",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/dreaming-freedom/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/58b42798-2fa6-4533-a4e9-90d397ecad59.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Worthless Regression",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "worthless-regression",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/worthless-regression/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/8629c890-798b-47cf-9c39-87bd37ad2fef.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Wind Breaker",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "wind-breaker",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/wind-breaker/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/7daa6927-5db2-48bd-a5b3-c1c2acf11281.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "What's Wrong with Being the Villainess?",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "whats-wrong-with-being-the-villainess",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/whats-wrong-with-being-the-villainess/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/bcec9ca5-bb6e-4585-92dc-b6641d5c4e1a.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Warrior High School – Dungeon Raid",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "warrior-high-school-dungeon-raid",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/warrior-high-school-dungeon-raid/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/9ddedc48-1ab5-474f-97c2-f7f02d862e93.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Villain to Kill",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "villain-to-kill",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/villain-to-kill/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/9a655801-ea8b-4788-ad38-caca359a79fe.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Under the Oak Tree",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "under-the-oak-tree",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/under-the-oak-tree/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/adfe29c7-21e6-4651-89f7-22cf5bae23ee.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Tyrant of the Tower Defense Game",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "tyrant-of-the-tower-defense-game",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/tyrant-of-the-tower-defense-game/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/0a7c0055-006b-4de1-a965-b1f859f10c69.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Trash of the Count's Family",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "trash-of-the-counts-family",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/trash-of-the-counts-family/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/21973cf7-6444-4c16-9e3d-e14ae74d3e6d.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Tomb Raider King",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "tomb-raider-king",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/tomb-raider-king/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/5173a34b-7fab-4317-bdb5-3559260a9ed1.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Nano Machine",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "nano-machine",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/nano-machine/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/ac38442b-d64d-4091-9817-1fb04cc2c470.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Greatest Estate Developer",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-greatest-estate-developer",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-greatest-estate-developer/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/ff170cce-9067-4f07-89c0-50c1859b0119.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Night of the Soulless Heathens",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "night-of-the-soulless-heathens",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/night-of-the-soulless-heathens/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/a175ede9-2973-4447-afdf-8db7b5605f4b.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Monster Eater",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "monster-eater",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/monster-eater/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/53dffadc-7595-439d-8236-19d11fc433f1.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Savior of Divine Blood ~Draw Out 0.00000001% To Become the Strongest",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "savior-of-divine-blood-draw-out-0-00000001-to-become-the-strongest",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/savior-of-divine-blood-draw-out-0-00000001-to-become-the-strongest/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/92fe4903-fab2-47a9-b20b-b715d729afca.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Kings Of Insects",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-kings-of-insects",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-kings-of-insects/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/65d3bf7b-a48a-4569-b988-76f8ca3927ad.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Swordmaster's Youngest Son",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "swordmasters-youngest-son",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/swordmasters-youngest-son/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/10c9ca41-c588-4c8e-be5b-4ef917b921cb.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Surviving the Game as a Barbarian",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "surviving-the-game-as-a-barbarian",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/surviving-the-game-as-a-barbarian/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/cb2c21ff-f3df-4714-a9cb-617dfd578001.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Steel-Eating Player",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "steel-eating-player",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/steel-eating-player/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/a0c9ba00-2dd8-4323-be86-e6aa0d11bf2e.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Star Instructor, Master Baek",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "star-instructor-master-back",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/star-instructor-master-baek/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/9eb7362b-7627-46aa-9b12-dbd1e5b7dded.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Standard of Reincarnation",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "standard-of-reincarnation",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/standard-of-reincarnation/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/1ac2d987-d352-42ba-9f66-4eccf67cb587.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "SSS-Class Suicide Hunter",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "sss-class-suicide-hunter",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/sss-class-suicide-hunter/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/c9cf6041-6f39-4350-a1e6-3ecc884b3d21.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "SSS-Class Gacha Hunter",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "sss-class-gacha-hunter",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/sss-class-gacha-hunter/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/225cfd58-4abe-41c3-ad94-e49f4b418173.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Solo Necromancy",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "solo-necromancy",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/solo-necromancy/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/a5ade030-7aec-43e7-94f9-e0b2d41bf965.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Solo Leveling Arise: Hunters Origins",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "solo-leveling-arise-hunters-origins",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/solo-leveling-arise-hunters-origins/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/41a5602b-e29b-4ea2-92a8-dc57c6480c7f.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Fated to Be Loved by Villains",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "fated-to-be-loved-by-villains",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/fated-to-be-loved-by-villains/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/76f6a013b7624217b5f5a3c938f98d74.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Talent-Swallowing Magician",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "talent-swallowing-magician",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/talent-swallowing-magician/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/ef77fae9-7592-4b1a-82e0-9f7a980dc1e6.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Absolute Sword Sense",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "absolute-sword-sense",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/absolute-sword-sense/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/166599e1-207c-4cec-9d1c-d5f484891ab9.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Return of the Iron-Blooded Sword Hound",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "return-of-the-iron-blooded-sword-hound",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/return-of-the-iron-blooded-sword-hound/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/d7461b9f-c2c3-44f8-83a4-c87f4457385b.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Ultimate Shut-In",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-ultimate-shut-in",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-ultimate-shut-in/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/f4a4b66d-1264-4de9-95d7-eb3576bdf9f4.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Solo Max-Level Newbie",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "solo-max-level-newbie",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/solo-max-level-newbie/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/3c245f72-ff40-4d31-91be-4858734ebd59.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Empress Maria",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "empress-maria",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/empress-maria/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/7f152d74-6fd6-4f0f-814f-64ba37131ff1.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Poison Dragon: The Legend of an Asura",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "poison-dragon-the-legend-of-an-asura",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/poison-dragon-the-legend-of-an-asura/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/9ebc4ffc-5cc0-4015-ac9b-acb6bdc8adde.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Maxed Out Leveling",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "maxed-out-leveling",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/maxed-out-leveling/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/22414423-c67a-4874-8287-32622dd5e0f2.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Magic Academy's Genius Blinker",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "magic-academys-genius-blinker",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/magic-academys-genius-blinker/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/d60d0f92-f7ee-44da-88c0-e9b4e27588ef.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Leveling Up With A Sword",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "leveling-up-with-a-sword",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/leveling-up-with-a-sword/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/f5a38252-d263-4afb-88ee-954a67aa16c1.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Legend of the Northern Blade",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "legend-of-the-northern-blade",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/legend-of-the-northern-blade/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/fbaf2430-515b-4b71-999b-98d2f593f0ad.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Juujika no Rokunin",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "juujika-no-rokunin",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/juujika-no-rokunin/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/249176bd-80e6-4e1c-9ef3-8f770b2467a3.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Failed to Abandon the Villain",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "failed-to-abandon-the-villain",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/failed-to-abandon-the-villain/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/8ce70d4f74e649958aec468169fef9fc.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Just Friends",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "just-friends",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/just-friends/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/5904690d-365b-4148-9a91-3b0ee1f50a85.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Janice",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "janice",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/janice/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/9bb5559a-e69f-4a25-93e4-b48de8b0426f.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Insanely Talented Player",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "insanely-talented-player",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/insanely-talented-player/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/4db53cf4-9c50-4b68-b4cd-4c5fa25fafcd.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Infinite Mage",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "infinite-mage",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/infinite-mage/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/de2eb1ed-4be1-41ff-bbe4-83226bb21071.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "I'll Be the Matriarch in This Life",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "ill-be-the-matriarch-in-this-life",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/ill-be-the-matriarch-in-this-life/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/35a3f238-56da-4153-8fc1-6c95b6ee5053.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "I Killed an Academy Player",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "i-killed-an-academy-player",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/i-killed-an-academy-player/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/7c183354-295b-49b8-a176-b4bad5206671.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "I Have to Be A Monster",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "i-have-to-be-a-monster",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/i-have-to-be-a-monster/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/eeefc2127107467d8ebd504dc4733ce6.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "I Grow Stronger By Eating!",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "i-grow-stronger-by-eating",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/i-grow-stronger-by-eating/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/ece5c92f-f549-4b04-b3c1-e82d958452d9.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "I Got Lucky and Pulled a 10th Rank Summon",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "i-got-lucky-and-pulled-a-10th-rank-summon",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/i-got-lucky-and-pulled-a-10th-rank-summon/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/f4657425-eb3e-4e4e-b5d5-5e865f0c20b6.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "I Became the Wife of the Male Lead",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "i-became-the-wife-of-the-male-lead",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/i-became-the-wife-of-the-male-lead/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/fcdc7fcc-6570-4b7f-9475-f55bcb0c329b.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "I Became A Childhood Friend of A Mid Level Boss",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "i-became-a-childhood-friend-of-a-mid-level-boss",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/i-became-a-childhood-friend-of-a-mid-level-boss/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/46973e32-4852-4e25-b334-96a7deb0891f.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "How to Survive as a Terminally-Ill Dragon",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "how-to-survive-as-a-terminally-ill-dragon",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/how-to-survive-as-a-terminally-ill-dragon/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/758bac84-1a7d-4e9c-b692-38defe1f26cb.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Helmut: The Forsaken Child",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "helmut-the-forsaken-child",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/helmut-the-forsaken-child/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/1f16a093-ba83-4abc-81db-7564ea504f2c.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Heavenly Inquisition Sword",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "heavenly-inquisition-sword",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/heavenly-inquisition-sword/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/80451093-e20d-4de8-a142-bb833b5bd3e3.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Genius of the Unique Lineage",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "genius-of-the-unique-lineage",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/genius-of-the-unique-lineage/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/057c084c-c2d8-40ad-826a-d9c9ae3da550.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Genius Archer's Streaming",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "genius-archers-streaming",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/genius-archers-streaming/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/5fe85de8-32a5-4d72-8807-e12d32d97174.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Extra is Too Strong",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "extra-is-too-strong",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/extra-is-too-strong/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/1e1b157c-c99f-4566-bd97-49813239de6f.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Existence",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "existence",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/existence/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/68a89350-b27d-4eba-9f8b-bf03af6c31a4.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Everyone Else is a Returnee",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "everyone-else-is-a-returnee",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/everyone-else-is-a-returnee/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/4f6e4056-3d7a-4f94-b84d-a28ceb946a15.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Estio",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "estio",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/estio/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/5721ecc8-c04d-438a-995a-533a275079d6.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Dungeon Reset",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "dungeon-reset",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/dungeon-reset/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/cc17c6fc-1662-485d-8ec5-c619cb1d6e48.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Dungeon Odyssey",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "dungeon-odyssey",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/dungeon-odyssey/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/c9f96952-95b5-4e49-9028-1c33bfa7d53c.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Dungeon Defense",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "dungeon-defense",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/dungeon-defense/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/43fb80a6-384b-4cbe-8785-97475ca9c587.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Drug-Eating Genius Mage",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "drug-eating-genius-mage",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/drug-eating-genius-mage/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/ce32698b-f28c-4d27-b32b-556dc5d626b2.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Dragon-Devouring Mage",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "dragon-devouring-mage",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/dragon-devouring-mage/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/03ecd9eb-17fd-4d98-bc55-5270ffd1092c.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Damn Reincarnation",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "damn-reincarnation",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/damn-reincarnation/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/a6061a86-5ad2-4489-9ad3-6066a4ff7d15.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Chronicles of the Martial God's Return",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "chronicles-of-the-martial-gods-return",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/chronicles-of-the-martial-gods-return/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/ae2469b8-549d-46f6-868e-a2234507c595.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Artifact-Devouring Player",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "artifact-devouring-player",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/artifact-devouring-player/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/1d9f47ae-e3cf-44e8-a084-e02cd4cd8096.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Children of the Rune",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "children-of-the-rune",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/children-of-the-rune/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/1a6ef318-5cdb-475c-9582-725d5770a961.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Advanced Evolution",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "advanced-evolution",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/advanced-evolution/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/258dde33-b078-4a3a-8ef2-ad30e0b79a32.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Academy's Genius Swordmaster",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "academys-genius-swordmaster",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/academys-genius-swordmaster/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/8d4b96f2-f001-43a5-a22a-7343ee14c1f5.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Absolute Necromancer",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "absolute-necromancer",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/absolute-necromancer/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/5e41a5f27b7d4cde944429fa1e890dca.png&output=webp&w=500&ll"
+    },
+    {
+      "title": "Updater",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "updater",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/updater/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/88e8d413-4026-47cc-a043-1dae2e1e6db6.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Emperor of Steel",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "emperor-of-steel",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/emperor-of-steel/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/e6d5b49d-e273-4093-b3e0-126f985303b6.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "A World Without My Evil Sister",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "a-world-without-my-evil-sister",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/a-world-without-my-evil-sister/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/57c475e5-7f47-48ee-9479-1d7f7ccd17b0.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Absolute Regression",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "absolute-regression",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/absolute-regression/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/22a64175-f6ec-4c1f-be92-c8209a8a8708.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "A Returner's Magic Should Be Special",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "a-returners-magic-should-be-special",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/a-returners-magic-should-be-special/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/3bd62642-2481-491a-81d0-dd5e19cbf0c8.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Player Who Returned 10,000 Years Later",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "player-who-returned-10000-years-later",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/player-who-returned-10000-years-later/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/1d9c1cb0facf4be4b6a8e2e1486f7cb2.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Solo Leveling: Ragnarok",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "solo-leveling-ragnarok",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/solo-leveling-ragnarok/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/2e4efa48-3820-4f69-b55c-bc98848c4581.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Sleeping Ranker",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "sleeping-ranker",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/sleeping-ranker/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/418c3b7d-5176-485b-99e7-a84785ddd130.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Skeleton Soldier Couldn't Protect the Dungeon",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "skeleton-soldier-couldnt-protect-the-dungeon",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/skeleton-soldier-couldnt-protect-the-dungeon/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/c7706299-a711-47db-9fb3-b8486e943883.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Roxana",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "roxana",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/roxana/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/0db71a2e-a3a3-4725-b3f1-a71f6d3df5d8.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Return of the Mount Hua Sect",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "return-of-the-mount-hua-sect",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/return-of-the-mount-hua-sect/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/4324ad34-10a9-4618-989f-46a1292688ee.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Return of the Broken Constellation",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "return-of-the-broken-constellation",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/return-of-the-broken-constellation/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/c260b6ec-057a-4338-9189-b6899a9d94ec.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Resetting Lady",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "resetting-lady",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/resetting-lady/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/be59deeb-3575-4bec-9110-8d486f9d021b.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Requiem of Subdued Souls",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "requiem-of-subdued-souls",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/requiem-of-subdued-souls/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/0f85a994-4438-4bbf-b6aa-c3839f3d639f.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Limited Extra Time",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "limited-extra-time",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/limited-extra-time/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/7ef073ee218946e38bf50979f4d4e98e.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Relife Player",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "relife-player",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/relife-player/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/82e84596-08c9-4215-8e4d-6487ca773f91.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Reincarnation of the Suicidal Battle God",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "reincarnation-of-the-suicidal-battle-god",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/reincarnation-of-the-suicidal-battle-god/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/1cead3cf-e037-4ffd-be2e-d022f6e2f4f4.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Regression of the Close Combat Mage",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "regression-of-the-close-combat-mage",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/regression-of-the-close-combat-mage/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/b035ba85-5671-4a27-8592-9ed1530385f0.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Regressing as the Reincarnated Bastard of the Sword Clan",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "regressing-as-the-reincarnated-bastard-child-of-a-noble-family",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/regressing-as-the-reincarnated-bastard-of-the-sword-clan/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/bea219db-34ef-41b2-bb47-18ed8c6ef9c8.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Reformation of the Deadbeat Noble",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "reformation-of-the-noble-family",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/reformation-of-the-deadbeat-noble/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/00cbaf27-c73e-4974-9359-e0cfb9207e2d.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Reaper of the Drifting Moon",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "reaper-of-the-drifting-moon",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/reaper-of-the-drifting-moon/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/e30a7bd1-542b-433f-88f2-825f20512fb0.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Reality Quest",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "reality-quest",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/reality-quest/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/bbb324fd-0f83-4477-b56a-709fdd4f7ee4.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Quest Supremacy",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "quest-supremacy",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/quest-supremacy/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/cfd229ff-4ff0-4232-97c0-3a8fad7c1382.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Poison-Eating Healer",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "poison-eating-healer",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/poison-eating-healer/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/219e7e6a-ef7e-4445-8ef8-476b2b669a98.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Never Die Extra",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "never-die-extra",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/never-die-extra/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/7118da30-4e44-46b8-ae98-0c85473dae3f.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Mythic Item Obtained",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "mythic-item-obtained",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/mythic-item-obtained/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/b83f2db3-a4b1-4467-ac2d-83b06ceedef7.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "My School Life Pretending to be a Worthless Person",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "my-school-life-pretending-to-be-a-worthless-person",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/my-school-life-pretending-to-be-a-worthless-person/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/c1fe88de-41fe-4dcf-bbaa-89db8d55bbc3.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Monarch of Death",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "monarch-of-death",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/monarch-of-death/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/e2bf2f77-4811-4934-b72d-1dbaaa3b7889.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "May the Holy One Come",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "may-the-holy-one-come",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/may-the-holy-one-come/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/c1f6c9a2-912f-48f3-985d-9e1c60e8b9c2.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Reincarnator",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "reincarnator",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/reincarnator/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/c0c4395f-4d05-480a-9a36-decf080f887c.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Priest of Corruption",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-priest-of-corruption",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-priest-of-corruption/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/b3ead9de-61ff-4c28-b90a-f7116cd82770.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Last Adventurer",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-last-adventurer",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-last-adventurer/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/bc87db40-781c-44f1-a927-50989c413078.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Demonic Emperor",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "demonic-emperor",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/demonic-emperor/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/0cf96ce1-475a-42ce-8a1c-6f24181830f6.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Max Level Hero Has Returned",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-max-level-hero-has-returned",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-max-level-hero-has-returned/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/f7a37090d8f240149c2459ac035296b4.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Latna Saga: Survival of a Sword King",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "latna-saga-survival-of-a-sword-king",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/latna-saga-survival-of-a-sword-king/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/61abaade-43e4-47e7-8e79-88549f4626c7.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "To the Witch Who Forgot Her Bird",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "to-the-witch-who-forgot-her-bird",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/to-the-witch-who-forgot-her-bird/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/7a9b3926970145db8b597a13758bed3f.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "I Became An Evolving Space Monster",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "i-became-an-evolving-space-monster",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/i-became-an-evolving-space-monster/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/ab7671da-ee8c-4a06-bf86-3edd7267c6ce.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "How to Retire as a Disaster Necromancer",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "how-to-retire-as-a-disaster-necromancer",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/how-to-retire-as-a-disaster-necromancer/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/bf57a835-39a0-45e0-944c-81ba9d8c79b3.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Mount Hua Sect’s Genius Phantom Swordsman",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "mount-hua-sects-genius-phantom",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/mount-hua-sects-genius-phantom-swordsman/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/070a6d9a-086a-4b93-b447-45e29307e0db.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "White Dragon Duke: Pendragon",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "white-dragon-duke-pendragon",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/white-dragon-duke-pendragon/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/76fed404b3f44b0497c506eaa82ad8fe.webp&output=webp&w=500&ll"
+    },
+    {
+      "title": "Childhood Friend of the Zenith",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "childhood-friend-of-the-zenith",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/childhood-friend-of-the-zenith/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/7d3c6546-00d8-40a0-916c-03c6397ce9f1.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "I Can Copy Talents",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "i-can-copy-talents",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/i-can-copy-talents/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/6dd6f40620cd470f9faa54c9ff25319d.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Mercenary Enrolment",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "mercenary-enrollment",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/mercenary-enrolment/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/ff73abbb65a742ef8900dac1fb0813c4.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Eleceed",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "eleceed",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/eleceed/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/cfcef800-c63e-48c0-8db1-d8f633615b3b.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Knight King Who Returned With a God",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-knight-king-who-returned-with-a-god",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-knight-king-who-returned-with-a-god/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/60f7b394ccf54e7fba5cc1ef5d315de6.webp&output=webp&w=500&ll"
+    },
+    {
+      "title": "Seoul Station's Necromancer",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "seoul-stations-necromancer",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/seoul-stations-necromancer/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/fb716f23-90b7-444a-bfe6-c005f1990432.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Reincarnated as a Legendary Grimoire",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "reincarnated-as-a-legendary-grimoire",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/reincarnated-as-a-legendary-grimoire/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/d1783d08-5f13-42ee-aa85-6bc5d4581292.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Demon Evolution",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "demon-evolution",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/demon-evolution/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/c4b67ddd-43b6-4736-b412-8a8e74be0e01.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Hero Became the Duke's Eldest Son",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-hero-became-the-dukes-eldest-son",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-hero-became-the-dukes-eldest-son/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/8923c0ce-99dd-4a10-9906-a62c140a3af0.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Surviving as a Genius on Borrowed Time",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "surviving-as-a-genius-on-borrowed-time",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/surviving-as-a-genius-on-borrowed-time/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/8a4da7d0-01a4-4afd-a3a6-a05853347c98.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Necromancer Academy’s Genius Summoner",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "necromancer-academys-genius-student",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/necromancer-academys-genius-summoner/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/86e3fd50-1342-4c87-a74f-ccf3be693a25.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "I'm Going to Destroy this Country",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "im-going-to-destroy-this-country",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/im-going-to-destroy-this-country/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/0b34c551-96be-491d-a1bd-6e7b54cf73d9.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Bones",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "bones",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/bones/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/04e29050-87e4-4310-9e77-974439a92bd0.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Foreigner on the Periphery (remake)",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "foreigner-on-the-periphery-remake",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/foreigner-on-the-periphery-remake/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/228dca11-06dc-4a34-a6b2-b09cb485c998.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "I BECAME THE KING BY SCAVENGING",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "i-became-the-king-by-scavenging",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/i-became-the-king-by-scavenging/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/dd1acbeb-2351-4a05-90a2-63d30be944da.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Imprisoned with the Horror Game's Male Lead",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "imprisoned-with-the-horror-games-male-lead",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/imprisoned-with-the-horror-games-male-lead/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/8dc95086-272d-4d06-b703-28203c59172a.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Lazy Swordmaster",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-lazy-swordmaster",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-lazy-swordmaster/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/be3ef840-ce45-412d-98a3-4b40258ee4b1.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Legendary Moonlight Sculptor",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-legendary-moonlight-sculptor",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-legendary-moonlight-sculptor/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/14835bf6-1fa1-4789-96c0-4f5af8c36018.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Lightning Degree",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "lightning-degree",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/lightning-degree/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/8697aa24-8aed-4506-96ee-0f4abdd519e0.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "During the Live Streaming, I Proposed to a Female Ghost – And She Actually Agreed?!",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "during-the-live-streaming-i-propose",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/during-the-live-streaming-i-proposed-to-a-female-ghost-and-she-actually-agreed/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/944a7055-a2ff-4edf-ba4b-e27fb90c359c.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "I'll Be Taking A Break For Personal Reasons",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "ill-be-taking-a-break-for-personal-reasons",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/ill-be-taking-a-break-for-personal-reasons/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/1d0f9715-236e-4490-8c80-61703aadd958.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Delivery Man From Murim",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-delivery-man-from-murim",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-delivery-man-from-murim/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/3ce6283b-5790-41c3-86e5-0abd71467ef0.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Necromancer's Evolutionary Traits",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "necromancers-evolutionary-traits",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/necromancers-evolutionary-traits/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/855ce1a7-e0ec-4249-9cc8-a31e62645150.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "My Fake Girlfriends Are Using Me As A Shield",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "my-fake-girlfriends-are-using-me-as-a-shield",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/my-fake-girlfriends-are-using-me-as-a-shield/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/c72cf75e-1cde-4a32-b68c-c0270bda8e02.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Materialistic Princess",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "materialistic-princess",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/materialistic-princess/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/ba40cd11-5b4a-4424-9245-a36d5a4ce778.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Worn and Torn Newbie",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "worn-and-torn-newbie",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/worn-and-torn-newbie/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/c21e12e0-f188-4445-a160-34ab9db62514.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Legendary Blacksmith's Vengeance",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "legendary-blacksmiths-vengeance",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/legendary-blacksmiths-vengeance/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/9cca4b8e-3d76-4189-a079-ef8df6c5faad.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Sweet Life of a Former Pro",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-sweet-life-of-a-former-pro",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-sweet-life-of-a-former-pro/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/8fc5ef04-85da-4022-86bc-4438c0a73a15.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Main Characters That Only I Know",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-main-characters-that-only-i-know",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-main-characters-that-only-i-know/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/cfac386d-3844-4b13-b852-626ae846b07a.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Crown Prince That Sells Medicine",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-crown-prince-that-sells-medicine",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-crown-prince-that-sells-medicine/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/0a01f543-b5d6-450c-93d6-dc8839dbf22a.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Irregular of the Royal Academy of Magic",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-irregular-of-the-royal-academy-of-magic",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-irregular-of-the-royal-academy-of-magic/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/6cea4d99-432c-44b1-b420-486132d0ad8a.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Now Come and Regret",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "now-come-and-regret",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/now-come-and-regret/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/e130bd5a-fb03-438a-9a93-e04ddcadb77d.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Indomitable Martial King",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-indomitable-martial-king",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-indomitable-martial-king/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/96dc9b54-7f5f-4b7c-a220-0a49e8261c58.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Bizarre Restaurant",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "bizarre-restaurant",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/bizarre-restaurant/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/1faa1594-a8aa-4bfe-979d-911fd0a007c4.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Return to Player",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "return-to-player",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/return-to-player/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/9e3f222a-9701-440f-86e4-dd5c75c9d143.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Academy's Genius Tamer",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-academys-genius-tamer",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-academys-genius-tamer/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/182c4dac-6dc4-4f9c-8fcb-3badb414c2ec.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Terminally-ill Genius Dark Knight",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "terminally-ill-genius-dark-knight",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/terminally-ill-genius-dark-knight/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/916a78a3-bc16-4b37-ac2e-2a9d8cb9702c.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "I Am the Dengle",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "i-am-the-dengle",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/i-am-the-dengle/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/8bacbb34-ef19-4a04-9b01-715f2cd20c74.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "What's Our Hero Doing?",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "whats-our-hero-doing",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/whats-our-hero-doing/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/c3ac30d2-d322-4e22-beb5-ee8974a1282b.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Demon King",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "demon-king",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/demon-king/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/a768e2af-7651-4ee5-b1b6-7f186b3f6566.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Genesis of the Battle God",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "genesis-of-the-battle-god",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/genesis-of-the-battle-god/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/60eab3b8-2c02-43ed-a1e3-755a2b4c7c12.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Villain Unrivaled",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "villain-unrivaled",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/villain-unrivaled/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/63f25718-c374-403e-8b2f-aa82102c4a6a.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Hard Carry Support",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "hard-carry-support",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/hard-carry-support/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/3e8371bb-1f7e-4002-a8a1-d16104bc2846.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Hyouketsu Reijou-sama wo Follow Shitara, Mechamecha Dekiai Sareteshimatta Ken",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "hyouketsu-reijou-sama-wo-follow-shitara",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/hyouketsu-reijou-sama-wo-follow-shitara-mechamecha-dekiai-sareteshimatta-ken/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/def57a05-682e-492b-b3a7-3d5ab4308b09.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Your Eternal Lies",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "your-eternal-lies",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/your-eternal-lies/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/58611f0f-1fb3-4280-a329-bba2624d5df3.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "My Dad Is Too Strong",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "my-dad-is-too-strong",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/my-dad-is-too-strong/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/cad04d5a-6621-4571-83ee-65ab488f8409.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Hero Returns",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-hero-returns",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-hero-returns/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/cfac8cd3-567f-43fd-bade-f614b2a16aeb.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Great War",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-great-war",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-great-war/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/a6654553-e60c-4552-b77a-9bd4cef5c17a.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Hoping for my Death",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "hoping-for-my-death",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/hoping-for-my-death/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/aeecf234-8a0a-4ee1-83cf-9e8377833e91.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Damn Demonic Swords",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "damn-demonic-swords",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/damn-demonic-swords/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/f31f76d8-cb76-4d9c-af24-8f13cddb0d5b.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "How to Live as a Villain",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "how-to-live-as-a-villain",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/how-to-live-as-a-villain/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/08be977a-40ac-4191-a3a0-77da04b523fb.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "My Inventory is Abnormal",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "my-inventory-is-abnormal",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/my-inventory-is-abnormal/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/32b303b8-6248-4d05-bd75-3f66e161451c.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Just Hold My Hand",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "just-hold-my-hand",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/just-hold-my-hand/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/4018545f-3512-4b22-b77c-fd41c7e4f7ee.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Hero Killer",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "hero-killer",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/hero-killer/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/c1c41522-8861-47da-a8b8-2e1254202910.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Chronicles of the Demon Faction",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "chronicles-of-the-demon-faction",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/chronicles-of-the-demon-faction/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/6b985d10-2e02-4d3b-8acb-173b93dca063.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Eminence In Shadow",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-eminence-in-shadow",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-eminence-in-shadow/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/92e03260-3515-405d-99b2-de4bb6ade5e4.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Chronicles of Heavenly Demon",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "chronicles-of-heavenly-demon",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/chronicles-of-heavenly-demon/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/7559015c-232e-498b-987a-3ecbe7ea7bee.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Dukedom's Legendary Prodigy",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "dukedoms-legendary-prodigy",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/dukedoms-legendary-prodigy/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/7b307221-be09-4daf-a82a-fb7a6da17ed3.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Return of the Sword God-Rank Civil Servant",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "return-of-the-sword-god-rank-civil-servant",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/return-of-the-sword-god-rank-civil-servant/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/3d4a517a-cd83-4bc0-976b-10001186851b.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Emperor's Sword",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "emperors-sword",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/emperors-sword/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/7dc2749f-60a1-4e59-bd14-a38a9d223d04.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Solo Eating to Overpowered",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "solo-eating-to-overpowered",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/solo-eating-to-overpowered/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/d815de16-1620-4dd1-807f-ee239a3ffc67.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "My Secretly Hot Husband",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "my-secretly-hot-husband",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/my-secretly-hot-husband/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/6b485b33-e726-4434-98ee-27f8b5692bb3.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Daywalker",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "daywalker",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/daywalker/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/08f0a11d-eb9e-482f-9ad4-348dab1661b6.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Regressed Mercenary’s Machinations",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-regressed-mercenarys-revenge",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-regressed-mercenarys-machinations/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/d2711cde-7f44-49d7-a8d7-c9b65add680f.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Tsuki ga Michibiku Isekai Douchuu",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "tsuki-ga-michibiku-isekai-douchuu",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/tsuki-ga-michibiku-isekai-douchuu/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/fc167a23-83c4-4024-95d6-52eb2657a6dd.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Solo Farming In The Tower",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "solo-farming-in-the-tower",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/solo-farming-in-the-tower/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/43cb090b-bd26-4ceb-a9b1-6aab58e443c1.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Tale of a Scribe Who Retires to the Countryside",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "tale-of-a-scribe-who-retires-to-the-countryside",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/tale-of-a-scribe-who-retires-to-the-countryside/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/27187d26-c9bc-4a56-b427-cdaea9293cb9.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "I Am Invincible In This World",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "i-am-invincible-in-this-world",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/i-am-invincible-in-this-world/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/a8020983-0b7c-4e72-ab6b-b119e1bbfd9d.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Reincarnation of a Martial Prodigy",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "reincarnation-of-a-martial-prodigy",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/reincarnation-of-a-martial-prodigy/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/90130059-419a-475b-8db9-4e7a649f0a92.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Max Level Player",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "max-level-player",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/max-level-player/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/1c68d650-bcb3-4e4b-855c-ac1f2ce9fb0e.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Marriage Contract With Two Husbands",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "marriage-contract-with-two-husbands",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/marriage-contract-with-two-husbands/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/3c6214cc-9b1b-4457-8ea5-f0fb65cac7ac.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Level Up With Skills",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "level-up-with-skills",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/level-up-with-skills/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/590f023a-78ac-47ee-914d-a5788f140579.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Find The Crown",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "find-the-crown",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/find-the-crown/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/af3ef7a8-051e-4243-91ca-c09f0eecc1f9.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Regressing with the King's Power",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "regressing-with-the-kings-power",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/regressing-with-the-kings-power/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/3a7da3d1-5754-4e5d-9402-edb374e892b7.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Assassin de aru ore no Sutetasu ga Yuusha yori mo Akiraka ni Tsuyoi Nodaga",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "assassin-de-aru-ore-no-sutetasu-ga-yuusha-yori-mo-akiraka-ni-tsuyoi-ken",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/assassin-de-aru-ore-no-sutetasu-ga-yuusha-yori-mo-akiraka-ni-tsuyoi-nodaga/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/4fbc9e0a-2671-4775-9a05-bb23969602d0.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "My Ruined Academy",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "my-ruined-academy",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/my-ruined-academy/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/8628bf65-21e0-4819-84a8-89872674b45a.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "I Reincarnated as the Crazed Heir",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "i-reincarnated-as-the-crazed-heir",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/i-reincarnated-as-the-crazed-heir/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/2ed91c7a-ab73-4cb2-b7fd-4dbfd618f799.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "I'm Not That Kind of Talent",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "im-not-that-kind-of-talent",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/im-not-that-kind-of-talent/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/d741f7b6-1e48-4fc1-8aa1-ae292ce96070.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Juvenile Law",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "juvenile-law",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/juvenile-law/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/fc930616-1df8-47bd-92ba-3f71628d4711.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "I Became the Tyrant's Servant",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "i-became-the-tyrants-servant",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/i-became-the-tyrants-servant/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/c42bf8e9-4206-4eea-8d03-2cd32cd355cb.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Goblin's Night",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "goblins-night",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/goblins-night/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/f3e6bdee-8059-4564-b255-b58520bf2c70.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Light of Arad: Forerunner",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "light-of-arad-forerunner",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/light-of-arad-forerunner/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/525cb2c9-2835-4251-8523-d27aa77e1d88.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Lookism",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "lookism",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/lookism/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/5f91e9c3-bfaf-41a8-a589-f1aac9b82d86.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Records of the Swordsman Scholar",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "records-of-the-swordsman-scholar",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/records-of-the-swordsman-scholar/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/e3bc48a8-e6e3-41ba-bf3f-fa02aa872fb4.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Man Who Devoured The Light",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-man-who-devoured-the-light",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-man-who-devoured-the-light/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/3e955b30-7d73-4ea0-ab49-7fd1729be731.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "I Regressed to My Ruined Family",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "i-regressed-to-my-ruined-family",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/i-regressed-to-my-ruined-family/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/0a48a398-7678-49cf-acfc-2047f984b515.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "My Exclusive Tower Guide",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "my-exclusive-tower-guide",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/my-exclusive-tower-guide/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/a415f779-038b-402c-8be4-ef86da09aca7.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Predatory Bride",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "predatory-bride",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/predatory-bride/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/66303549-26cc-44a4-88b7-c9c862df6cb3.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Solo Spell Caster",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "solo-spell-caster",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/solo-spell-caster/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/87cb46e3-5f58-4fff-8410-abe1d91f34c1.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Debuff Master",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "debuff-master",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/debuff-master/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/d3cd7533-f329-4faf-bc37-91345def2b41.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Tensei Shitara Dainana-ouji Dattanode, Kimamani Majutsu O Kiwamemasu",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "tensei-shitara-dainana-ouji-dattanode-kimamani-majutsu-o-kiwamemasu",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/tensei-shitara-dainana-ouji-dattanode-kimama-ni-majutsu-wo-kiwamemasu/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/fd7eb675-b0f6-4baf-b7f3-6f4d30e89d9f.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Individualistic Love",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "individualistic-love",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/individualistic-love/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/f4d67a88-eb2e-42a9-847a-ec96bd6a3543.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Genkai Level 1 kara no Nariagari Saijaku Level no Ore ga Isekai Saikyou ni Naru made",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "genkai-level-1-kara-no-nariagari-saijaku-level-no-ore-ga-isekai-saikyou-ni-naru-made",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/genkai-level-1-kara-no-nariagari-saijaku-level-no-ore-ga-isekai-saikyou-ni-naru-made/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/349cc822-7cbf-48d3-9fb6-a202ff8c997e.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Rust",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "rust",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/rust/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/1affec40-01a9-4a2f-a2a9-f207840f96a0.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Disciple of the Three Kings",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "disciple-of-the-three-kings",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/disciple-of-the-three-kings/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/68a3ab52-aa48-4f9b-9b40-b928d19a77f4.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Return of the 8th class Magician",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "return-of-the-8th-class-magician",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/return-of-the-8th-class-magician/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/86dcefb4-5e2f-49e0-80ba-8c36024f8158.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "My Wife is From a Thousand Years Ago",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "my-wife-is-from-a-thousand-years-ago",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/my-wife-is-from-a-thousand-years-ago/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/36e4e5b4-e93a-4a45-b7ca-a85682545de5.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Surviving as a Mage in a Magic Academy",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "surviving-as-a-mage-in-a-magic-academy",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/surviving-as-a-mage-in-a-magic-academy/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/0d0758f7-ab89-47c0-80fc-b6d3a559cc83.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Top Ranker's Life Guide for Aspiring Writers",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "top-rankers-life-guide-for-aspiring-writers",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/top-rankers-life-guide-for-aspiring-writers/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/d486def3-4bf5-496c-ab8a-45b94d3d64f4.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Momose Akira no Hatsukoi Hatan-chuu",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "momose-akira-no-hatsukoi-hatan-chuu",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/momose-akira-no-hatsukoi-hatan-chuu/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/f0a82638-a4b5-4d0f-8a8a-1a8dc43b39c3.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Start by Signing in and Obtaining the Ancient Divine Body",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "start-by-signing-in-and-obtaining-the-ancient-power",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/start-by-signing-in-and-obtaining-the-ancient-divine-body/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/63532a47-f240-407f-a237-9f6d904afcb6.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Tragedy of the Villainess",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "tragedy-of-the-villainess",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/tragedy-of-the-villainess/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/dbe1bb72-a53c-4840-b17d-fa7b94c04c7f.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Betrayed Thief, the Phantom Thief as a Demon King Goes for World Domination",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "betrayed-thief-the-phantom-thief-as-a-hero",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/betrayed-thief-the-phantom-thief-as-a-demon-king-goes-for-world-domination/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/d9c7bbdc-ac1e-4fff-ba6b-00fa72d337ad.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Login as Monster",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "login-as-monster",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/login-as-monster/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/a8ad171d-df97-4cd1-9d50-8340389b025f.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Entomologist In Sichuan Tang Clan",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "entomologist-in-sichuan-tang-clan",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/entomologist-in-sichuan-tang-clan/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/1ea89ce0-98f2-40d6-8c71-63e05e262183.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Hated Black Mage Returns",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-hated-black-mage-returns",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-hated-black-mage-returns/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/f1dbaed9-4598-4faa-98d1-2fa13085b5bf.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Hand Over the Money!",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "hand-over-the-money",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/hand-over-the-money/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/734a8538-29e7-483a-8103-3c6c546b1e5b.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Dragon Bugyo",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "dragon-bugyo",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/dragon-bugyo/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/90a6e552-0cb2-4033-9e80-cce67193d876.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Treat Your Friends With Respect",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "treat-your-friends-with-respect",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/treat-your-friends-with-respect/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/b63bd4c4-cba1-4b9a-9423-1a2d803e427a.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "Han Dae Sung Returned From Hell",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "han-dae-sung-returned-from-hell",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/han-dae-sung-returned-from-hell/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/539de225-59b0-4fbc-8cb7-f1c21bab8bc1.jpg&output=webp&w=500&ll"
+    },
+    {
+      "title": "The Survival of the Savior",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "slug": "the-survival-of-the-savior",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-survival-of-the-savior/chapitre/{chapter}",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/0fbb6730-7e4f-497b-a36f-db8d957b1e8b.jpg&output=webp&w=500&ll"
+    }
+  ]
+}

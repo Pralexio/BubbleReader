@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BubbleReader</title>
+  <link rel="stylesheet" href="web-styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+  <header class="nav-bar">
+    <h1 class="nav-title">BubbleReader</h1>
+  </header>
+
+  <div id="app">
+    <div id="sidebar-overlay"></div>
+    <div id="sidebar">
+      <div class="search-container">
+        <input type="text" id="search-input" placeholder="Rechercher un manga...">
+      </div>
+      <div class="filter-container">
+        <div class="filter-group">
+          <h3>Type</h3>
+          <select id="type-filter" class="filter-select">
+            <option value="all">Tous</option>
+            <option value="manga">Manga</option>
+            <option value="manhwa">Manhwa</option>
+            <option value="manhua">Manhua</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <h3>Statut</h3>
+          <select id="status-filter" class="filter-select">
+            <option value="all">Tous</option>
+            <option value="ongoing">En cours</option>
+            <option value="completed">Terminé</option>
+            <option value="hiatus">En pause</option>
+          </select>
+        </div>
+      </div>
+      <div id="manga-list" class="manga-grid"></div>
+    </div>
+
+    <div id="content-area" class="main-content">
+      <div class="welcome-message">
+        <h2>Bienvenue sur BubbleReader</h2>
+        <p>Sélectionnez un scan pour commencer la lecture</p>
+      </div>
+      <div id="manga-reader"></div>
+    </div>
+  </div>
+
+  <div class="bottom-buttons">
+    <button class="history-button" id="history-button">
+      <i class="fas fa-history"></i>
+    </button>
+    <button class="prev-chapter-button" id="prev-chapter-button">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <span id="chapter-indicator"></span>
+    <button class="next-chapter-button" id="next-chapter-button">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+    <button class="toggle-scans-button" id="toggle-scans-button">
+      <i class="fas fa-list"></i>
+    </button>
+  </div>
+
+  <div class="settings-popup">
+    <div class="settings-popup-header">
+      <h2>Paramètres</h2>
+      <button class="close-popup" id="close-settings">×</button>
+    </div>
+    <div class="settings-content">
+      <div class="settings-section">
+        <h3>Version Web</h3>
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-name">Version actuelle</div>
+            <div class="setting-description" id="currentVersion">v1.0.0 (Web)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="web-app.js"></script>
+</body>
+</html>

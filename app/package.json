@@ -1,0 +1,75 @@
+{
+  "name": "bubblereader",
+  "version": "1.1.1",
+  "description": "Application de lecture de scans de mangas / Manwha / Webtoon / Manhua",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "generate-notes": "node src/generate-release-notes.js",
+    "publish": "npm run generate-notes && electron-builder -p always"
+  },
+  "author": "Pralexio",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.2",
+    "cheerio": "^1.0.0",
+    "electron-store": "^8.1.0",
+    "electron-updater": "^6.1.7",
+    "express": "^4.18.2",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "electron": "^28.1.0",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.bubblereader.app",
+    "productName": "BubbleReader",
+    "directories": {
+      "output": "../dist"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Pralexio",
+        "repo": "BubbleReader",
+        "releaseType": "release",
+        "private": false,
+        "token": "${env.GH_TOKEN}"
+      }
+    ],
+    "releaseInfo": {
+      "releaseNotesFile": "../RELEASE_NOTES.md"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "assets/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "BubbleReader"
+    },
+    "files": [
+      "**/*",
+      "../shared/**/*",
+      "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+      "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+      "!**/node_modules/*.d.ts",
+      "!**/node_modules/.bin",
+      "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
+      "!.editorconfig",
+      "!**/._*",
+      "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
+      "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
+      "!**/{appveyor.yml,.travis.yml,circle.yml}",
+      "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
+    ]
+  }
+} 
