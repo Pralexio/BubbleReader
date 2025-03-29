@@ -1,25 +1,76 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const { initUpdater, setupUpdateEvents } = require('./updater');
+
+let mainWindow = null;
+let settingsWindow;
 
 function createWindow() {
-  const win = new BrowserWindow({
-    width: 720,
-    height: 1000,
-    minWidth: 360,
+  mainWindow = new BrowserWindow({
+    width: 1200,
+    height: 800,
+    minWidth: 800,
+    minHeight: 600,
     autoHideMenuBar: true,
-    frame: true,
-    icon: 'icon.png',
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false
     }
   });
 
-  win.loadFile('index.html');
+  mainWindow.loadFile('index.html');
   
+  // Initialiser l'auto-updater
+  initUpdater(mainWindow);
+  setupUpdateEvents();
+
   // Centrer la fenêtre
-  win.center();
+  mainWindow.center();
 }
+
+function createSettingsWindow() {
+  if (settingsWindow) {
+    settingsWindow.focus();
+    return;
+  }
+
+  settingsWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    parent: mainWindow,
+    modal: true,
+    autoHideMenuBar: true,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false
+    }
+  });
+
+  settingsWindow.loadFile('settings.html');
+
+  settingsWindow.on('closed', () => {
+    settingsWindow = null;
+  });
+}
+
+// Ajouter un événement IPC pour ouvrir les paramètres
+ipcMain.on('open-settings', () => {
+  createSettingsWindow();
+});
+
+// Gestionnaire d'événements pour le stockage
+ipcMain.handle('store-get', async (event, key) => {
+  const Store = require('electron-store');
+  const store = new Store();
+  return store.get(key);
+});
+
+ipcMain.handle('store-set', async (event, key, value) => {
+  const Store = require('electron-store');
+  const store = new Store();
+  store.set(key, value);
+  return true;
+});
 
 app.whenReady().then(() => {
   createWindow();

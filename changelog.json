@@ -1,0 +1,45 @@
+{
+  "1.1.1": {
+    "date": "2024-03-28",
+    "changes": [
+      "🔧 Correction du bug de l'affichage des boutons",
+      "🔧 Correction du bug de la mise à jour automatique"
+    ]
+  },
+  "1.1.0": {
+    "date": "2024-03-28",
+    "changes": [
+      "✨ Amélioration de l'affichage des Buttons de mise à jour",
+      "🔧 Correction du bug de mise à jour automatique"
+    ]
+  },
+  "1.0.9": {
+    "date": "2024-03-28",
+    "changes": [
+      "✨ Amélioration de l'affichage des notes de version",
+      "🔧 Correction de l'affichage des mises à jour dans l'application"
+    ]
+  },
+  "1.0.8": {
+    "date": "2024-03-28",
+    "changes": [
+      "✨ Ajout des notes de version dans les releases GitHub",
+      "🔧 Amélioration du système de mise à jour automatique"
+    ]
+  },
+  "1.0.7": {
+    "date": "2024-03-28",
+    "changes": [
+      "✨ Ajout de la mise à jour automatique",
+      "🔧 Amélioration du système de paramètres",
+      "🎨 Nouveau design pour la fenêtre des paramètres",
+      "🐛 Correction du bug d'affichage des boutons"
+    ]
+  },
+  "1.0.6": {
+    "date": "2024-03-27",
+    "changes": [
+      "Version initiale"
+    ]
+  }
+} 

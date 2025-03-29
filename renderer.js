@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
 const cheerio = require('cheerio');
+const { ipcRenderer } = require('electron');
 
 // Variables globales
 let currentManga = null;
@@ -338,6 +339,9 @@ async function displayMangaDetails(manga) {
 // Fonction pour charger un chapitre spécifique
 async function loadChapter(manga, chapterNumber) {
     try {
+        // Fermer l'historique si ouvert
+        hideHistoryPopup();
+        
         if (!manga || !manga.slug || !chapterNumber) {
             throw new Error('Paramètres invalides pour le chargement du chapitre');
         }
@@ -675,6 +679,9 @@ function showHistoryPopup() {
                         <div class="history-chapter">Chapitre ${lastChapter}</div>
                     </div>
                     <div class="history-actions">
+                        <button class="history-button-read" onclick="loadChapter({slug: '${manga.slug}', title: '${manga.title}'}, ${lastChapter})">
+                            Lire
+                        </button>
                         <button class="history-button-edit" onclick="editChapter('${manga.slug}', ${lastChapter})">
                             Modifier
                         </button>
@@ -702,47 +709,61 @@ function showHistoryPopup() {
 function hideHistoryPopup() {
     const popup = document.querySelector('.history-popup');
     const overlay = document.querySelector('.overlay');
-    if (popup) popup.classList.remove('active');
-    if (overlay) overlay.classList.remove('active');
+    
+    if (popup) {
+        popup.classList.remove('active');
+        setTimeout(() => {
+            popup.remove();
+        }, 300);
+    }
+    
+    if (overlay) {
+        overlay.classList.remove('active');
+        setTimeout(() => {
+            overlay.remove();
+        }, 300);
+    }
 }
 
 // Fonction pour éditer un chapitre
-function editChapter(mangaSlug, currentChapter) {
-    const item = document.querySelector(`.history-item[data-slug="${mangaSlug}"]`);
-    const chapterDiv = item.querySelector('.history-chapter');
+function editChapter(slug, currentChapter) {
+    const container = document.querySelector(`[data-slug="${slug}"] .history-chapter`);
+    if (!container) return;
     
-    // Créer l'input pour éditer le chapitre
-    chapterDiv.innerHTML = `
-        <input type="number" class="chapter-edit-input" value="${currentChapter}" min="1">
-        <button onclick="saveChapterEdit('${mangaSlug}', this.previousElementSibling.value)">✓</button>
-        <button onclick="cancelChapterEdit('${mangaSlug}', ${currentChapter})">✗</button>
-    `;
-}
-
-// Fonction pour sauvegarder l'édition d'un chapitre
-function saveChapterEdit(mangaSlug, newChapter) {
-    newChapter = parseInt(newChapter);
-    if (newChapter < 1) newChapter = 1;
+    const input = document.createElement('input');
+    input.type = 'number';
+    input.value = currentChapter;
+    input.className = 'history-chapter-input';
+    input.min = 1;
+    container.innerHTML = '';
+    container.appendChild(input);
+    input.focus();
     
-    let lastReadChapters = JSON.parse(localStorage.getItem('lastReadChapters') || '{}');
-    lastReadChapters[mangaSlug] = newChapter;
-    localStorage.setItem('lastReadChapters', JSON.stringify(lastReadChapters));
+    const saveEdit = () => {
+        const newChapter = parseInt(input.value);
+        if (newChapter && newChapter > 0) {
+            const lastReadChapters = JSON.parse(localStorage.getItem('lastReadChapters') || '{}');
+            lastReadChapters[slug] = newChapter;
+            localStorage.setItem('lastReadChapters', JSON.stringify(lastReadChapters));
+            showHistoryPopup(); // Rafraîchir l'historique
+        } else {
+            container.innerHTML = `Chapitre ${currentChapter}`;
+        }
+    };
     
-    // Rafraîchir l'affichage
-    showHistoryPopup();
-}
-
-// Fonction pour annuler l'édition d'un chapitre
-function cancelChapterEdit(mangaSlug, currentChapter) {
-    const item = document.querySelector(`.history-item[data-slug="${mangaSlug}"]`);
-    const chapterDiv = item.querySelector('.history-chapter');
-    chapterDiv.textContent = `Chapitre ${currentChapter}`;
+    input.onblur = saveEdit;
+    input.onkeypress = (e) => {
+        if (e.key === 'Enter') {
+            saveEdit();
+            input.blur();
+        }
+    };
 }
 
 // Fonction pour réinitialiser un chapitre
-function resetChapter(mangaSlug) {
+function resetChapter(slug) {
     let lastReadChapters = JSON.parse(localStorage.getItem('lastReadChapters') || '{}');
-    lastReadChapters[mangaSlug] = 1;
+    lastReadChapters[slug] = 1;
     localStorage.setItem('lastReadChapters', JSON.stringify(lastReadChapters));
     
     // Rafraîchir l'affichage
@@ -750,13 +771,66 @@ function resetChapter(mangaSlug) {
 }
 
 // Fonction pour supprimer l'historique d'un manga
-function deleteHistory(mangaSlug) {
-    let lastReadChapters = JSON.parse(localStorage.getItem('lastReadChapters') || '{}');
-    delete lastReadChapters[mangaSlug];
-    localStorage.setItem('lastReadChapters', JSON.stringify(lastReadChapters));
+function deleteHistory(slug) {
+    const manga = loadMangaList().find(m => m.slug === slug);
+    if (!manga) return;
     
-    // Rafraîchir l'affichage
-    showHistoryPopup();
+    showConfirmDialog(manga.title, () => {
+        const lastReadChapters = JSON.parse(localStorage.getItem('lastReadChapters') || '{}');
+        delete lastReadChapters[slug];
+        localStorage.setItem('lastReadChapters', JSON.stringify(lastReadChapters));
+        showHistoryPopup(); // Rafraîchir l'historique
+    });
+}
+
+// Fonction pour afficher une boîte de dialogue de confirmation
+function showConfirmDialog(manga, callback) {
+    const dialog = document.createElement('div');
+    dialog.className = 'confirm-dialog';
+    dialog.innerHTML = `
+        <h3>Confirmation</h3>
+        <p>Voulez-vous vraiment supprimer "${manga}" de l'historique ?</p>
+        <div class="confirm-buttons">
+            <button class="cancel-button">Annuler</button>
+            <button class="confirm-button">Supprimer</button>
+        </div>
+    `;
+    document.body.appendChild(dialog);
+    
+    // Ajouter un overlay spécifique pour la boîte de dialogue
+    const confirmOverlay = document.createElement('div');
+    confirmOverlay.className = 'overlay';
+    confirmOverlay.style.zIndex = '1001';
+    document.body.appendChild(confirmOverlay);
+    
+    // Animation
+    setTimeout(() => {
+        dialog.classList.add('active');
+        confirmOverlay.classList.add('active');
+    }, 10);
+    
+    // Gestionnaires d'événements
+    const cancelBtn = dialog.querySelector('.cancel-button');
+    const confirmBtn = dialog.querySelector('.confirm-button');
+    
+    cancelBtn.onclick = () => {
+        dialog.classList.remove('active');
+        confirmOverlay.classList.remove('active');
+        setTimeout(() => {
+            dialog.remove();
+            confirmOverlay.remove();
+        }, 300);
+    };
+    
+    confirmBtn.onclick = () => {
+        callback();
+        dialog.classList.remove('active');
+        confirmOverlay.classList.remove('active');
+        setTimeout(() => {
+            dialog.remove();
+            confirmOverlay.remove();
+        }, 300);
+    };
 }
 
 // Gestion de la sidebar
@@ -792,7 +866,7 @@ function initSidebar() {
     });
 }
 
-// Mise à jour de l'initialisation
+// Initialisation des événements
 document.addEventListener('DOMContentLoaded', () => {
     try {
         // Initialiser la sidebar
@@ -825,12 +899,17 @@ document.addEventListener('DOMContentLoaded', () => {
             typeFilter.addEventListener('change', () => searchManga(searchInput.value));
         }
 
-        // Ajouter le bouton d'historique
-        const historyButton = document.createElement('button');
-        historyButton.className = 'history-button';
-        historyButton.innerHTML = '📖';
-        historyButton.onclick = showHistoryPopup;
-        document.body.appendChild(historyButton);
+        // Gestionnaire pour le bouton d'historique
+        const historyButton = document.getElementById('history-button');
+        if (historyButton) {
+            historyButton.addEventListener('click', showHistoryPopup);
+        }
+
+        // Gestionnaire pour le bouton de paramètres
+        const settingsButton = document.getElementById('settings-button');
+        if (settingsButton) {
+            settingsButton.addEventListener('click', showSettingsPopup);
+        }
 
         console.log('Application initialisée avec succès');
     } catch (error) {
@@ -850,4 +929,72 @@ window.editChapter = editChapter;
 window.saveChapterEdit = saveChapterEdit;
 window.cancelChapterEdit = cancelChapterEdit;
 window.resetChapter = resetChapter;
-window.deleteHistory = deleteHistory; 
+window.deleteHistory = deleteHistory;
+
+// Fonction pour afficher la popup des paramètres
+async function showSettingsPopup() {
+    let popup = document.querySelector('.settings-popup');
+    let overlay = document.querySelector('.overlay');
+    
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'overlay';
+        document.body.appendChild(overlay);
+    }
+    
+    try {
+        const settings = await ipcRenderer.invoke('get-update-settings');
+        
+        if (settings) {
+            const autoUpdateCheck = document.getElementById('autoUpdateCheck');
+            const currentVersion = document.getElementById('currentVersion');
+            const lastCheck = document.getElementById('lastCheck');
+            
+            if (autoUpdateCheck) autoUpdateCheck.checked = settings.autoCheck;
+            if (currentVersion) currentVersion.textContent = `v${settings.currentVersion}`;
+            if (lastCheck) lastCheck.textContent = settings.lastCheck ? new Date(settings.lastCheck).toLocaleString() : 'Jamais';
+        }
+    } catch (error) {
+        console.error('Erreur lors de la récupération des paramètres:', error);
+    }
+    
+    popup.classList.add('active');
+    if (overlay) overlay.classList.add('active');
+    
+    // Gestionnaires d'événements
+    const autoUpdateCheck = popup.querySelector('#autoUpdateCheck');
+    if (autoUpdateCheck) {
+        autoUpdateCheck.addEventListener('change', async (e) => {
+            try {
+                await ipcRenderer.invoke('set-auto-check', e.target.checked);
+            } catch (error) {
+                console.error('Erreur lors de la mise à jour du paramètre:', error);
+            }
+        });
+    }
+    
+    const checkUpdatesBtn = popup.querySelector('#checkUpdates');
+    if (checkUpdatesBtn) {
+        checkUpdatesBtn.addEventListener('click', async () => {
+            try {
+                checkUpdatesBtn.disabled = true;
+                checkUpdatesBtn.textContent = 'Vérification...';
+                await ipcRenderer.invoke('check-updates');
+            } catch (error) {
+                console.error('Erreur lors de la vérification:', error);
+            } finally {
+                checkUpdatesBtn.disabled = false;
+                checkUpdatesBtn.textContent = 'Vérifier';
+            }
+        });
+    }
+}
+
+// Fonction pour cacher la popup des paramètres
+function hideSettingsPopup() {
+    const popup = document.querySelector('.settings-popup');
+    const overlay = document.querySelector('.overlay');
+    
+    if (popup) popup.classList.remove('active');
+    if (overlay) overlay.classList.remove('active');
+} 

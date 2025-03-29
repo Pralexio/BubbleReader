@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BubbleReader</title>
   <link rel="stylesheet" href="dark-theme.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
   <button class="menu-toggle" id="menu-toggle">
@@ -48,6 +49,53 @@
       </div>
     </div>
   </div>
+
+  <div class="bottom-buttons">
+    <button class="history-button" id="history-button">
+      <i class="fas fa-history"></i>
+    </button>
+    <button class="settings-button" id="settings-button">
+      <i class="fas fa-cog"></i>
+    </button>
+  </div>
+
+  <div class="settings-popup">
+    <div class="settings-popup-header">
+      <h2>Paramètres</h2>
+      <button class="close-popup" onclick="hideSettingsPopup()">×</button>
+    </div>
+    <div class="settings-content">
+      <div class="settings-section">
+        <h3>Mises à jour</h3>
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-name">Vérification automatique</div>
+            <div class="setting-description">Vérifier automatiquement les nouvelles versions au démarrage</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="autoUpdateCheck">
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-name">Version actuelle</div>
+            <div class="setting-description" id="currentVersion">-</div>
+          </div>
+          <button class="check-updates-btn" id="checkUpdates">Vérifier</button>
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-name">Dernière vérification</div>
+            <div class="setting-description" id="lastCheck">-</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="renderer.js"></script>
 </body>
 </html>

@@ -1,20 +1,20 @@
 {
   "mangas": [
     {
-      "title": "The Beginning After the End",
-      "type": "MANHWA",
-      "status": "EN COURS",
-      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/10e14bf9-a358-4a6e-ac41-e6a02b6b8eed.jpg&output=webp&w=500&ll",
-      "slug": "the-beginning-after-the-end",
-      "chapterUrlPattern": "https://phenix-scans.com/manga/the-beginning-after-the-end/chapitre/{chapter}"
-    },
-    {
       "title": "Solo Leveling",
       "type": "MANHWA",
       "status": "TERMINÉ",
       "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/015a0e3a-1d15-4cff-b27f-a3a1bce1358d.jpg&output=webp&w=500&ll",
       "slug": "solo-leveling",
       "chapterUrlPattern": "https://phenix-scans.com/manga/solo-leveling/chapitre/{chapter}"
+    },
+    {
+      "title": "The Beginning After the End",
+      "type": "MANHWA",
+      "status": "EN COURS",
+      "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/10e14bf9-a358-4a6e-ac41-e6a02b6b8eed.jpg&output=webp&w=500&ll",
+      "slug": "the-beginning-after-the-end",
+      "chapterUrlPattern": "https://phenix-scans.com/manga/the-beginning-after-the-end/chapitre/{chapter}"
     },
     {
       "title": "The Nebula's Civilization",
@@ -201,7 +201,7 @@
       "cover": "https://cdn.phenix-scans.com/?url=https://api.phenix-scans.com/uploads/cover/c084eb14-54a9-4ebc-a4c4-43b549fd2e0b.jpg&output=webp&w=500&ll"
     },
     {
-      "title": "The Unexpectedly Strong Knight in the Elf’s Arena",
+      "title": "The Unexpectedly Strong Knight in the Elf's Arena",
       "type": "MANHWA",
       "status": "EN COURS",
       "slug": "the-unexpectedly-strong-knight-in-the-elfs-arena",
