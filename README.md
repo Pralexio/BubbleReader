@@ -7,6 +7,7 @@
 ## 📖 À propos
 
 BubbleReader est une application de lecture de scans de mangas, manhwas, webtoons et manhuas. Elle permet de lire facilement vos séries préférées depuis Phenix-Scans avec une interface moderne et intuitive.
+Ajout d'une version web pour mobile `http://bubblereader.zapto.org:3030/`
 
 ## ✨ Fonctionnalités
 
