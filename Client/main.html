@@ -8,10 +8,31 @@
     <link rel="icon" type="image/png" href="assets/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
+    <div class="titlebar">
+        <div class="titlebar-left">
+            <img src="assets/logo.png" alt="BubbleReader" class="titlebar-logo">
+            <span class="titlebar-title">BubbleReader</span>
+        </div>
+        <div class="titlebar-controls">
+            <button class="titlebar-button minimize" id="minimize-button">
+                <svg viewBox="0 0 12 12"><line x1="2" y1="6" x2="10" y2="6"/></svg>
+            </button>
+            <button class="titlebar-button maximize" id="maximize-button">
+                <svg viewBox="0 0 12 12"><rect x="2.5" y="2.5" width="7" height="7" /></svg>
+            </button>
+            <button class="titlebar-button close" id="close-button">
+                <svg viewBox="0 0 12 12">
+                    <line x1="3" y1="3" x2="9" y2="9"/>
+                    <line x1="9" y1="3" x2="3" y2="9"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
     <div class="container">
         <header>
             <div class="header-left">

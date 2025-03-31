@@ -20,6 +20,33 @@ if (window.electron) {
   console.warn('window.electron n\'est pas disponible, les fonctionnalités de navigation natives ne seront pas accessibles');
 }
 
+// Gestionnaires d'événements pour la barre de titre
+document.addEventListener('DOMContentLoaded', () => {
+  // Bouton minimiser
+  const minimizeButton = document.getElementById('minimize-button');
+  if (minimizeButton && ipcRenderer) {
+    minimizeButton.addEventListener('click', () => {
+      ipcRenderer.send('window-minimize');
+    });
+  }
+
+  // Bouton maximiser
+  const maximizeButton = document.getElementById('maximize-button');
+  if (maximizeButton && ipcRenderer) {
+    maximizeButton.addEventListener('click', () => {
+      ipcRenderer.send('window-maximize');
+    });
+  }
+
+  // Bouton fermer
+  const closeButton = document.getElementById('close-button');
+  if (closeButton && ipcRenderer) {
+    closeButton.addEventListener('click', () => {
+      ipcRenderer.send('window-close');
+    });
+  }
+});
+
 // Configuration pour les requêtes API
 const headers = {
   'Content-Type': 'application/json'

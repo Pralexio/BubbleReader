@@ -291,4 +291,22 @@ passwordInput.addEventListener('keypress', (e) => {
 
 usernameInput.addEventListener('keypress', (e) => {
   if (e.key === 'Enter') passwordInput.focus();
+});
+
+// Gestionnaires d'événements pour les contrôles de la fenêtre
+document.getElementById('minimize-button').addEventListener('click', () => {
+    window.electron.windowControls.minimize();
+});
+
+document.getElementById('maximize-button').addEventListener('click', () => {
+    window.electron.windowControls.maximize();
+});
+
+document.getElementById('close-button').addEventListener('click', () => {
+    window.electron.windowControls.close();
+});
+
+// Mettre à jour l'état de maximisation
+window.electron.onMaximizeChange((isMaximized) => {
+    document.body.classList.toggle('maximized', isMaximized);
 }); 

@@ -47,41 +47,79 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
+    minWidth: 800,
+    minHeight: 600,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      sandbox: false, // Désactiver le sandbox pour permettre l'utilisation des modules Node dans preload
+      sandbox: false,
       preload: path.join(__dirname, 'preload.js'),
-      devTools: true,
+      devTools: false,
       webSecurity: true, 
       allowRunningInsecureContent: false
     },
     show: false,
-    backgroundColor: '#131419', // Couleur de fond sombre pour éviter les flashs blancs
+    backgroundColor: '#131419',
     title: 'BubbleReader',
-    center: true, // Centrer la fenêtre sur l'écran
-    maximizable: true, // Permettre la maximisation
-    frame: true // Afficher le cadre de la fenêtre
+    frame: false,
+    transparent: false,
+    titleBarStyle: 'hidden',
+    autoHideMenuBar: true,
+    center: true,
+    resizable: true,
+    maximizable: true,
+    fullscreenable: true,
+    useContentSize: true
+  });
+
+  // Gérer les changements d'état de maximisation
+  mainWindow.on('maximize', () => {
+    console.log('Window maximized');
+    mainWindow.webContents.send('window-maximized-state-changed', true);
+  });
+
+  mainWindow.on('unmaximize', () => {
+    console.log('Window unmaximized');
+    mainWindow.webContents.send('window-maximized-state-changed', false);
+  });
+
+  // Gérer l'état initial de maximisation
+  mainWindow.on('ready-to-show', () => {
+    mainWindow.show();
+    mainWindow.webContents.send('window-maximized-state-changed', mainWindow.isMaximized());
+  });
+
+  // Bloquer les raccourcis de la console de développement
+  mainWindow.webContents.on('before-input-event', (event, input) => {
+    // Bloquer Ctrl+Shift+I et F12
+    if ((input.control && input.shift && input.key.toLowerCase() === 'i') || 
+        (input.key === 'F12')) {
+      event.preventDefault();
+    }
+    
+    // Bloquer Ctrl+Shift+C
+    if (input.control && input.shift && input.key.toLowerCase() === 'c') {
+      event.preventDefault();
+    }
+    
+    // Bloquer Cmd+Option+I (pour macOS)
+    if (input.meta && input.alt && input.key.toLowerCase() === 'i') {
+      event.preventDefault();
+    }
+  });
+
+  // Désactiver le menu contextuel
+  mainWindow.webContents.on('context-menu', (e) => {
+    e.preventDefault();
   });
 
   // Charger le fichier HTML principal
-  mainWindow.loadFile('main.html');
-  
-  // Ouvrir les outils de développement au démarrage
-  mainWindow.webContents.openDevTools();
-
-  // Afficher la fenêtre lorsque le contenu est chargé pour éviter les flashs
-  mainWindow.once('ready-to-show', () => {
-    mainWindow.show();
-  });
+  mainWindow.loadFile('index.html');
 
   // Gérer la fermeture de la fenêtre
   mainWindow.on('closed', function () {
     mainWindow = null;
   });
-
-  // Maximiser la fenêtre au démarrage
-  mainWindow.maximize();
 }
 
 // Lorsque l'application est prête, créer la fenêtre
@@ -144,6 +182,41 @@ ipcMain.on('register-success', (event, userData) => {
 
 ipcMain.on('logout', (event) => {
   console.log('Utilisateur déconnecté');
+});
+
+// Ajouter les gestionnaires pour les contrôles de fenêtre
+ipcMain.on('window-minimize', () => {
+  console.log('Minimisation de la fenêtre');
+  mainWindow.minimize();
+});
+
+ipcMain.on('window-maximize', () => {
+  try {
+    const isMaximized = mainWindow.isMaximized();
+    console.log('État de maximisation actuel:', isMaximized);
+    
+    if (isMaximized) {
+      console.log('Restauration de la fenêtre');
+      mainWindow.restore();
+    } else {
+      console.log('Maximisation de la fenêtre');
+      mainWindow.maximize();
+    }
+    
+    // Forcer une courte attente avant d'envoyer l'état
+    setTimeout(() => {
+      const newState = mainWindow.isMaximized();
+      console.log('Nouvel état de maximisation:', newState);
+      mainWindow.webContents.send('window-maximized-state-changed', newState);
+    }, 100);
+  } catch (error) {
+    console.error('Erreur lors de la maximisation:', error);
+  }
+});
+
+ipcMain.on('window-close', () => {
+  console.log('Fermeture de la fenêtre');
+  mainWindow.close();
 });
 
 // Configuration de la sécurité Content Security Policy (CSP)

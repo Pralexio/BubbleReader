@@ -27,18 +27,133 @@
       box-sizing: border-box;
     }
     
+    /* Styles de la barre de défilement pour Webkit (Chrome, Safari, Edge) */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--surface);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--surface-light);
+      border-radius: 5px;
+      border: 2px solid var(--surface);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-secondary);
+    }
+
+    /* Styles pour Firefox */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--surface-light) var(--surface);
+    }
+    
     body {
       font-family: 'Poppins', sans-serif;
       background-color: var(--background);
       color: var(--text);
-      min-height: 100vh;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Correction du positionnement des panneaux défilants */
+    .left-panel, .right-panel {
+      position: relative;
+      overflow-y: scroll;
       overflow-x: hidden;
+      scrollbar-gutter: stable;
+    }
+
+    .left-panel::-webkit-scrollbar, 
+    .right-panel::-webkit-scrollbar {
+      position: absolute;
+      right: 0;
+    }
+
+    /* Styles de la barre de titre */
+    .titlebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 32px;
+      background: var(--surface);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
+      -webkit-app-region: drag;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .titlebar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .titlebar-logo {
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+    }
+
+    .titlebar-title {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .titlebar-controls {
+      display: flex;
+      -webkit-app-region: no-drag;
+    }
+
+    .titlebar-button {
+      width: 46px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      -webkit-app-region: no-drag;
+    }
+
+    .titlebar-button:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .titlebar-button.close:hover {
+      background: #E81123;
+    }
+
+    .titlebar-button svg {
+      width: 12px;
+      height: 12px;
+      stroke: var(--text-secondary);
+      stroke-width: 1;
+      fill: none;
     }
     
     .app-container {
       display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+      flex: 1;
+      margin-top: 32px;
+      height: calc(100vh - 32px);
+      overflow: hidden;
     }
     
     @media (min-width: 992px) {
@@ -54,21 +169,18 @@
       justify-content: center;
       align-items: flex-start;
       position: relative;
-      overflow: hidden;
       background-color: var(--surface);
       background-image: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"%3E%3Cpath fill="%23131419" fill-opacity="0.4" d="M0,224L48,213.3C96,203,192,181,288,154.7C384,128,480,96,576,112C672,128,768,192,864,218.7C960,245,1056,235,1152,218.7C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"%3E%3C/path%3E%3C/svg%3E');
       background-size: cover;
       background-position: center bottom;
       background-repeat: no-repeat;
+      overflow-y: auto;
     }
     
     @media (min-width: 992px) {
       .left-panel {
         width: 50%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
+        height: 100%;
       }
     }
     
@@ -120,12 +232,12 @@
       flex-direction: column;
       justify-content: center;
       background-color: var(--background);
+      overflow-y: auto;
     }
     
     @media (min-width: 992px) {
       .right-panel {
         width: 50%;
-        margin-left: 50%;
       }
     }
     
@@ -312,6 +424,27 @@
   </style>
 </head>
 <body>
+  <div class="titlebar">
+    <div class="titlebar-left">
+      <img src="assets/logo.png" alt="BubbleReader" class="titlebar-logo">
+      <span class="titlebar-title">BubbleReader</span>
+    </div>
+    <div class="titlebar-controls">
+      <button class="titlebar-button minimize" id="minimize-button">
+        <svg viewBox="0 0 12 12"><line x1="2" y1="6" x2="10" y2="6"/></svg>
+      </button>
+      <button class="titlebar-button maximize" id="maximize-button">
+        <svg viewBox="0 0 12 12"><rect x="2.5" y="2.5" width="7" height="7" /></svg>
+      </button>
+      <button class="titlebar-button close" id="close-button">
+        <svg viewBox="0 0 12 12">
+          <line x1="3" y1="3" x2="9" y2="9"/>
+          <line x1="9" y1="3" x2="3" y2="9"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
   <div class="app-container">
     <div class="left-panel">
       <div class="app-logo">BubbleReader</div>
@@ -372,5 +505,49 @@
   </div>
   
   <script src="./renderer.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const minimizeButton = document.getElementById('minimize-button');
+      const maximizeButton = document.getElementById('maximize-button');
+      const closeButton = document.getElementById('close-button');
+
+      if (minimizeButton) {
+        minimizeButton.addEventListener('click', () => {
+          window.electron.windowControls.minimize();
+        });
+      }
+
+      if (maximizeButton) {
+        const updateMaximizeButton = (isMaximized) => {
+          if (isMaximized) {
+            maximizeButton.classList.add('maximized');
+            maximizeButton.innerHTML = `
+              <svg viewBox="0 0 12 12">
+                <rect x="3.5" y="3.5" width="5" height="5" />
+                <rect x="1.5" y="1.5" width="7" height="7" fill="none" />
+              </svg>`;
+          } else {
+            maximizeButton.classList.remove('maximized');
+            maximizeButton.innerHTML = `
+              <svg viewBox="0 0 12 12">
+                <rect x="2.5" y="2.5" width="7" height="7" />
+              </svg>`;
+          }
+        };
+
+        maximizeButton.addEventListener('click', () => {
+          window.electron.windowControls.maximize();
+        });
+
+        window.electron.windowControls.onMaximizeChange(updateMaximizeButton);
+      }
+
+      if (closeButton) {
+        closeButton.addEventListener('click', () => {
+          window.electron.windowControls.close();
+        });
+      }
+    });
+  </script>
 </body>
 </html> 

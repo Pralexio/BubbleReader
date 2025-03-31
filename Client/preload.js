@@ -47,7 +47,11 @@ contextBridge.exposeInMainWorld('electron', {
         'login-success', 
         'register-success', 
         'reset-success', 
-        'logout'
+        'logout',
+        'window-minimize',
+        'window-maximize',
+        'window-close',
+        'window-maximized-state-changed'
       ];
       if (validChannels.includes(channel)) {
         ipcRenderer.send(channel, data);
@@ -58,13 +62,16 @@ contextBridge.exposeInMainWorld('electron', {
     },
     receive: (channel, func) => {
       // Les canaux autorisés que le renderer peut écouter
-      const validChannels = ['from-main'];
+      const validChannels = ['from-main', 'window-maximized-state-changed'];
       if (validChannels.includes(channel)) {
         ipcRenderer.on(channel, (event, ...args) => func(...args));
       }
     },
     on: (channel, callback) => {
-      ipcRenderer.on(channel, (event, ...args) => callback(...args));
+      const validChannels = ['window-maximized-state-changed'];
+      if (validChannels.includes(channel)) {
+        ipcRenderer.on(channel, callback);
+      }
     },
     removeListener: (channel, callback) => {
       ipcRenderer.removeListener(channel, callback);
@@ -77,5 +84,16 @@ contextBridge.exposeInMainWorld('electron', {
   },
   getApiUrl: () => {
     return apiUrl;
+  },
+  // Contrôles de fenêtre
+  windowControls: {
+    minimize: () => ipcRenderer.send('window-minimize'),
+    maximize: () => ipcRenderer.send('window-maximize'),
+    close: () => ipcRenderer.send('window-close'),
+    onMaximizeChange: (callback) => {
+      ipcRenderer.on('window-maximized-state-changed', (event, isMaximized) => {
+        callback(isMaximized);
+      });
+    }
   }
 }); 

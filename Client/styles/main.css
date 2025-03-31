@@ -1,9 +1,9 @@
 /* Variables CSS */
 :root {
-    --primary-color: #6C63FF;
+    --primary-color: #ff69b4;
     --primary-color-dark: #5A52D5;
-    --secondary-color: #FF4081;
-    --background-color: #161A30;
+    --secondary-color: #8a2be2;
+    --background-color: #131419;
     --background-secondary: rgba(108, 99, 255, 0.05);
     --card-background: #1E1F26;
     --text-primary: #FFFFFF;
@@ -11,6 +11,12 @@
     --error-color: #FF5252;
     --success-color: #4CAF50;
     --border-radius: 8px;
+    --text-color: #ffffff;
+    --titlebar-height: 32px;
+    --scrollbar-width: 8px;
+    --scrollbar-track: var(--card-background);
+    --scrollbar-thumb: var(--background-secondary);
+    --scrollbar-thumb-hover: rgba(255, 255, 255, 0.2);
 }
 
 /* Reset et styles de base */
@@ -18,29 +24,51 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    user-select: none;
 }
 
 body {
     font-family: 'Roboto', sans-serif;
     background-color: var(--background-color);
-    color: var(--text-primary);
-    min-height: 100vh;
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    height: 100vh;
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    width: 100%;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    margin-top: var(--titlebar-height);
+    height: calc(100vh - var(--titlebar-height));
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    scrollbar-gutter: stable;
+    position: relative;
+    padding: 0;
+    width: 100%;
+}
+
+.content-wrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 /* Header */
 header {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -305,13 +333,6 @@ main {
     width: 100%;
 }
 
-.content-wrapper {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-}
-
 /* Sections */
 .section {
     margin-bottom: 3rem;
@@ -342,6 +363,15 @@ main {
 
 .manga-container {
     width: 100%;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-gutter: stable;
+}
+
+.manga-container::-webkit-scrollbar {
+    position: absolute;
+    right: 0;
 }
 
 /* Grille de mangas */
@@ -604,6 +634,15 @@ main {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 1rem;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-gutter: stable;
+}
+
+.history-list::-webkit-scrollbar {
+    position: absolute;
+    right: 0;
 }
 
 .history-item {
@@ -859,4 +898,161 @@ main {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Titlebar */
+.titlebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--titlebar-height);
+    background-color: var(--card-background);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    -webkit-app-region: drag;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.titlebar-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.titlebar-logo {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+}
+
+.titlebar-title {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.titlebar-controls {
+    display: flex;
+    -webkit-app-region: no-drag;
+}
+
+.titlebar-button {
+    width: 46px;
+    height: var(--titlebar-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.titlebar-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.titlebar-button.minimize:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.titlebar-button.maximize:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.titlebar-button.close:hover {
+    background-color: #E81123;
+}
+
+.titlebar-button svg {
+    width: 12px;
+    height: 12px;
+    stroke: var(--text-secondary);
+    stroke-width: 1;
+    fill: none;
+}
+
+/* Styles pour la fenêtre maximisée */
+.maximized .titlebar {
+    padding: 0;
+}
+
+.maximized .titlebar-left {
+    padding-left: 12px;
+}
+
+/* Ajustements du contenu principal */
+body {
+    margin-top: 32px;
+    background: var(--background-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0;
+    height: calc(100vh - 1px);
+}
+
+.container {
+    height: calc(100vh - 32px);
+    margin-top: 32px;
+    overflow-y: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Styles pour les icônes des boutons */
+.titlebar-button.minimize svg {
+    transform: translateY(4px);
+}
+
+.titlebar-button.maximize svg {
+    transform: scale(0.8);
+}
+
+.titlebar-button.close svg {
+    transform: scale(1.1);
+    stroke-width: 1.5;
+}
+
+/* Animation pour le bouton close */
+@keyframes closeHover {
+    from { background-color: transparent; }
+    to { background-color: #E81123; }
+}
+
+.titlebar-button.close {
+    transition: background-color 0.1s ease;
+}
+
+.titlebar-button.close:hover {
+    animation: closeHover 0.1s ease forwards;
+}
+
+/* Styles de la barre de défilement pour Webkit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: var(--scrollbar-width);
+    height: var(--scrollbar-width);
+    position: absolute;
+    right: 0;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+    border-radius: calc(var(--scrollbar-width) / 2);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: calc(var(--scrollbar-width) / 2);
+    border: 2px solid var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+}
+
+/* Styles pour Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 } 
