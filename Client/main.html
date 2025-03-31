@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; connect-src *; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com data:; img-src 'self' data: https: http:;">
+    <title>BubbleReader</title>
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <div class="logo">
+                    <img src="assets/logo.png" alt="BubbleReader Logo" width="40" height="40">
+                </div>
+                <h1>BubbleReader</h1>
+            </div>
+            <div class="header-right">
+                <div id="serverStatus" class="server-status offline">
+                    <div class="status-dot"></div>
+                    <span class="status-text">Vérification du serveur...</span>
+                </div>
+                <div class="search-box">
+                    <form id="searchForm">
+                        <input type="text" id="searchInput" placeholder="Rechercher un manga...">
+                        <button type="submit">🔍</button>
+                    </form>
+                </div>
+                <div class="user-menu">
+                    <span id="username">Chargement...</span>
+                    <button id="logoutBtn">Déconnexion</button>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="welcome-section">
+                <h1>Bienvenue sur BubbleReader</h1>
+                <p>Votre bibliothèque de mangas et manhwas en ligne</p>
+            </div>
+
+            <div class="content-wrapper">
+                <!-- Section Reprendre la lecture -->
+                <section id="continueReading" class="section">
+                    <div class="section-header">
+                        <h2>Reprendre votre lecture</h2>
+                        <button id="showAllHistoryBtn" class="btn btn-primary">
+                            Voir tout l'historique
+                        </button>
+                    </div>
+                    <div id="continueReadingList" class="manga-grid"></div>
+                </section>
+
+                <!-- Section MANHWA -->
+                <section id="manhwaSection" class="section">
+                    <div class="section-header">
+                        <h2>MANHWA (266)</h2>
+                    </div>
+                    <div class="manga-container">
+                        <div id="mangaList" class="manga-grid"></div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <div id="alert" class="alert"></div>
+    </div>
+
+    <!-- Modal Historique -->
+    <div id="historyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Historique de lecture</h2>
+                <button id="closeHistoryBtn" class="close-btn">&times;</button>
+            </div>
+            <div id="historyList" class="history-list">
+                <!-- L'historique sera injecté ici par JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="main-renderer.js"></script>
+</body>
+</html> 

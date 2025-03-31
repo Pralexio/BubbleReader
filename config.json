@@ -1,0 +1,16 @@
+{
+  "server": {
+    "url": "http://bubblereader.zapto.org:5000",
+    "timeout": 10000
+  },
+  "app": {
+    "name": "BubbleReader",
+    "version": "1.0.0",
+    "updateCheckInterval": 86400000
+  },
+  "reader": {
+    "defaultZoom": 1.0,
+    "autoSaveInterval": 30000,
+    "preloadNextChapter": true
+  }
+} 

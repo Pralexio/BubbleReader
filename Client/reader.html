@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; connect-src *; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://* http://*">
+    <title>BubbleReader - Lecteur</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary-color: #FF2E63;
+            --secondary-color: #6C63FF;
+            --dark-bg: #1a1a2e;
+            --darker-bg: #16213e;
+            --light-text: #ffffff;
+            --muted-text: #A0A0A0;
+            --card-bg: #1E1F26;
+            --button-hover: #FF4081;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--darker-bg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        .header-left, .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .manga-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .manga-title {
+            font-weight: 600;
+            color: var(--light-text);
+        }
+
+        .chapter-number {
+            color: var(--muted-text);
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            background: none;
+            border: 1px solid var(--secondary-color);
+            color: var(--secondary-color);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+            color: var(--light-text);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: var(--light-text);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--button-hover);
+            border-color: var(--button-hover);
+        }
+
+        .btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .reader-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+            scroll-behavior: smooth;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #000;
+        }
+
+        .manga-image-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        .manga-image {
+            width: 100%;
+            max-width: 900px;
+            height: auto;
+            display: block;
+            margin: 0;
+        }
+
+        /* Styles pour la page unique et son numéro */
+        .single-page-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            z-index: 5;
+        }
+
+        /* Modes de lecture */
+        .vertical-mode .manga-image-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .horizontal-mode .manga-image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Options d'ajustement de taille */
+        .manga-image-container.fit-width .manga-image {
+            width: 100%;
+            height: auto;
+        }
+
+        .manga-image-container.fit-height .manga-image {
+            height: 100vh;
+            width: auto;
+            max-height: calc(100vh - 120px);
+        }
+
+        .manga-image-container.full .manga-image {
+            width: auto;
+            height: auto;
+            max-width: none;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 46, 99, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+            margin: 2rem auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            color: var(--primary-color);
+            text-align: center;
+            margin: 2rem;
+            font-weight: 500;
+        }
+
+        .navigation-controls {
+            position: fixed;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            background-color: rgba(22, 33, 62, 0.8);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            transition: opacity 0.3s ease;
+        }
+
+        .navigation-controls.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .nav-btn {
+            background-color: rgba(108, 99, 255, 0.6);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .nav-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .chapter-select {
+            background-color: rgba(30, 31, 38, 0.8);
+            border: 1px solid rgba(108, 99, 255, 0.4);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .chapter-select:focus {
+            border-color: var(--secondary-color);
+        }
+
+        .page-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            background-color: rgba(30, 31, 38, 0.6);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .alert {
+            position: fixed;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            color: white;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .alert.visible {
+            opacity: 1;
+        }
+
+        .alert-info {
+            background-color: rgba(0, 123, 255, 0.9);
+        }
+
+        .alert-success {
+            background-color: rgba(40, 167, 69, 0.9);
+        }
+
+        .alert-warning {
+            background-color: rgba(255, 193, 7, 0.9);
+        }
+
+        .alert-danger {
+            background-color: rgba(220, 53, 69, 0.9);
+        }
+
+        .keyboard-shortcuts {
+            position: fixed;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+            color: var(--muted-text);
+            font-size: 0.8rem;
+            background-color: rgba(30, 31, 38, 0.6);
+            padding: 0.5rem;
+            border-radius: 4px;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .keyboard-shortcuts:hover {
+            opacity: 1;
+        }
+
+        .keyboard-shortcuts ul {
+            padding-left: 1.2rem;
+            margin: 0.5rem 0;
+        }
+
+        .keyboard-shortcuts li {
+            margin-bottom: 0.3rem;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 0.5rem;
+                flex-wrap: wrap;
+            }
+            
+            .keyboard-shortcuts {
+                display: none;
+            }
+            
+            .navigation-controls {
+                padding: 0.3rem 0.5rem;
+            }
+            
+            .nav-btn {
+                width: 36px;
+                height: 36px;
+            }
+            
+            .chapter-select, .page-info {
+                padding: 0.3rem 0.5rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        .settings-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .settings-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .settings-container {
+            background-color: #1E1F26;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #2a2b33;
+        }
+
+        .settings-header h2 {
+            margin: 0;
+            color: var(--light-text);
+            font-size: 1.5rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--muted-text);
+            font-size: 1.8rem;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .settings-content {
+            padding: 1.5rem;
+        }
+
+        .settings-group {
+            margin-bottom: 2rem;
+        }
+
+        .settings-group h3 {
+            color: var(--light-text);
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .setting-description {
+            font-size: 0.9rem;
+            color: var(--muted-text);
+            margin-top: 1rem;
+        }
+
+        .setting-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .setting-options label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .settings-footer {
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid #2a2b33;
+        }
+
+        /* Switch styles */
+        .reading-direction-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #2a2b33;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: var(--secondary-color);
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--secondary-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        @media (max-width: 768px) {
+            .settings-container {
+                width: 95%;
+            }
+
+            .reading-direction-toggle {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .setting-options {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+        }
+
+        .profile-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .profile-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .profile-container {
+            background-color: #1E1F26;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #2a2b33;
+        }
+
+        .profile-content {
+            padding: 1.5rem;
+        }
+
+        .reading-history {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+
+        .history-item {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .history-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .history-title {
+            font-weight: 600;
+            color: var(--light-text);
+        }
+
+        .history-chapter {
+            color: var(--muted-text);
+            font-size: 0.9rem;
+        }
+
+        .history-date {
+            color: var(--muted-text);
+            font-size: 0.8rem;
+        }
+
+        .history-progress {
+            height: 4px;
+            background-color: #2a2b33;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .history-progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <a href="main.html" class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                BubbleReader
+            </a>
+        </div>
+        
+        <div class="manga-info">
+            <span class="manga-title" id="mangaTitle">Chargement...</span>
+            <span class="chapter-number" id="chapterNumber"></span>
+        </div>
+        
+        <div class="header-right">
+            <button class="btn" id="profileBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                Profil
+            </button>
+            <button class="btn" id="settingsBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+                Paramètres
+            </button>
+            <button class="btn btn-primary" id="addToLibraryBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                </svg>
+                Ajouter à la bibliothèque
+            </button>
+        </div>
+    </div>
+
+    <div id="alert" class="alert">Message d'alerte</div>
+
+    <div class="settings-modal" id="settingsModal">
+        <div class="settings-container">
+            <div class="settings-header">
+                <h2>Paramètres de lecture</h2>
+                <button id="closeSettingsBtn" class="close-btn">×</button>
+            </div>
+            <div class="settings-content">
+                <div class="settings-group">
+                    <h3>Direction de lecture</h3>
+                    <div class="reading-direction-toggle">
+                        <span>Manga (horizontal)</span>
+                        <label class="switch">
+                            <input type="checkbox" id="readingDirectionSwitch" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span>Manhwa (vertical)</span>
+                    </div>
+                    <p class="setting-description">Le mode manga permet de lire de droite à gauche avec des pages individuelles. Le mode manhwa permet une lecture verticale en défilement continu.</p>
+                </div>
+                <div class="settings-group">
+                    <h3>Transitions de page</h3>
+                    <div class="setting-options">
+                        <label>
+                            <input type="radio" name="pageTransition" value="fade" checked>
+                            <span>Fondu</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="pageTransition" value="slide">
+                            <span>Glissement</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="pageTransition" value="none">
+                            <span>Aucune</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <h3>Taille d'affichage</h3>
+                    <div class="setting-options">
+                        <label>
+                            <input type="radio" name="pageSize" value="fit-width" checked>
+                            <span>Ajuster à la largeur</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="pageSize" value="fit-height">
+                            <span>Ajuster à la hauteur</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="pageSize" value="full">
+                            <span>Taille réelle</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-footer">
+                <button class="btn btn-primary" id="saveSettingsBtn">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="reader-container" id="readerContainer">
+        <div class="loading-spinner" id="loadingSpinner"></div>
+        <div id="errorMessage" class="error-message" style="display: none;"></div>
+        <div id="mangaImageContainer" class="manga-image-container"></div>
+    </div>
+
+    <div class="navigation-controls" id="navigationControls">
+        <button class="nav-btn" id="prevChapterBtn" title="Chapitre précédent">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="11 17 6 12 11 7"></polyline>
+                <polyline points="18 17 13 12 18 7"></polyline>
+            </svg>
+        </button>
+        <button class="nav-btn" id="prevPageBtn" title="Page précédente">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+        <div class="page-info" id="pageInfo">0 / 0</div>
+        <button class="nav-btn" id="nextPageBtn" title="Page suivante">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </button>
+        <button class="nav-btn" id="nextChapterBtn" title="Chapitre suivant">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="13 17 18 12 13 7"></polyline>
+                <polyline points="6 17 11 12 6 7"></polyline>
+            </svg>
+        </button>
+    </div>
+
+    <div class="keyboard-shortcuts">
+        <strong>Raccourcis clavier :</strong>
+        <ul>
+            <li>← : Page précédente</li>
+            <li>→ : Page suivante</li>
+            <li>↑ : Chapitre précédent</li>
+            <li>↓ : Chapitre suivant</li>
+            <li>Espace : Défiler</li>
+        </ul>
+    </div>
+
+    <div class="profile-modal" id="profileModal">
+        <div class="profile-container">
+            <div class="profile-header">
+                <h2>Mon Profil</h2>
+                <button id="closeProfileBtn" class="close-btn">×</button>
+            </div>
+            <div class="profile-content">
+                <div class="profile-section">
+                    <h3>Historique de lecture</h3>
+                    <div id="readingHistory" class="reading-history">
+                        <!-- L'historique sera injecté ici dynamiquement -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="reader-renderer.js"></script>
+</body>
+</html> 

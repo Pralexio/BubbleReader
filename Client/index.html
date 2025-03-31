@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; connect-src *; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.w3.org/ *">
+  <title>BubbleReader - Connexion</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    :root {
+      --primary: #FF4081;
+      --secondary: #6C63FF;
+      --background: #131419;
+      --surface: #1E1F26;
+      --surface-light: #2a2b33;
+      --text: #E9E9E9;
+      --text-secondary: #A0A0A0;
+      --success: #00C853;
+      --error: #FF5252;
+      --radius: 12px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--background);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    
+    @media (min-width: 992px) {
+      .app-container {
+        flex-direction: row;
+      }
+    }
+    
+    .left-panel {
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      position: relative;
+      overflow: hidden;
+      background-color: var(--surface);
+      background-image: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"%3E%3Cpath fill="%23131419" fill-opacity="0.4" d="M0,224L48,213.3C96,203,192,181,288,154.7C384,128,480,96,576,112C672,128,768,192,864,218.7C960,245,1056,235,1152,218.7C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"%3E%3C/path%3E%3C/svg%3E');
+      background-size: cover;
+      background-position: center bottom;
+      background-repeat: no-repeat;
+    }
+    
+    @media (min-width: 992px) {
+      .left-panel {
+        width: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+      }
+    }
+    
+    .app-logo {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+    
+    .app-description {
+      max-width: 500px;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+    
+    .app-title {
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    
+    .app-features {
+      margin: 20px 0;
+      padding-left: 20px;
+    }
+    
+    .app-features li {
+      margin-bottom: 10px;
+      position: relative;
+      padding-left: 25px;
+    }
+    
+    .app-features li:before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: bold;
+    }
+    
+    .right-panel {
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background-color: var(--background);
+    }
+    
+    @media (min-width: 992px) {
+      .right-panel {
+        width: 50%;
+        margin-left: 50%;
+      }
+    }
+    
+    .login-container {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      animation: fadeIn 0.6s ease forwards;
+    }
+    
+    .card-title {
+      font-size: 1.8rem;
+      margin-bottom: 30px;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .card-title:after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 3px;
+    }
+    
+    .input-group {
+      position: relative;
+      margin-bottom: 30px;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 15px 20px;
+      border: none;
+      background-color: var(--surface-light);
+      color: var(--text);
+      border-radius: var(--radius);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+    
+    .form-input:focus {
+      box-shadow: 0 0 0 3px rgba(255, 64, 129, 0.3);
+    }
+    
+    .form-input::placeholder {
+      color: var(--text-secondary);
+    }
+    
+    .form-label {
+      position: absolute;
+      top: -10px;
+      left: 15px;
+      background-color: var(--background);
+      padding: 0 8px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      border-radius: 4px;
+    }
+    
+    .btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      outline: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-primary {
+      background-image: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      box-shadow: 0 4px 15px rgba(255, 64, 129, 0.4);
+    }
+    
+    .btn-primary:hover {
+      box-shadow: 0 6px 20px rgba(255, 64, 129, 0.6);
+      transform: translateY(-2px);
+    }
+    
+    .btn-primary:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 10px rgba(255, 64, 129, 0.4);
+    }
+    
+    .btn-primary:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: all 0.6s;
+    }
+    
+    .btn-primary:hover:before {
+      left: 100%;
+    }
+    
+    .form-footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    
+    .form-links {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+    
+    .form-link {
+      color: var(--secondary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+    
+    .form-link:hover {
+      color: var(--primary);
+    }
+    
+    .form-link:after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, var(--secondary), var(--primary));
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+    
+    .form-link:hover:after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+    
+    .alert {
+      padding: 15px;
+      margin-bottom: 30px;
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+      color: white;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      animation: fadeIn 0.3s ease forwards;
+    }
+    
+    .alert-danger {
+      background-color: var(--error);
+      border-left: 4px solid #ff0000;
+    }
+    
+    .alert-success {
+      background-color: var(--success);
+      border-left: 4px solid #00a040;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="left-panel">
+      <div class="app-logo">BubbleReader</div>
+      <h1 class="app-title">Votre bibliothèque manga personnelle</h1>
+      <div class="app-description">
+        <p>BubbleReader est une application qui vous permet de stocker et lire vos mangas, manhwas et manhuas préférés dans une interface élégante et intuitive.</p>
+        <ul class="app-features">
+          <li>Interface moderne et intuitive</li>
+          <li>Gestion de collections complètes</li>
+          <li>Historique de lecture personnalisé</li>
+          <li>Prise en charge de formats multiples</li>
+          <li>Synchronisation entre appareils</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="right-panel">
+      <div id="alertContainer" class="alert hidden"></div>
+      
+      <div class="login-container">
+        <h2 class="card-title">Connexion</h2>
+        
+        <form id="loginForm">
+          <div class="input-group">
+            <label for="username" class="form-label">Nom d'utilisateur</label>
+            <input 
+              type="text" 
+              id="username" 
+              class="form-input" 
+              placeholder="Entrez votre nom d'utilisateur"
+              autocomplete="username"
+            >
+          </div>
+          
+          <div class="input-group">
+            <label for="password" class="form-label">Mot de passe</label>
+            <input 
+              type="password" 
+              id="password" 
+              class="form-input" 
+              placeholder="Entrez votre mot de passe"
+              autocomplete="current-password"
+            >
+          </div>
+          
+          <button type="button" id="loginButton" class="btn btn-primary">Se connecter</button>
+          
+          <div class="form-footer">
+            <p>Pas encore de compte?</p>
+            <div class="form-links">
+              <a href="#" id="registerLink" class="form-link">Créer un compte</a>
+              <a href="#" id="resetPasswordLink" class="form-link">Mot de passe oublié?</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <script src="./renderer.js"></script>
+</body>
+</html> 
