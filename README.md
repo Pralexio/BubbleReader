@@ -76,6 +76,6 @@ Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de
 
 ## Contact
 
-Pralexio - [@SonchiSenpai](https://x.com/SonchiSenpai)
+X (Twitter) - [@SonchiSenpai](https://x.com/SonchiSenpai)
 
 Lien du projet: [https://github.com/pralexio/BubbleReader](https://github.com/pralexio/BubbleReader)
