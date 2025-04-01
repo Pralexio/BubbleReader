@@ -10,6 +10,48 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
+    <script>
+        // Protection précoce contre les outils de développement
+        (function() {
+            // Vérifier si devtools est ouvert
+            function isDevToolsOpen() {
+                const devtools = /./;
+                devtools.toString = function() {
+                    this.opened = true;
+                };
+                console.log('%c', devtools);
+                return devtools.opened;
+            }
+
+            // Débordement de la pile pour ralentir le débogage
+            function stackOverflow() {
+                try {
+                    (function x(){
+                        if (isDevToolsOpen()) {
+                            document.body.innerHTML = '';
+                            while(1) console.log(1);
+                        }
+                        x();
+                    })();
+                } catch(e) {
+                    setTimeout(stackOverflow, 100);
+                }
+            }
+
+            // Empêcher le débogage
+            function preventDebugger() {
+                setInterval(() => {
+                    debugger;
+                }, 50);
+            }
+
+            // Exécuter en mode production uniquement
+            if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+                preventDebugger();
+                setTimeout(stackOverflow, 1000);
+            }
+        })();
+    </script>
 </head>
 <body>
     <div class="titlebar">
@@ -52,6 +94,13 @@
                         <button type="submit">🔍</button>
                     </form>
                 </div>
+                <button id="toReadListBtn" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                        <path fill="none" d="M0 0h24v24H0z"/>
+                        <path d="M5 2h14a1 1 0 0 1 1 1v19.143a.5.5 0 0 1-.766.424L12 18.03l-7.234 4.536A.5.5 0 0 1 4 22.143V3a1 1 0 0 1 1-1zm13 2H6v15.432l6-3.761 6 3.761V4z" fill="currentColor"/>
+                    </svg>
+                    <span>À lire</span>
+                </button>
                 <div class="user-menu">
                     <span id="username">Chargement...</span>
                     <button id="logoutBtn">Déconnexion</button>
@@ -69,7 +118,7 @@
 
             <div class="content-wrapper">
                 <!-- Section Reprendre la lecture -->
-                <section id="continueReading" class="section">
+                <section id="continueReadingSection" class="section">
                     <div class="section-header">
                         <h2>Reprendre votre lecture</h2>
                         <button id="showAllHistoryBtn" class="btn btn-primary">
@@ -96,10 +145,33 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h2>Historique de lecture</h2>
-                    <button id="closeHistoryBtn" class="close-btn">&times;</button>
+                    <button id="closeHistoryBtn" class="close-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                            <path fill="none" d="M0 0h24v24H0z"/>
+                            <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95 1.414-1.414 4.95 4.95z" fill="currentColor"/>
+                        </svg>
+                    </button>
                 </div>
                 <div id="historyList" class="history-list">
                     <!-- L'historique sera injecté ici par JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal À lire -->
+        <div id="toReadModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Ma liste de lecture</h2>
+                    <button id="closeToReadBtn" class="close-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                            <path fill="none" d="M0 0h24v24H0z"/>
+                            <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95 1.414-1.414 4.95 4.95z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                </div>
+                <div id="toReadList" class="to-read-list manga-grid">
+                    <!-- La liste des mangas à lire sera injectée ici par JavaScript -->
                 </div>
             </div>
         </div>

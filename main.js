@@ -27,21 +27,60 @@ function createWindow() {
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
-            devTools: true
+            devTools: isDev
         }
     });
 
     // Charger l'URL de l'application
     mainWindow.loadFile('index.html');
 
-    // Ouvrir les outils de développement
-    mainWindow.webContents.openDevTools();
+    // Ouvrir les outils de développement uniquement en mode développement
+    if (isDev) {
+        mainWindow.webContents.openDevTools();
+    } else {
+        // En production, empêcher l'ouverture des outils de développement
+        mainWindow.webContents.on('devtools-opened', () => {
+            mainWindow.webContents.closeDevTools();
+        });
+    }
 
     // Définir l'URL de l'API pour le processus de rendu
     global.apiUrl = config.server.url;
 }
 
 app.whenReady().then(() => {
+    // Empêcher plusieurs instances de l'application
+    const gotTheLock = app.requestSingleInstanceLock();
+    
+    if (!gotTheLock) {
+        app.quit();
+        return;
+    }
+    
+    // Protection contre certaines vulnérabilités web
+    app.on('web-contents-created', (event, contents) => {
+        // Bloquer la navigation vers des URL externes
+        contents.on('will-navigate', (event, navigationUrl) => {
+            const parsedUrl = new URL(navigationUrl);
+            // Autoriser uniquement la navigation interne à l'application
+            if (!parsedUrl.protocol.includes('file:')) {
+                event.preventDefault();
+            }
+        });
+        
+        // Bloquer l'ouverture de nouvelles fenêtres
+        contents.setWindowOpenHandler(({ url }) => {
+            return { action: 'deny' };
+        });
+
+        // Bloquer l'exécution de code distant en production
+        if (!isDev) {
+            contents.on('will-attach-webview', (event) => {
+                event.preventDefault();
+            });
+        }
+    });
+    
     createWindow();
 
     app.on('activate', function () {

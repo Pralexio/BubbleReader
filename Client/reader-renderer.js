@@ -398,6 +398,10 @@ async function loadPage(pageIndex) {
     // Nettoyer le conteneur d'images
     mangaImageContainer.innerHTML = '';
     
+    // Supprimer toutes les classes de taille existantes et appliquer la taille actuelle
+    mangaImageContainer.classList.remove('fit-width', 'fit-height', 'full');
+    mangaImageContainer.classList.add(userSettings.pageSize);
+    
     try {
         // Créer et ajouter l'élément d'image
         const imageData = mangaImages[pageIndex];
@@ -591,6 +595,10 @@ function loadAllPages() {
   
   // Nettoyer le conteneur
   mangaImageContainer.innerHTML = '';
+  
+  // Supprimer toutes les classes de taille existantes et appliquer la taille actuelle
+  mangaImageContainer.classList.remove('fit-width', 'fit-height', 'full');
+  mangaImageContainer.classList.add(userSettings.pageSize);
   
   let lastValidPage = -1;
   
@@ -1013,6 +1021,14 @@ function applySettings() {
     // Appliquer la taille de page
     mangaImageContainer.dataset.pageSize = userSettings.pageSize;
     
+    // Supprimer toutes les classes de taille existantes
+    mangaImageContainer.classList.remove('fit-width', 'fit-height', 'full');
+    
+    // Ajouter la classe correspondant à la taille sélectionnée
+    mangaImageContainer.classList.add(userSettings.pageSize);
+    
+    console.log(`Taille d'affichage appliquée: ${userSettings.pageSize}`);
+    
     // Sauvegarder les paramètres
     localStorage.setItem('readerSettings', JSON.stringify(userSettings));
 }
@@ -1167,11 +1183,21 @@ if (settingsBtn && settingsModal && closeSettingsBtn) {
                 }
             });
             
+            console.log('Paramètres à sauvegarder:', userSettings);
+            
             // Sauvegarder les paramètres dans le localStorage
             localStorage.setItem('readerSettings', JSON.stringify(userSettings));
             
             // Appliquer les changements
             applySettings();
+            
+            // Si nous sommes en mode vertical, recharger toutes les pages
+            if (userSettings.readingDirection === 'vertical') {
+                loadAllPages();
+            } else {
+                // Sinon, recharger la page courante
+                loadPage(currentPage);
+            }
             
             // Fermer la modale
             settingsModal.classList.remove('active');

@@ -4,6 +4,30 @@ const path = require('path');
 const fs = require('fs');
 const dotenv = require('dotenv');
 
+// Vérifier si nous sommes en mode production
+const isProduction = process.env.NODE_ENV === 'production';
+
+// Désactiver la console en production
+/*if (isProduction) {
+  // Remplacer les méthodes de console par des fonctions vides
+  window.console = {
+    log: () => {},
+    error: () => {},
+    warn: () => {},
+    info: () => {},
+    debug: () => {},
+    trace: () => {}
+  };
+  
+  // Désactiver la détection de DevTools
+  window.addEventListener('devtoolschange', event => {
+    if (event.detail.isOpen) {
+      // Fermer l'application ou rediriger vers la page d'accueil
+      ipcRenderer.send('devtools-opened');
+    }
+  });
+}*/
+
 // Variables d'environnement par défaut
 const DEFAULT_SERVER = 'bubblereader.zapto.org';
 const DEFAULT_PORT = '5000';

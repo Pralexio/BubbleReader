@@ -36,7 +36,8 @@ if (fs.existsSync(envPath)) {
 }
 
 // Définir le mode développement
-process.env.NODE_ENV = 'development';
+const isDev = process.env.NODE_ENV === 'development';
+process.env.NODE_ENV = isDev ? 'development' : 'production';
 
 // Garder une référence globale de l'objet window, sinon la fenêtre sera fermée
 // automatiquement quand l'objet JavaScript sera garbage collected.
@@ -54,7 +55,7 @@ function createWindow() {
       contextIsolation: true,
       sandbox: false,
       preload: path.join(__dirname, 'preload.js'),
-      devTools: true,
+      devTools: true, // Toujours activer les outils de développement
       webSecurity: true, 
       allowRunningInsecureContent: false
     },
@@ -86,13 +87,31 @@ function createWindow() {
   // Gérer l'état initial de maximisation
   mainWindow.on('ready-to-show', () => {
     mainWindow.show();
-    mainWindow.webContents.openDevTools();
+    
+    // Ouvrir les outils de développement uniquement en mode développement
+    if (isDev) {
+      mainWindow.webContents.openDevTools();
+    }
+    
     mainWindow.webContents.send('window-maximized-state-changed', mainWindow.isMaximized());
   });
 
-  // Désactiver le menu contextuel
-  mainWindow.webContents.on('context-menu', (e) => {
-    e.preventDefault();
+  // Désactiver le menu contextuel en production
+  if (!isDev) {
+    mainWindow.webContents.on('context-menu', (e) => {
+      e.preventDefault();
+    });
+  }
+
+  // Bloquer les raccourcis clavier pour ouvrir DevTools en production
+  mainWindow.webContents.on('before-input-event', (event, input) => {
+    // Ne plus bloquer F12 et Ctrl+Shift+I
+    // Commenté pour permettre l'ouverture des DevTools
+    /*if (!isDev && 
+        ((input.key === 'F12') || 
+         (input.control && input.shift && input.key.toLowerCase() === 'i'))) {
+      event.preventDefault();
+    }*/
   });
 
   // Charger le fichier HTML principal
@@ -151,6 +170,19 @@ ipcMain.on('navigate', (event, page) => {
     default:
       console.error(`Page inconnue: ${page}`);
   }
+});
+
+// Gérer la détection d'ouverture des DevTools en production
+ipcMain.on('devtools-opened', () => {
+  /*if (!isDev) {
+    console.log('Tentative d\'ouverture des DevTools en production détectée');
+    // Option 1: Rediriger vers la page d'accueil
+    mainWindow.loadFile(path.join(__dirname, 'index.html'));
+    
+    // Option 2 (plus stricte): Fermer l'application
+    // app.quit();
+  }*/
+  console.log('DevTools ouvert - accès autorisé');
 });
 
 // Ajouter de nouveaux événements IPC pour la communication entre renderer et main
