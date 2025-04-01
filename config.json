@@ -1,6 +1,6 @@
 {
   "server": {
-    "url": "http://bubblereader.zapto.org:5000",
+    "url": "${ENV:SERVER_URL}",
     "timeout": 10000
   },
   "app": {

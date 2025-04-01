@@ -421,6 +421,25 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    
+    .update-info {
+      background-color: var(--dark-bg);
+      border-radius: 8px;
+      padding: 10px 15px;
+      margin: 10px 0;
+      text-align: center;
+      color: var(--light-text);
+      font-size: 0.9em;
+    }
+    
+    .update-info p {
+      margin: 0;
+    }
+    
+    #countdown {
+      font-weight: bold;
+      color: var(--primary-color);
+    }
   </style>
 </head>
 <body>
@@ -462,7 +481,9 @@
     </div>
     
     <div class="right-panel">
-      <div id="alertContainer" class="alert hidden"></div>
+      <div id="alertContainer" class="alert hidden">
+        <p>Prochaine mise à jour dans: <span id="countdown">Chargement...</span></p>
+      </div>
       
       <div class="login-container">
         <h2 class="card-title">Connexion</h2>
@@ -548,6 +569,38 @@
         });
       }
     });
+
+    // Fonction pour formater le temps restant
+    function formatTimeRemaining(ms) {
+      if (ms <= 0) return "En cours...";
+      
+      const seconds = Math.floor((ms / 1000) % 60);
+      const minutes = Math.floor((ms / (1000 * 60)) % 60);
+      const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
+      
+      return `${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    // Fonction pour mettre à jour le décompte
+    async function updateCountdown() {
+      try {
+        const response = await fetch(`${apiUrl}/next-update`);
+        const data = await response.json();
+        
+        if (data.remainingTime) {
+          const countdownElement = document.getElementById('countdown');
+          countdownElement.textContent = formatTimeRemaining(data.remainingTime);
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération du temps restant:', error);
+      }
+    }
+
+    // Mettre à jour le décompte toutes les secondes
+    setInterval(updateCountdown, 1000);
+
+    // Appeler updateCountdown immédiatement au chargement
+    updateCountdown();
   </script>
 </body>
 </html> 

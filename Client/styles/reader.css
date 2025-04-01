@@ -1,0 +1,275 @@
+.chapter-list-container {
+    position: relative;
+    margin-right: 10px;
+}
+
+.chapter-list-header {
+    display: flex;
+    gap: 10px;
+}
+
+.chapter-list-header .btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.chapter-list-header .btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.chapter-list-header .btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.chapter-list-panel {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 250px;
+    background: rgba(30, 30, 30, 0.95);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    margin-top: 10px;
+}
+
+.chapter-list-panel.show {
+    display: block;
+}
+
+.chapter-list-scroll {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.chapter-list-scroll::-webkit-scrollbar {
+    width: 4px;
+}
+
+.chapter-list-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chapter-list-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.chapter-list-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.chapter-item {
+    padding: 8px 12px;
+    margin: 4px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.chapter-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.chapter-item.active {
+    background: rgba(255, 46, 99, 0.2);
+    color: #FF2E63;
+}
+
+/* Style pour l'alerte de sauvegarde */
+.alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    border-radius: 4px;
+    background: rgba(30, 30, 30, 0.95);
+    color: white;
+    z-index: 2000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.alert.visible {
+    opacity: 1;
+}
+
+.alert.alert-success {
+    background: rgba(46, 213, 115, 0.95);
+}
+
+.alert.alert-error {
+    background: rgba(255, 71, 87, 0.95);
+}
+
+.alert.alert-warning {
+    background: rgba(255, 159, 67, 0.95);
+}
+
+.alert.alert-info {
+    background: rgba(30, 144, 255, 0.95);
+}
+
+.chapter-select-container {
+    position: relative;
+    margin: 0 10px;
+}
+
+.chapter-select {
+    background-color: rgba(30, 31, 38, 0.8);
+    border: 1px solid rgba(108, 99, 255, 0.4);
+    color: white;
+    padding: 0.4rem 2rem 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    min-width: 120px;
+    font-size: 0.9rem;
+}
+
+.chapter-select:focus {
+    border-color: var(--secondary-color);
+}
+
+.chapter-select-container::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid white;
+    pointer-events: none;
+}
+
+/* Style pour le bouton de sauvegarde */
+#saveProgressBtn {
+    background-color: rgba(46, 213, 115, 0.3);
+}
+
+#saveProgressBtn:hover {
+    background-color: rgba(46, 213, 115, 0.6);
+}
+
+/* Ajustements pour la barre de navigation */
+.navigation-controls {
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+}
+
+@media (max-width: 768px) {
+    .chapter-select {
+        min-width: 100px;
+        padding: 0.3rem 1.5rem 0.3rem 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .navigation-controls {
+        padding: 0.3rem 0.5rem;
+        gap: 0.3rem;
+    }
+}
+
+/* Supprimer les styles de l'historique */
+.profile-modal,
+.profile-container,
+.profile-header,
+.profile-content,
+.reading-history,
+.history-item,
+.history-cover,
+.history-info,
+.history-manga-title,
+.history-details,
+.history-chapter,
+.history-date,
+.history-progress-container,
+.history-progress,
+.history-progress-bar,
+.history-percentage {
+    display: none;
+}
+
+/* Style pour la modale du profil */
+.profile-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.profile-modal.active {
+    display: flex;
+}
+
+.profile-container {
+    background: #1e1e1e;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 1200px;
+    height: 80vh;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
+}
+
+.profile-header h2 {
+    font-size: 1.8em;
+    color: #fff;
+    margin: 0;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.8em;
+    cursor: pointer;
+    padding: 5px 15px;
+    border-radius: 5px;
+    transition: background 0.2s;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+} 

@@ -1,6 +1,6 @@
 // Obtenir les APIs exposées par preload.js
 let ipcRenderer = null;
-let apiUrl = 'http://bubblereader.zapto.org:5000/api';
+let apiUrl = null;
 
 // Vérifier si window.electron existe et récupérer les valeurs
 if (window.electron) {
@@ -12,12 +12,16 @@ if (window.electron) {
   }
   
   // Récupérer l'URL de l'API depuis les variables d'environnement
-  if (window.electron.env && window.electron.env.apiUrl) {
-    apiUrl = window.electron.env.apiUrl;
+  if (window.electron.getApiUrl) {
+    apiUrl = window.electron.getApiUrl();
     console.log('API URL récupérée:', apiUrl);
+  } else if (window.electron.env && window.electron.env.apiUrl) {
+    apiUrl = window.electron.env.apiUrl;
+    console.log('API URL récupérée depuis env:', apiUrl);
   }
 } else {
   console.warn('window.electron n\'est pas disponible, les fonctionnalités de navigation natives ne seront pas accessibles');
+  // Ne pas mettre d'URL par défaut ici, ce qui forcera une erreur si window.electron n'est pas disponible
 }
 
 // Éléments DOM
@@ -67,22 +71,65 @@ let localProgressInterval = null;
 let serverSyncInterval = null;
 let lastProgress = null;
 
-// Variables pour le profil
-const profileBtn = document.getElementById('profileBtn');
-const profileModal = document.getElementById('profileModal');
-const closeProfileBtn = document.getElementById('closeProfileBtn');
-const readingHistory = document.getElementById('readingHistory');
+// Gestion des boutons de la barre de titre
+const minimizeBtn = document.getElementById('minimizeBtn');
+const maximizeBtn = document.getElementById('maximizeBtn');
+const closeBtn = document.getElementById('closeBtn');
+
+if (minimizeBtn) {
+    minimizeBtn.addEventListener('click', () => {
+        window.electron.windowControls.minimize();
+    });
+}
+
+if (maximizeBtn) {
+    maximizeBtn.addEventListener('click', () => {
+        window.electron.windowControls.maximize();
+    });
+}
+
+if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+        window.electron.windowControls.close();
+    });
+}
+
+// Gestion de l'état de maximisation
+window.electron.windowControls.onMaximizeChange((isMaximized) => {
+    if (maximizeBtn) {
+        const svg = maximizeBtn.querySelector('svg');
+        if (isMaximized) {
+            svg.innerHTML = `
+                <rect x="9" y="9" width="6" height="6" stroke="currentColor" fill="none" stroke-width="2"/>
+                <rect x="5" y="5" width="6" height="6" stroke="currentColor" fill="none" stroke-width="2"/>
+            `;
+        } else {
+            svg.innerHTML = `
+                <rect x="4" y="4" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"/>
+            `;
+        }
+    }
+});
 
 // Fonction pour afficher les alertes
 function showAlert(message, type = 'info') {
+  // Supprimer toute alerte existante
+  alertEl.classList.remove('visible');
+  
+  // Définir le type et le message
   alertEl.textContent = message;
   alertEl.className = `alert alert-${type}`;
+  
+  // Forcer un reflow pour réinitialiser l'animation
+  void alertEl.offsetWidth;
+  
+  // Afficher l'alerte
   alertEl.classList.add('visible');
   
-  // Masquer l'alerte après 3 secondes
+  // Masquer l'alerte après 2 secondes
   setTimeout(() => {
     alertEl.classList.remove('visible');
-  }, 3000);
+  }, 2000);
 }
 
 // Fonction pour extraire les paramètres de l'URL
@@ -155,6 +202,34 @@ async function fetchApi(endpoint, method = 'GET', data = null, timeout = 10000) 
   }
 }
 
+// Fonction pour remplir la liste des chapitres
+function populateChapterSelect(manga, currentChapter) {
+    const chapterSelect = document.getElementById('chapterSelect');
+    if (!chapterSelect) return;
+
+    // Vider la liste
+    chapterSelect.innerHTML = '';
+
+    // Ajouter les options
+    for (let i = 1; i <= manga.chapterCount; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = `Chapitre ${i}`;
+        if (i === parseInt(currentChapter)) {
+            option.selected = true;
+        }
+        chapterSelect.appendChild(option);
+    }
+
+    // Ajouter l'événement de changement
+    chapterSelect.addEventListener('change', (e) => {
+        const chapter = e.target.value;
+        if (chapter !== currentChapter) {
+            loadChapter(manga.slug, chapter);
+        }
+    });
+}
+
 // Fonction pour charger les données du chapitre
 async function loadChapter(slug, chapter) {
     try {
@@ -188,6 +263,9 @@ async function loadChapter(slug, chapter) {
         chapterData = response.data;
         console.log('Données du manga reçues:', chapterData);
 
+        // Remplir la liste des chapitres
+        populateChapterSelect(chapterData.manga, chapter);
+
         if (!chapterData.manga.chapterUrlPattern) {
             throw new Error('URL pattern non trouvé pour ce manga');
         }
@@ -210,28 +288,56 @@ async function loadChapter(slug, chapter) {
             const doc = parser.parseFromString(html, 'text/html');
             
             // Récupérer toutes les images avec la classe chapter-img
-            const images = Array.from(doc.querySelectorAll('.chapter-img'));
+            let images = [];
             
-            if (images.length === 0) {
-                // Si aucune image n'est trouvée, essayer une autre approche
-                const allImages = Array.from(doc.querySelectorAll('img[src*="phenix-scans.com/uploads"]'));
-                if (allImages.length > 0) {
-                    images.push(...allImages);
-                } else {
-                    throw new Error('Aucune image trouvée dans ce chapitre');
+            // Essayer différents sélecteurs pour trouver les images
+            const selectors = [
+                '.chapter-img',
+                'img[src*="phenix-scans.com/uploads"]',
+                'img[src*="/uploads/"]',
+                'img[src*="chapters"]',
+                'img[src*="manga"]'
+            ];
+            
+            for (const selector of selectors) {
+                const foundImages = Array.from(doc.querySelectorAll(selector));
+                if (foundImages.length > 0) {
+                    images = foundImages;
+                    console.log(`Images trouvées avec le sélecteur: ${selector}`);
+                    break;
                 }
             }
+            
+            if (images.length === 0) {
+                throw new Error('Aucune image trouvée dans ce chapitre');
+            }
 
-            console.log('Images trouvées:', images.map(img => img.src));
+            // Valider et nettoyer les URLs des images
+            mangaImages = images
+                .map((img, index) => {
+                    let url = img.src;
+                    
+                    // Vérifier si l'URL est valide
+                    try {
+                        url = new URL(url).href;
+                    } catch (e) {
+                        console.warn(`URL invalide pour l'image ${index + 1}:`, url);
+                        return null;
+                    }
+                    
+                    return {
+                        url,
+                        index
+                    };
+                })
+                .filter(img => img !== null); // Filtrer les URLs invalides
 
-            // Créer le tableau des images
-            mangaImages = images.map((img, index) => ({
-                url: img.src,
-                index: index
-            }));
+            if (mangaImages.length === 0) {
+                throw new Error('Aucune image valide trouvée dans ce chapitre');
+            }
             
             totalPages = mangaImages.length;
-            console.log(`${totalPages} images trouvées pour le chapitre ${chapter} de ${slug}`);
+            console.log(`${totalPages} images valides trouvées pour le chapitre ${chapter} de ${slug}`);
             
             // Mettre à jour les informations d'en-tête
             mangaTitle.textContent = chapterData.manga.title || 'Manga';
@@ -275,78 +381,90 @@ async function loadChapter(slug, chapter) {
 
 // Fonction pour charger une page spécifique
 async function loadPage(pageIndex) {
-  if (pageIndex < 0 || pageIndex >= totalPages) {
-    console.warn(`Index de page invalide: ${pageIndex}`);
-    return;
-  }
-  
-  // Mettre à jour la page courante
-  currentPage = pageIndex;
-  
-  // Si nous sommes en mode vertical, charger toutes les pages
-  if (userSettings.readingDirection === 'vertical') {
-    loadAllPages();
-    return;
-  }
-  
-  // Nettoyer le conteneur d'images
-  mangaImageContainer.innerHTML = '';
-  
-  // Créer et ajouter l'élément d'image
-  const imageData = mangaImages[pageIndex];
-  const img = document.createElement('img');
-  img.className = 'manga-image';
-  img.src = imageData.url;
-  img.alt = `Page ${pageIndex + 1}`;
-  img.loading = 'eager';
-  
-  // Gérer le chargement
-  img.onload = () => {
-    console.log(`Image ${pageIndex + 1} chargée avec succès`);
-  };
-  
-  img.onerror = () => {
-    console.error(`Erreur lors du chargement de l'image ${pageIndex + 1}`);
-    // Si c'est la première image qui échoue, on considère que le chapitre n'existe pas
-    if (pageIndex === 0) {
-      errorMessage.style.display = 'block';
-      errorMessage.textContent = 'Aucune page trouvée pour ce chapitre';
-      mangaImageContainer.innerHTML = '';
-      return;
+    if (pageIndex < 0 || pageIndex >= totalPages) {
+        console.warn(`Index de page invalide: ${pageIndex}`);
+        return;
     }
-    // Si une image suivante échoue, on met à jour le nombre total de pages
-    totalPages = pageIndex;
-    updateNavigationControls();
-  };
-  
-  // Ajouter un numéro de page
-  const pageNumber = document.createElement('div');
-  pageNumber.className = 'page-number';
-  pageNumber.textContent = pageIndex + 1;
-  
-  // Créer un conteneur pour l'image et son numéro
-  const imageContainer = document.createElement('div');
-  imageContainer.className = 'single-page-container';
-  imageContainer.appendChild(img);
-  imageContainer.appendChild(pageNumber);
-  
-  // Ajouter au conteneur principal
-  mangaImageContainer.appendChild(imageContainer);
-  
-  // Défiler vers le haut
-  readerContainer.scrollTop = 0;
-  
-  // Mettre à jour l'information de page
-  pageInfo.textContent = `${pageIndex + 1} / ${totalPages}`;
-  
-  // Mettre à jour les contrôles de navigation
-  updateNavigationControls();
-  
-  // Précharger les pages adjacentes
-  preloadAdjacentPages(pageIndex);
-  
-  // Sauvegarder la progression de lecture
-  await saveReadingProgress(currentSlug, currentChapter, pageIndex + 1, totalPages);
+    
+    // Mettre à jour la page courante
+    currentPage = pageIndex;
+    
+    // Si nous sommes en mode vertical, charger toutes les pages
+    if (userSettings.readingDirection === 'vertical') {
+        loadAllPages();
+        return;
+    }
+    
+    // Nettoyer le conteneur d'images
+    mangaImageContainer.innerHTML = '';
+    
+    try {
+        // Créer et ajouter l'élément d'image
+        const imageData = mangaImages[pageIndex];
+        const img = document.createElement('img');
+        img.className = 'manga-image';
+        img.src = imageData.url;
+        img.alt = `Page ${pageIndex + 1}`;
+        img.loading = 'eager';
+        
+        // Ajouter un spinner de chargement
+        const spinner = document.createElement('div');
+        spinner.className = 'image-loading-spinner';
+        mangaImageContainer.appendChild(spinner);
+        
+        // Gérer le chargement
+        const loadPromise = new Promise((resolve, reject) => {
+            img.onload = () => {
+                console.log(`Image ${pageIndex + 1} chargée avec succès`);
+                spinner.remove();
+                resolve();
+            };
+            
+            img.onerror = () => {
+                console.error(`Erreur lors du chargement de l'image ${pageIndex + 1}`);
+                spinner.remove();
+                reject(new Error("Timeout du chargement de l'image"));
+            };
+            
+            // Timeout après 30 secondes
+            setTimeout(() => reject(new Error("Timeout du chargement de l'image")), 30000);
+        });
+        
+        // Ajouter un numéro de page
+        const pageNumber = document.createElement('div');
+        pageNumber.className = 'page-number';
+        pageNumber.textContent = pageIndex + 1;
+        
+        // Créer un conteneur pour l'image et son numéro
+        const imageContainer = document.createElement('div');
+        imageContainer.className = 'single-page-container';
+        imageContainer.appendChild(img);
+        imageContainer.appendChild(pageNumber);
+        
+        // Ajouter au conteneur principal
+        mangaImageContainer.appendChild(imageContainer);
+        
+        // Attendre le chargement de l'image
+        await loadPromise;
+        
+        // Mettre à jour les contrôles de navigation
+        updateNavigationControls();
+        
+    } catch (error) {
+        console.error('Erreur lors du chargement de la page:', error);
+        errorMessage.style.display = 'block';
+        errorMessage.textContent = error.message;
+        
+        // Si c'est la première page qui échoue
+        if (pageIndex === 0) {
+            mangaImageContainer.innerHTML = '';
+            showAlert('Impossible de charger la première page', 'error');
+        } else {
+            // Essayer de charger la page précédente
+            showAlert('Erreur de chargement, retour à la page précédente', 'warning');
+            setTimeout(() => loadPage(pageIndex - 1), 1000);
+        }
+    }
 }
 
 // Fonction pour précharger les pages adjacentes
@@ -451,19 +569,6 @@ async function addToLibrary() {
   }
 }
 
-// Fonction pour ouvrir le panneau des paramètres
-function openSettings() {
-  settingsModal.classList.add('active');
-  
-  // Mettre à jour l'UI avec les paramètres actuels
-  updateSettingsUI();
-}
-
-// Fonction pour fermer le panneau des paramètres
-function closeSettings() {
-  settingsModal.classList.remove('active');
-}
-
 // Fonction pour mettre à jour l'UI des paramètres
 function updateSettingsUI() {
   // Mettre à jour le switch de direction de lecture
@@ -477,68 +582,6 @@ function updateSettingsUI() {
   // Mettre à jour les radios de taille de page
   pageSizeRadios.forEach(radio => {
     radio.checked = radio.value === userSettings.pageSize;
-  });
-}
-
-// Fonction pour sauvegarder les paramètres
-function saveSettings() {
-  // Récupérer la direction de lecture
-  userSettings.readingDirection = readingDirectionSwitch.checked ? 'vertical' : 'rtl';
-  
-  // Récupérer la transition de page
-  pageTransitionRadios.forEach(radio => {
-    if (radio.checked) {
-      userSettings.pageTransition = radio.value;
-    }
-  });
-  
-  // Récupérer la taille de page
-  pageSizeRadios.forEach(radio => {
-    if (radio.checked) {
-      userSettings.pageSize = radio.value;
-    }
-  });
-  
-  // Sauvegarder les paramètres dans le localStorage
-  localStorage.setItem('readerSettings', JSON.stringify(userSettings));
-  
-  // Appliquer les changements
-  applySettings();
-  
-  // Fermer la modale
-  closeSettings();
-  
-  // Afficher un message de confirmation
-  showAlert('Paramètres enregistrés', 'success');
-}
-
-// Fonction pour appliquer les paramètres
-function applySettings() {
-  // Appliquer la direction de lecture
-  if (userSettings.readingDirection === 'vertical') {
-    // Mode vertical (manhwa)
-    readerContainer.classList.remove('horizontal-mode');
-    readerContainer.classList.add('vertical-mode');
-    
-    // Afficher toutes les images en même temps si on est en mode vertical
-    loadAllPages();
-  } else {
-    // Mode horizontal (manga)
-    readerContainer.classList.remove('vertical-mode');
-    readerContainer.classList.add('horizontal-mode');
-    
-    // En mode horizontal, on n'affiche qu'une seule page à la fois
-    loadPage(currentPage);
-  }
-  
-  // Appliquer la taille de page
-  mangaImageContainer.className = `manga-image-container ${userSettings.pageSize}`;
-  
-  // Appliquer les transitions de page
-  document.querySelectorAll('.manga-image').forEach(img => {
-    img.style.transition = userSettings.pageTransition === 'none' 
-      ? 'none' 
-      : `all 0.3s ${userSettings.pageTransition}`;
   });
 }
 
@@ -624,12 +667,22 @@ async function syncProgressWithServer() {
     try {
         isProgressSaving = true;
         
-        const response = await fetchApi('/users/reading-progress', 'POST', lastProgress);
+        // Formater les données comme attendu par le serveur
+        const progressToSend = {
+            mangaSlug: lastProgress.manga.slug,
+            chapter: lastProgress.currentChapter,
+            currentPage: lastProgress.currentPage,
+            totalPages: lastProgress.totalPages,
+            progress: lastProgress.readingProgress
+        };
+        
+        console.log('Envoi de la progression au serveur:', progressToSend);
+        const response = await fetchApi('/users/reading-progress', 'POST', progressToSend);
         
         if (response.success) {
             console.log('Progression synchronisée avec le serveur');
             lastSavedPage = lastProgress.currentPage;
-            lastSavedChapter = lastProgress.chapter;
+            lastSavedChapter = lastProgress.currentChapter;
         }
     } catch (error) {
         console.error('Erreur lors de la synchronisation avec le serveur:', error);
@@ -640,58 +693,75 @@ async function syncProgressWithServer() {
 
 // Fonction pour sauvegarder la progression de lecture
 async function saveReadingProgress(slug, chapter, currentPage, totalPages) {
-    // Vérifier si l'utilisateur est connecté
-    const token = localStorage.getItem('userToken');
-    if (!token) {
-        console.log('Utilisateur non connecté, progression sauvegardée uniquement en local');
-        saveProgressLocally(slug, chapter, currentPage, totalPages, progress);
-        return;
-    }
-    
-    // S'assurer que les valeurs sont valides
-    const validatedCurrentPage = Math.max(1, Math.min(Number(currentPage), Number(totalPages)));
-    const validatedTotalPages = Math.max(1, Number(totalPages));
-    
-    // Calculer le pourcentage de progression
-    let progress = 0;
-    if (userSettings.readingDirection === 'vertical') {
-        // En mode vertical, utiliser la position de défilement
-        const scrollHeight = readerContainer.scrollHeight - readerContainer.clientHeight;
-        const scrollPosition = readerContainer.scrollTop;
-        progress = Math.min(Math.max(0, Math.round((scrollPosition / scrollHeight) * 100)), 100);
-    } else {
-        // En mode horizontal, utiliser le numéro de page
-        progress = Math.min(Math.max(0, Math.round((validatedCurrentPage / validatedTotalPages) * 100)), 100);
-    }
+    // Calculer la progression
+    const progress = userSettings.readingDirection === 'vertical'
+        ? Math.min(Math.round((readerContainer.scrollTop / (readerContainer.scrollHeight - readerContainer.clientHeight)) * 100), 100)
+        : Math.min(Math.round((currentPage / totalPages) * 100), 100);
 
+    // Créer l'objet de progression
+    const progressData = {
+        manga: {
+            slug: chapterData.manga.slug,
+            title: chapterData.manga.title,
+            cover: chapterData.manga.cover
+        },
+        currentChapter: chapter,
+        currentPage,
+        totalPages,
+        readingProgress: progress,
+        lastReadAt: new Date().toISOString()
+    };
+
+    // Sauvegarder localement
+    lastProgress = progressData;
+    localStorage.setItem('currentReadingProgress', JSON.stringify(progressData));
+
+    // Mettre à jour l'historique local
     try {
-        isProgressSaving = true;
-        // Envoyer la progression au serveur
-        const response = await fetchApi('/users/reading-progress', 'POST', {
-            mangaSlug: slug,
-            chapter: Number(chapter),
-            currentPage: validatedCurrentPage,
-            totalPages: validatedTotalPages,
-            progress: progress,
-            lastRead: new Date().toISOString()
-        });
+        let historyData = [];
+        const localHistory = localStorage.getItem('readingHistoryCache');
+        
+        if (localHistory) {
+            historyData = JSON.parse(localHistory);
+        }
 
-        if (response) {
-            console.log('Progression sauvegardée avec succès dans la BDD:', response);
-            // Mettre à jour lastProgress avec la réponse du serveur
-            lastProgress = response;
-            // Sauvegarder localement la dernière progression validée
-            saveProgressLocally(slug, chapter, validatedCurrentPage, validatedTotalPages, progress);
-            lastSavedPage = validatedCurrentPage;
-            lastSavedChapter = Number(chapter);
+        const existingIndex = historyData.findIndex(item => 
+            item.manga?.slug === slug
+        );
+
+        if (existingIndex !== -1) {
+            historyData[existingIndex] = {
+                ...historyData[existingIndex],
+                ...progressData
+            };
+        } else {
+            historyData.unshift(progressData);
+        }
+
+        // Limiter à 20 entrées
+        historyData = historyData.slice(0, 20);
+        
+        localStorage.setItem('readingHistoryCache', JSON.stringify(historyData));
+
+        // Si l'utilisateur est connecté, planifier une synchronisation
+        if (localStorage.getItem('userToken')) {
+            scheduleSync();
         }
     } catch (error) {
-        console.error('Erreur lors de la sauvegarde de la progression sur le serveur:', error);
-        // En cas d'erreur, sauvegarder uniquement en local
-        saveProgressLocally(slug, chapter, validatedCurrentPage, validatedTotalPages, progress);
-    } finally {
-        isProgressSaving = false;
+        console.error('Erreur lors de la mise à jour de l\'historique:', error);
     }
+}
+
+// Variable pour le timeout de synchronisation
+let syncTimeout = null;
+
+// Fonction pour planifier une synchronisation
+function scheduleSync() {
+    if (syncTimeout) {
+        clearTimeout(syncTimeout);
+    }
+    // Attendre 5 secondes d'inactivité avant de synchroniser
+    syncTimeout = setTimeout(syncProgressWithServer, 5000);
 }
 
 // Fonction pour démarrer le suivi de la progression
@@ -820,7 +890,7 @@ function handleKeyDown(e) {
   
   // Si la modal des paramètres est ouverte, permettre de la fermer avec Échap
   if (settingsModal.classList.contains('active') && e.key === 'Escape') {
-    closeSettings();
+    settingsModal.classList.remove('active');
     return;
   }
   
@@ -904,9 +974,61 @@ const handleScroll = debounce(() => {
     }
 }, 1000); // Attendre 1 seconde d'inactivité avant de sauvegarder
 
+// Fonction pour appliquer les paramètres
+function applySettings() {
+    // S'assurer que tous les éléments DOM sont disponibles
+    if (!readerContainer || !mangaImageContainer) {
+        console.error('Éléments DOM manquants:', {
+            readerContainer: !!readerContainer,
+            mangaImageContainer: !!mangaImageContainer
+        });
+        return;
+    }
+
+    // Appliquer la direction de lecture
+    if (userSettings.readingDirection === 'vertical') {
+        readerContainer.classList.add('vertical-mode');
+        readerContainer.classList.remove('horizontal-mode', 'rtl-mode');
+        // Recharger toutes les pages en mode vertical
+        if (mangaImages.length > 0) {
+            loadAllPages();
+        }
+    } else {
+        readerContainer.classList.remove('vertical-mode');
+        readerContainer.classList.add('horizontal-mode');
+        if (userSettings.readingDirection === 'rtl') {
+            readerContainer.classList.add('rtl-mode');
+        } else {
+            readerContainer.classList.remove('rtl-mode');
+        }
+        // Recharger la page courante en mode horizontal
+        if (mangaImages.length > 0) {
+            loadPage(currentPage);
+        }
+    }
+
+    // Appliquer la transition de page
+    readerContainer.dataset.transition = userSettings.pageTransition;
+
+    // Appliquer la taille de page
+    mangaImageContainer.dataset.pageSize = userSettings.pageSize;
+    
+    // Sauvegarder les paramètres
+    localStorage.setItem('readerSettings', JSON.stringify(userSettings));
+}
+
 // Fonction d'initialisation
 function init() {
   console.log('Initialisation du lecteur...');
+  
+  // S'assurer que tous les éléments DOM sont disponibles
+  if (!readerContainer || !mangaImageContainer) {
+    console.error('Éléments DOM manquants:', {
+      readerContainer: !!readerContainer,
+      mangaImageContainer: !!mangaImageContainer
+    });
+    return;
+  }
   
   // Charger les paramètres depuis le localStorage
   const savedSettings = localStorage.getItem('readerSettings');
@@ -921,7 +1043,11 @@ function init() {
   }
   
   // Appliquer les paramètres initiaux
-  applySettings();
+  try {
+    applySettings();
+  } catch (error) {
+    console.error('Erreur lors de l\'application des paramètres:', error);
+  }
   
   // Récupérer les paramètres d'URL
   const params = getUrlParameters();
@@ -939,24 +1065,43 @@ function init() {
     loadingSpinner.style.display = 'none';
   }
   
-  // Ajouter les écouteurs d'événements
+  // Ajouter les écouteurs d'événements pour la navigation
   prevPageBtn.addEventListener('click', goToPreviousPage);
   nextPageBtn.addEventListener('click', goToNextPage);
   prevChapterBtn.addEventListener('click', goToPreviousChapter);
   nextChapterBtn.addEventListener('click', goToNextChapter);
-  addToLibraryBtn.addEventListener('click', addToLibrary);
   
-  // Écouteurs pour les paramètres
-  settingsBtn.addEventListener('click', openSettings);
-  closeSettingsBtn.addEventListener('click', closeSettings);
-  saveSettingsBtn.addEventListener('click', saveSettings);
-  
-  // Fermer la modale des paramètres si on clique en dehors
-  settingsModal.addEventListener('click', (e) => {
-    if (e.target === settingsModal) {
-      closeSettings();
-    }
-  });
+  // Ajouter l'écouteur pour le bouton de sauvegarde manuelle
+  const saveBtn = document.getElementById('saveProgressBtn');
+  if (saveBtn) {
+    console.log('Bouton de sauvegarde trouvé, ajout du gestionnaire d\'événements');
+    saveBtn.addEventListener('click', async () => {
+      console.log('Clic sur le bouton de sauvegarde');
+      try {
+        if (!currentSlug || !chapterData) {
+          throw new Error('Données du manga non disponibles');
+        }
+
+        // Utiliser le système de sauvegarde existant
+        await saveReadingProgress(
+          chapterData.manga.slug,
+          currentChapter,
+          currentPage,
+          totalPages
+        );
+
+        // Forcer une synchronisation immédiate au lieu d'utiliser scheduleSync
+        await syncProgressWithServer();
+        
+        showAlert('Progression sauvegardée', 'success');
+      } catch (error) {
+        console.error('Erreur lors de la sauvegarde manuelle:', error);
+        showAlert('Erreur lors de la sauvegarde', 'error');
+      }
+    });
+  } else {
+    console.error('Bouton de sauvegarde non trouvé dans le DOM');
+  }
   
   // Ajouter l'écouteur pour les raccourcis clavier
   document.addEventListener('keydown', handleKeyDown);
@@ -966,16 +1111,6 @@ function init() {
   
   // Ajouter un écouteur pour les événements de défilement en mode vertical
   readerContainer.addEventListener('scroll', handleScroll);
-
-  // Gestionnaires d'événements pour la modal du profil
-  profileBtn.addEventListener('click', () => {
-    loadReadingHistory();
-    profileModal.classList.add('active');
-  });
-
-  closeProfileBtn.addEventListener('click', () => {
-    profileModal.classList.remove('active');
-  });
 
   // Démarrer le suivi de la progression
   startProgressTracking();
@@ -993,25 +1128,56 @@ function init() {
 // Initialiser l'application lorsque le DOM est chargé
 document.addEventListener('DOMContentLoaded', init);
 
-// Fonction pour charger l'historique de lecture
-async function loadReadingHistory() {
-    try {
-        const response = await fetchApi('/users/mangas/reading-progress');
-        if (response && Array.isArray(response)) {
-            // Trier par date de dernière lecture
-            const sortedHistory = response.sort((a, b) => {
-                return new Date(b.lastRead) - new Date(a.lastRead);
+// Gestionnaires pour la modal des paramètres
+if (settingsBtn && settingsModal && closeSettingsBtn) {
+    settingsBtn.addEventListener('click', () => {
+        console.log('Ouverture des paramètres');
+        updateSettingsUI(); // Mettre à jour l'UI avec les paramètres actuels
+        settingsModal.classList.add('active');
+    });
+
+    closeSettingsBtn.addEventListener('click', () => {
+        settingsModal.classList.remove('active');
+    });
+
+    // Fermer la modale des paramètres si on clique en dehors
+    settingsModal.addEventListener('click', (e) => {
+        if (e.target === settingsModal) {
+            settingsModal.classList.remove('active');
+        }
+    });
+
+    // Gestionnaire pour sauvegarder les paramètres
+    if (saveSettingsBtn) {
+        saveSettingsBtn.addEventListener('click', () => {
+            // Récupérer la direction de lecture
+            userSettings.readingDirection = readingDirectionSwitch.checked ? 'vertical' : 'rtl';
+            
+            // Récupérer la transition de page
+            pageTransitionRadios.forEach(radio => {
+                if (radio.checked) {
+                    userSettings.pageTransition = radio.value;
+                }
             });
             
-            // Mettre à jour l'interface
-            readingHistory.innerHTML = sortedHistory.map(item => `
-                <div class="history-item" data-slug="${item.mangaSlug}">
-                    <span>Chapitre ${item.chapter}</span>
-                    <span>${Math.round(item.progress)}%</span>
-                </div>
-            `).join('');
-        }
-    } catch (error) {
-        console.warn('Erreur lors du chargement de l\'historique:', error);
+            // Récupérer la taille de page
+            pageSizeRadios.forEach(radio => {
+                if (radio.checked) {
+                    userSettings.pageSize = radio.value;
+                }
+            });
+            
+            // Sauvegarder les paramètres dans le localStorage
+            localStorage.setItem('readerSettings', JSON.stringify(userSettings));
+            
+            // Appliquer les changements
+            applySettings();
+            
+            // Fermer la modale
+            settingsModal.classList.remove('active');
+            
+            // Afficher un message de confirmation
+            showAlert('Paramètres enregistrés', 'success');
+        });
     }
 } 

@@ -1,6 +1,6 @@
 // Obtenir les APIs exposées par preload.js
 let ipcRenderer = null;
-let apiUrl = 'http://bubblereader.zapto.org:5000/api';
+let apiUrl = null;
 
 // Vérifier si window.electron existe et récupérer les valeurs
 if (window.electron) {
@@ -12,12 +12,16 @@ if (window.electron) {
   }
   
   // Récupérer l'URL de l'API depuis les variables d'environnement
-  if (window.electron.env && window.electron.env.apiUrl) {
-    apiUrl = window.electron.env.apiUrl;
+  if (window.electron.getApiUrl) {
+    apiUrl = window.electron.getApiUrl();
     console.log('API URL récupérée:', apiUrl);
+  } else if (window.electron.env && window.electron.env.apiUrl) {
+    apiUrl = window.electron.env.apiUrl;
+    console.log('API URL récupérée depuis env:', apiUrl);
   }
 } else {
   console.warn('window.electron n\'est pas disponible, les fonctionnalités de navigation natives ne seront pas accessibles');
+  // Ne pas mettre d'URL par défaut ici, ce qui forcera une erreur si window.electron n'est pas disponible
 }
 
 // Configuration pour les requêtes API

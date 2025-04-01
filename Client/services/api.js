@@ -6,7 +6,7 @@ async function getApiUrl() {
         return await ipcRenderer.invoke('get-api-url');
     } catch (error) {
         console.error('Erreur lors de la récupération de l\'URL de l\'API:', error);
-        return 'http://bubblereader.zapto.org:5000/api'; // URL par défaut avec /api
+        throw new Error('Impossible de récupérer l\'URL de l\'API');
     }
 }
 

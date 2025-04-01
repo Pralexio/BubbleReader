@@ -1,7 +1,34 @@
 import axios from 'axios';
+import dotenv from 'dotenv';
+import path from 'path';
+import fs from 'fs';
 
-// URL de base de l'API
-const API_URL = 'http://bubblereader.zapto.org:5000/api';
+// Charger les variables d'environnement
+let API_URL;
+try {
+  // Essayer de charger depuis .env
+  const envPath = path.resolve(process.cwd(), '.env');
+  if (fs.existsSync(envPath)) {
+    const result = dotenv.config({ path: envPath });
+    if (!result.error) {
+      API_URL = process.env.API_URL;
+      console.log('API URL chargée depuis .env:', API_URL);
+    }
+  }
+} catch (error) {
+  console.error('Erreur lors du chargement des variables d\'environnement:', error);
+}
+
+// Fallback si l'URL n'a pas pu être chargée
+if (!API_URL) {
+  console.warn('Impossible de charger l\'URL de l\'API depuis .env, utilisation de l\'API d\'environnement');
+  API_URL = process.env.REACT_APP_API_URL || process.env.API_URL;
+  
+  if (!API_URL) {
+    console.error('Aucune URL d\'API trouvée dans les variables d\'environnement');
+    throw new Error('URL de l\'API non configurée');
+  }
+}
 
 // Créer une instance axios avec la configuration de base
 const api = axios.create({

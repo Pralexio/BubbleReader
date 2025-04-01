@@ -54,7 +54,7 @@ function createWindow() {
       contextIsolation: true,
       sandbox: false,
       preload: path.join(__dirname, 'preload.js'),
-      devTools: false,
+      devTools: true,
       webSecurity: true, 
       allowRunningInsecureContent: false
     },
@@ -86,26 +86,8 @@ function createWindow() {
   // Gérer l'état initial de maximisation
   mainWindow.on('ready-to-show', () => {
     mainWindow.show();
+    mainWindow.webContents.openDevTools();
     mainWindow.webContents.send('window-maximized-state-changed', mainWindow.isMaximized());
-  });
-
-  // Bloquer les raccourcis de la console de développement
-  mainWindow.webContents.on('before-input-event', (event, input) => {
-    // Bloquer Ctrl+Shift+I et F12
-    if ((input.control && input.shift && input.key.toLowerCase() === 'i') || 
-        (input.key === 'F12')) {
-      event.preventDefault();
-    }
-    
-    // Bloquer Ctrl+Shift+C
-    if (input.control && input.shift && input.key.toLowerCase() === 'c') {
-      event.preventDefault();
-    }
-    
-    // Bloquer Cmd+Option+I (pour macOS)
-    if (input.meta && input.alt && input.key.toLowerCase() === 'i') {
-      event.preventDefault();
-    }
   });
 
   // Désactiver le menu contextuel

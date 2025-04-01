@@ -382,16 +382,18 @@ main {
     width: 100%;
 }
 
-/* Carte de manga */
+/* Carte de manga - Style commun pour toutes les sections */
 .manga-card {
     background: var(--card-background);
     border-radius: 12px;
     overflow: hidden;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     position: relative;
-    aspect-ratio: 2/3;
+    aspect-ratio: 2/3.2;
     width: 100%;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
 }
 
 .manga-card:hover {
@@ -402,9 +404,9 @@ main {
 .manga-cover {
     position: relative;
     width: 100%;
-    height: 100%;
+    height: 85%;
     background-color: var(--card-background);
-    background-size: contain;
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -416,36 +418,38 @@ main {
 }
 
 .manga-info {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 1rem;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
+    position: relative;
+    padding: 0.5rem;
+    background: var(--card-background);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 15%;
 }
 
-.manga-title {
-    font-size: 1rem;
+.manga-info h3 {
+    font-size: 0.85rem;
     font-weight: 600;
-    color: white;
-    margin: 0 0 0.5rem 0;
+    color: var(--text-primary);
+    margin: 0 0 0.3rem 0;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     line-height: 1.2;
+    white-space: normal;
 }
 
-.chapter-info {
-    font-size: 0.9rem;
+.manga-status {
+    font-size: 0.75rem;
     color: var(--text-secondary);
     margin: 0;
 }
 
-.progress-text {
-    font-size: 0.8rem;
+.manga-chapters {
+    font-size: 0.75rem;
     color: var(--text-secondary);
     margin-top: 0.25rem;
 }
@@ -829,75 +833,82 @@ main {
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    backdrop-filter: blur(3px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.confirm-dialog.active {
+    opacity: 1;
+    visibility: visible;
 }
 
 .confirm-dialog-content {
     background-color: var(--card-background);
-    border-radius: var(--border-radius);
-    padding: 1.5rem;
+    border-radius: 12px;
+    padding: 24px;
     max-width: 400px;
     width: 90%;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    animation: dialogSlideIn 0.3s ease;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.confirm-dialog.active .confirm-dialog-content {
+    transform: translateY(0);
 }
 
 .confirm-dialog h3 {
     color: var(--text-primary);
-    margin: 0 0 1rem 0;
+    margin: 0 0 16px 0;
     font-size: 1.2rem;
+    font-weight: 600;
 }
 
 .confirm-dialog p {
     color: var(--text-secondary);
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 24px 0;
+    font-size: 0.95rem;
     line-height: 1.5;
 }
 
 .confirm-dialog-buttons {
     display: flex;
+    gap: 12px;
     justify-content: flex-end;
-    gap: 1rem;
 }
 
-.confirm-dialog button {
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius);
-    border: none;
-    cursor: pointer;
+.confirm-dialog-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
     font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
     transition: all 0.2s ease;
+    border: none;
 }
 
-.confirm-dialog .btn-cancel {
+.confirm-dialog-btn.cancel {
     background-color: transparent;
     color: var(--text-secondary);
-    border: 1px solid var(--text-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.confirm-dialog .btn-cancel:hover {
+.confirm-dialog-btn.cancel:hover {
     background-color: rgba(255, 255, 255, 0.1);
     color: var(--text-primary);
 }
 
-.confirm-dialog .btn-confirm {
+.confirm-dialog-btn.confirm {
     background-color: var(--error-color);
     color: white;
 }
 
-.confirm-dialog .btn-confirm:hover {
-    background-color: #ff3333;
-}
-
-@keyframes dialogSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.confirm-dialog-btn.confirm:hover {
+    background-color: #d32f2f;
+    transform: translateY(-1px);
 }
 
 /* Titlebar */
@@ -1055,4 +1066,333 @@ body {
 * {
     scrollbar-width: thin;
     scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+/* Styles pour la bulle d'information */
+.info-bubble {
+    display: none;
+    position: fixed;
+    width: 300px;
+    background: var(--card-background);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    padding: 15px;
+    color: var(--text-primary);
+    pointer-events: auto;
+    transition: opacity 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.info-bubble::before {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: var(--card-background);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform: rotate(45deg);
+    top: var(--arrow-offset, 20px);
+}
+
+.info-bubble[style*="--arrow-position: left"]::before {
+    left: -6px;
+    border-right: none;
+    border-top: none;
+}
+
+.info-bubble[style*="--arrow-position: right"]::before {
+    right: -6px;
+    border-left: none;
+    border-bottom: none;
+}
+
+.info-icon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.info-icon:hover {
+    background: rgba(0, 0, 0, 0.9);
+    transform: scale(1.1);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.info-icon svg {
+    width: 18px;
+    height: 18px;
+    fill: white;
+    opacity: 0.9;
+}
+
+.info-bubble-content {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.info-bubble-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-bubble-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.info-bubble-synopsis {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 12px 0;
+    color: var(--text-secondary);
+    max-height: 150px;
+    overflow-y: auto;
+    padding-right: 8px;
+    text-align: justify;
+}
+
+.info-bubble-synopsis::-webkit-scrollbar {
+    width: 4px;
+}
+
+.info-bubble-synopsis::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+}
+
+.info-bubble-synopsis::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+}
+
+.info-bubble-details {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-detail {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.info-label {
+    color: var(--text-secondary);
+}
+
+.info-value {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.info-bubble-status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    background: var(--primary-color);
+    color: white;
+    font-weight: 500;
+}
+
+.info-bubble-status.termine {
+    background: var(--success-color);
+}
+
+/* Animation d'apparition */
+@keyframes bubbleAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.info-bubble[style*="display: block"] {
+    animation: bubbleAppear 0.2s ease forwards;
+}
+
+/* Styles pour les alertes */
+.alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 90%;
+    width: auto;
+}
+
+.alert.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.alert-info {
+    background-color: rgba(33, 150, 243, 0.95);
+    color: white;
+}
+
+.alert-success {
+    background-color: rgba(76, 175, 80, 0.95);
+    color: white;
+}
+
+.alert-warning {
+    background-color: rgba(255, 152, 0, 0.95);
+    color: white;
+}
+
+.alert-error {
+    background-color: rgba(244, 67, 54, 0.95);
+    color: white;
+}
+
+/* Animation pour l'apparition de l'alerte */
+@keyframes slideInDown {
+    from {
+        transform: translate(-50%, -100%);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
+
+.alert.visible {
+    animation: slideInDown 0.3s ease forwards;
+}
+
+/* Styles pour la croix de suppression */
+.manga-card {
+    position: relative;
+}
+
+.delete-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 24px;
+    height: 24px;
+    background-color: rgba(244, 67, 54, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.2s ease;
+    z-index: 10;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.manga-card:hover .delete-badge {
+    opacity: 1;
+}
+
+.delete-badge:hover {
+    transform: scale(1.1);
+    background-color: rgb(244, 67, 54);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.delete-badge::before,
+.delete-badge::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 2px;
+    background-color: white;
+    border-radius: 1px;
+}
+
+.delete-badge::before {
+    transform: rotate(45deg);
+}
+
+.delete-badge::after {
+    transform: rotate(-45deg);
+}
+
+/* Styles spécifiques pour les cartes dans la section MANHWA */
+#manhwaSection .manga-card {
+    position: relative;
+    aspect-ratio: 2/3.2;
+}
+
+#manhwaSection .manga-cover {
+    height: 75%;
+    position: relative;
+}
+
+#manhwaSection .manga-info {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.6rem;
+    background: var(--card-background);
+    height: 25%;
+    display: flex;
+    flex-direction: column;
+}
+
+#manhwaSection .manga-info h3 {
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    margin-bottom: 0.3rem;
+    -webkit-line-clamp: 2;
+    white-space: normal;
+}
+
+/* Style spécifique pour la section Reprendre votre lecture */
+#continueReadingList .manga-card {
+    aspect-ratio: 2/3.2;
+}
+
+#continueReadingList .manga-cover {
+    height: 75%;
+}
+
+#continueReadingList .manga-info {
+    height: 25%;
+    padding: 0.6rem;
+    background: var(--card-background);
 } 

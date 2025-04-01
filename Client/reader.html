@@ -9,26 +9,66 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
         
         :root {
-            --primary-color: #FF2E63;
-            --secondary-color: #6C63FF;
-            --dark-bg: #1a1a2e;
-            --darker-bg: #16213e;
-            --light-text: #ffffff;
-            --muted-text: #A0A0A0;
-            --card-bg: #1E1F26;
-            --button-hover: #FF4081;
+            --primary-color: #ff69b4;
+            --primary-color-dark: #5A52D5;
+            --secondary-color: #8a2be2;
+            --background-color: #131419;
+            --background-secondary: rgba(108, 99, 255, 0.05);
+            --card-background: #1E1F26;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A0A0;
+            --error-color: #FF5252;
+            --success-color: #4CAF50;
+            --border-radius: 8px;
+            --text-color: #ffffff;
+            --titlebar-height: 32px;
+            --scrollbar-width: 8px;
+            --scrollbar-track: var(--card-background);
+            --scrollbar-thumb: var(--background-secondary);
+            --scrollbar-thumb-hover: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Styles de la barre de défilement pour Webkit */
+        ::-webkit-scrollbar {
+            width: var(--scrollbar-width);
+            height: var(--scrollbar-width);
+            position: absolute;
+            right: 0;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+            border-radius: calc(var(--scrollbar-width) / 2);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border-radius: calc(var(--scrollbar-width) / 2);
+            border: 2px solid var(--scrollbar-track);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--scrollbar-thumb-hover);
+        }
+
+        /* Styles pour Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
         }
         
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: var(--dark-bg);
-            color: var(--light-text);
-            height: 100vh;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            height: calc(100vh - 1px);
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 32px;
         }
 
         .header {
@@ -36,7 +76,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 0.75rem 1.5rem;
-            background-color: var(--darker-bg);
+            background-color: var(--card-background);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             z-index: 10;
         }
@@ -65,11 +105,11 @@
 
         .manga-title {
             font-weight: 600;
-            color: var(--light-text);
+            color: var(--text-primary);
         }
 
         .chapter-number {
-            color: var(--muted-text);
+            color: var(--text-secondary);
             font-size: 0.9rem;
         }
 
@@ -90,18 +130,18 @@
 
         .btn:hover {
             background-color: var(--secondary-color);
-            color: var(--light-text);
+            color: var(--text-primary);
         }
 
         .btn-primary {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
-            color: var(--light-text);
+            color: var(--text-primary);
         }
 
         .btn-primary:hover {
-            background-color: var(--button-hover);
-            border-color: var(--button-hover);
+            background-color: var(--primary-color-dark);
+            border-color: var(--primary-color-dark);
         }
 
         .btn svg {
@@ -118,6 +158,10 @@
             flex-direction: column;
             align-items: center;
             background-color: #000;
+            scrollbar-gutter: stable;
+            position: relative;
+            margin-top: var(--titlebar-height, 32px);
+            height: calc(100vh - var(--titlebar-height, 32px));
         }
 
         .manga-image-container {
@@ -204,7 +248,7 @@
         }
 
         .error-message {
-            color: var(--primary-color);
+            color: var(--error-color);
             text-align: center;
             margin: 2rem;
             font-weight: 500;
@@ -290,38 +334,52 @@
 
         .alert {
             position: fixed;
-            top: 1rem;
+            top: calc(var(--titlebar-height) + 1rem);
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(-50%) translateY(-100%);
             padding: 0.75rem 1.5rem;
-            border-radius: 4px;
+            border-radius: 8px;
             color: white;
             z-index: 1000;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             display: flex;
             align-items: center;
+            gap: 0.5rem;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: all 0.3s ease;
+            background-color: var(--card-background);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            font-size: 0.9rem;
         }
 
         .alert.visible {
+            transform: translateX(-50%) translateY(0);
             opacity: 1;
         }
 
+        .alert::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: currentColor;
+        }
+
         .alert-info {
-            background-color: rgba(0, 123, 255, 0.9);
+            color: #3b82f6;
         }
 
         .alert-success {
-            background-color: rgba(40, 167, 69, 0.9);
+            color: var(--primary-color);
         }
 
         .alert-warning {
-            background-color: rgba(255, 193, 7, 0.9);
+            color: #f59e0b;
         }
 
-        .alert-danger {
-            background-color: rgba(220, 53, 69, 0.9);
+        .alert-error {
+            color: #ef4444;
         }
 
         .keyboard-shortcuts {
@@ -329,7 +387,7 @@
             top: 50%;
             left: 1rem;
             transform: translateY(-50%);
-            color: var(--muted-text);
+            color: var(--text-secondary);
             font-size: 0.8rem;
             background-color: rgba(30, 31, 38, 0.6);
             padding: 0.5rem;
@@ -418,14 +476,14 @@
 
         .settings-header h2 {
             margin: 0;
-            color: var(--light-text);
+            color: var(--text-primary);
             font-size: 1.5rem;
         }
 
         .close-btn {
             background: none;
             border: none;
-            color: var(--muted-text);
+            color: var(--text-secondary);
             font-size: 1.8rem;
             cursor: pointer;
             line-height: 1;
@@ -445,7 +503,7 @@
         }
 
         .settings-group h3 {
-            color: var(--light-text);
+            color: var(--text-primary);
             margin-top: 0;
             margin-bottom: 1rem;
             font-size: 1.2rem;
@@ -453,7 +511,7 @@
 
         .setting-description {
             font-size: 0.9rem;
-            color: var(--muted-text);
+            color: var(--text-secondary);
             margin-top: 1rem;
         }
 
@@ -607,7 +665,7 @@
         }
 
         .history-item {
-            background-color: var(--card-bg);
+            background-color: var(--card-background);
             border-radius: 8px;
             padding: 1rem;
             display: flex;
@@ -623,16 +681,16 @@
 
         .history-title {
             font-weight: 600;
-            color: var(--light-text);
+            color: var(--text-primary);
         }
 
         .history-chapter {
-            color: var(--muted-text);
+            color: var(--text-secondary);
             font-size: 0.9rem;
         }
 
         .history-date {
-            color: var(--muted-text);
+            color: var(--text-secondary);
             font-size: 0.8rem;
         }
 
@@ -648,44 +706,131 @@
             background-color: var(--primary-color);
             transition: width 0.3s ease;
         }
+
+        /* Titlebar */
+        .titlebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--titlebar-height);
+            background-color: var(--card-background);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            -webkit-app-region: drag;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .titlebar-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .titlebar-logo {
+            width: 16px;
+            height: 16px;
+            object-fit: contain;
+        }
+
+        .titlebar-title {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .titlebar-controls {
+            display: flex;
+            -webkit-app-region: no-drag;
+        }
+
+        .titlebar-button {
+            width: 46px;
+            height: var(--titlebar-height);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .titlebar-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .titlebar-button.minimize:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .titlebar-button.maximize:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .titlebar-button.close:hover {
+            background-color: #E81123;
+        }
+
+        .titlebar-button svg {
+            width: 12px;
+            height: 12px;
+            stroke: var(--text-secondary);
+            stroke-width: 1;
+            fill: none;
+            color: var(--text-secondary);
+        }
+
+        .titlebar-button.maximize svg {
+            stroke: var(--text-secondary);
+            fill: none;
+        }
+
+        .titlebar-button.maximize:hover svg {
+            stroke: var(--text-primary);
+        }
+
+        /* Styles pour la fenêtre maximisée */
+        .maximized .titlebar {
+            padding: 0;
+        }
+
+        .maximized .titlebar-left {
+            padding-left: 12px;
+        }
+
+        /* Ajustements du contenu principal */
+        .container {
+            height: calc(100vh - 32px);
+            margin-top: 32px;
+            overflow-y: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <div class="header-left">
             <a href="main.html" class="logo">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3L2 12h3v8h5z"/>
                 </svg>
                 BubbleReader
             </a>
+            <div class="manga-info">
+                <span class="manga-title" id="mangaTitle"></span>
+                <span class="chapter-number" id="chapterNumber"></span>
+            </div>
         </div>
-        
-        <div class="manga-info">
-            <span class="manga-title" id="mangaTitle">Chargement...</span>
-            <span class="chapter-number" id="chapterNumber"></span>
-        </div>
-        
         <div class="header-right">
-            <button class="btn" id="profileBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-                Profil
-            </button>
             <button class="btn" id="settingsBtn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="3"></circle>
                     <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                 </svg>
                 Paramètres
-            </button>
-            <button class="btn btn-primary" id="addToLibraryBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                </svg>
-                Ajouter à la bibliothèque
             </button>
         </div>
     </div>
@@ -770,6 +915,9 @@
                 <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
         </button>
+        <div class="chapter-select-container">
+            <select id="chapterSelect" class="chapter-select"></select>
+        </div>
         <div class="page-info" id="pageInfo">0 / 0</div>
         <button class="nav-btn" id="nextPageBtn" title="Page suivante">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -780,6 +928,13 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="13 17 18 12 13 7"></polyline>
                 <polyline points="6 17 11 12 6 7"></polyline>
+            </svg>
+        </button>
+        <button class="nav-btn" id="saveProgressBtn" title="Sauvegarder la progression">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                <polyline points="7 3 7 8 15 8"></polyline>
             </svg>
         </button>
     </div>
@@ -795,20 +950,24 @@
         </ul>
     </div>
 
-    <div class="profile-modal" id="profileModal">
-        <div class="profile-container">
-            <div class="profile-header">
-                <h2>Mon Profil</h2>
-                <button id="closeProfileBtn" class="close-btn">×</button>
-            </div>
-            <div class="profile-content">
-                <div class="profile-section">
-                    <h3>Historique de lecture</h3>
-                    <div id="readingHistory" class="reading-history">
-                        <!-- L'historique sera injecté ici dynamiquement -->
-                    </div>
-                </div>
-            </div>
+    <div class="titlebar">
+        <div class="titlebar-left">
+            <img src="assets/logo.png" alt="BubbleReader" class="titlebar-logo">
+            <span class="titlebar-title">BubbleReader</span>
+        </div>
+        <div class="titlebar-controls">
+            <button class="titlebar-button minimize" id="minimizeBtn">
+                <svg viewBox="0 0 12 12"><line x1="2" y1="6" x2="10" y2="6"/></svg>
+            </button>
+            <button class="titlebar-button maximize" id="maximizeBtn">
+                <svg viewBox="0 0 12 12"><rect x="2.5" y="2.5" width="7" height="7" /></svg>
+            </button>
+            <button class="titlebar-button close" id="closeBtn">
+                <svg viewBox="0 0 12 12">
+                    <line x1="3" y1="3" x2="9" y2="9"/>
+                    <line x1="9" y1="3" x2="3" y2="9"/>
+                </svg>
+            </button>
         </div>
     </div>
 
