@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, shell, session } = require('electron');
 const path = require('path');
 const url = require('url');
 const fs = require('fs');
@@ -55,7 +55,7 @@ function createWindow() {
       contextIsolation: true,
       sandbox: false,
       preload: path.join(__dirname, 'preload.js'),
-      devTools: true, // Toujours activer les outils de développement
+      devTools: true, // Réactiver les outils de développement
       webSecurity: true, 
       allowRunningInsecureContent: false
     },
@@ -88,43 +88,70 @@ function createWindow() {
   mainWindow.on('ready-to-show', () => {
     mainWindow.show();
     
-    // Ouvrir les outils de développement uniquement en mode développement
-    if (isDev) {
-      mainWindow.webContents.openDevTools();
-    }
+    // Toujours ouvrir les DevTools pour faciliter le développement
+    mainWindow.webContents.openDevTools();
     
     mainWindow.webContents.send('window-maximized-state-changed', mainWindow.isMaximized());
-  });
-
-  // Désactiver le menu contextuel en production
-  if (!isDev) {
-    mainWindow.webContents.on('context-menu', (e) => {
-      e.preventDefault();
-    });
-  }
-
-  // Bloquer les raccourcis clavier pour ouvrir DevTools en production
-  mainWindow.webContents.on('before-input-event', (event, input) => {
-    // Ne plus bloquer F12 et Ctrl+Shift+I
-    // Commenté pour permettre l'ouverture des DevTools
-    /*if (!isDev && 
-        ((input.key === 'F12') || 
-         (input.control && input.shift && input.key.toLowerCase() === 'i'))) {
-      event.preventDefault();
-    }*/
   });
 
   // Charger le fichier HTML principal
   mainWindow.loadFile('index.html');
 
+  // Empêcher l'ouverture de la console développeur via raccourcis clavier
+  /*
+  mainWindow.webContents.on('before-input-event', (event, input) => {
+    // Bloquer les raccourcis qui ouvrent les DevTools
+    // F12, Ctrl+Shift+I, Cmd+Option+I
+    if ((input.key === 'F12') || 
+        (input.control && input.shift && input.key === 'I') || 
+        (input.meta && input.alt && input.key === 'i')) {
+      event.preventDefault();
+    }
+    
+    // Bloquer Ctrl+R et Cmd+R (rechargement)
+    if ((input.control && input.key === 'r') || 
+        (input.meta && input.key === 'r')) {
+      event.preventDefault();
+    }
+  });
+  */
+
   // Gérer la fermeture de la fenêtre
   mainWindow.on('closed', function () {
     mainWindow = null;
   });
+
+  // Désactiver le menu contextuel
+  mainWindow.webContents.on('context-menu', (e) => {
+    // Autoriser le menu contextuel pendant le développement
+    // e.preventDefault();
+  });
+
+  // Ne plus bloquer l'ouverture des DevTools
+  /*
+  mainWindow.webContents.on('devtools-opened', () => {
+    mainWindow.webContents.closeDevTools();
+  });
+
+  // Ne plus bloquer l'inspection d'éléments
+  mainWindow.webContents.on('inspect-element', (event) => {
+    event.preventDefault();
+  });
+  */
 }
 
 // Lorsque l'application est prête, créer la fenêtre
 app.whenReady().then(() => {
+  // Désactiver l'extension React DevTools et tout autre outil de développement tiers
+  session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
+    // Bloquer les requêtes vers React DevTools et autres extensions de développement
+    if (details.url.indexOf('chrome-extension://') !== -1) {
+      callback({ cancel: true });
+      return;
+    }
+    callback({ cancel: false });
+  });
+  
   createWindow();
   
   // Vérifier si nous avons des données utilisateur sauvegardées dans le localStorage
@@ -174,14 +201,6 @@ ipcMain.on('navigate', (event, page) => {
 
 // Gérer la détection d'ouverture des DevTools en production
 ipcMain.on('devtools-opened', () => {
-  /*if (!isDev) {
-    console.log('Tentative d\'ouverture des DevTools en production détectée');
-    // Option 1: Rediriger vers la page d'accueil
-    mainWindow.loadFile(path.join(__dirname, 'index.html'));
-    
-    // Option 2 (plus stricte): Fermer l'application
-    // app.quit();
-  }*/
   console.log('DevTools ouvert - accès autorisé');
 });
 
@@ -200,37 +219,66 @@ ipcMain.on('logout', (event) => {
 
 // Ajouter les gestionnaires pour les contrôles de fenêtre
 ipcMain.on('window-minimize', () => {
-  console.log('Minimisation de la fenêtre');
-  mainWindow.minimize();
+  if (mainWindow) {
+    mainWindow.minimize();
+  }
 });
 
 ipcMain.on('window-maximize', () => {
-  try {
-    const isMaximized = mainWindow.isMaximized();
-    console.log('État de maximisation actuel:', isMaximized);
-    
-    if (isMaximized) {
-      console.log('Restauration de la fenêtre');
-      mainWindow.restore();
+  if (mainWindow) {
+    if (mainWindow.isMaximized()) {
+      mainWindow.unmaximize();
     } else {
-      console.log('Maximisation de la fenêtre');
       mainWindow.maximize();
     }
-    
-    // Forcer une courte attente avant d'envoyer l'état
-    setTimeout(() => {
-      const newState = mainWindow.isMaximized();
-      console.log('Nouvel état de maximisation:', newState);
-      mainWindow.webContents.send('window-maximized-state-changed', newState);
-    }, 100);
-  } catch (error) {
-    console.error('Erreur lors de la maximisation:', error);
   }
 });
 
 ipcMain.on('window-close', () => {
-  console.log('Fermeture de la fenêtre');
-  mainWindow.close();
+  if (mainWindow) {
+    mainWindow.close();
+  }
+});
+
+// Gérer les messages IPC pour la navigation vers le lecteur
+ipcMain.on('navigate-to-reader', (event, mangaSlug, chapterNumber) => {
+  console.log(`Demande de navigation vers le lecteur pour: ${mangaSlug}, chapitre ${chapterNumber}`);
+  
+  // Charger la page du lecteur avec les paramètres
+  mainWindow.loadFile(path.join(__dirname, 'reader.html'), {
+    query: {
+      manga: mangaSlug,
+      chapter: chapterNumber
+    }
+  });
+});
+
+// Gérer les messages IPC pour le rechargement de la page
+ipcMain.on('reload-page', () => {
+  if (mainWindow) {
+    mainWindow.reload();
+  }
+});
+
+// Gérer les messages IPC pour la navigation vers l'arrière
+ipcMain.on('go-back', () => {
+  if (mainWindow && mainWindow.webContents.canGoBack()) {
+    mainWindow.webContents.goBack();
+  }
+});
+
+// Gérer les messages IPC pour la navigation vers l'avant
+ipcMain.on('go-forward', () => {
+  if (mainWindow && mainWindow.webContents.canGoForward()) {
+    mainWindow.webContents.goForward();
+  }
+});
+
+// Gérer les messages IPC pour ouvrir les DevTools
+ipcMain.on('open-devtools', () => {
+  if (mainWindow) {
+    mainWindow.webContents.openDevTools();
+  }
 });
 
 // Configuration de la sécurité Content Security Policy (CSP)
@@ -267,4 +315,4 @@ app.on('web-contents-created', (event, contents) => {
 });
 
 // Dans ce fichier, vous pouvez inclure le reste du code spécifique au processus principal de votre 
-// application. Vous pouvez également le mettre dans des fichiers séparés et les inclure ici. 
+// application. Vous pouvez également le mettre dans des fichiers séparés et les inclure ici.

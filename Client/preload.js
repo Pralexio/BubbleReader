@@ -7,29 +7,8 @@ const dotenv = require('dotenv');
 // Vérifier si nous sommes en mode production
 const isProduction = process.env.NODE_ENV === 'production';
 
-// Désactiver la console en production
-/*if (isProduction) {
-  // Remplacer les méthodes de console par des fonctions vides
-  window.console = {
-    log: () => {},
-    error: () => {},
-    warn: () => {},
-    info: () => {},
-    debug: () => {},
-    trace: () => {}
-  };
-  
-  // Désactiver la détection de DevTools
-  window.addEventListener('devtoolschange', event => {
-    if (event.detail.isOpen) {
-      // Fermer l'application ou rediriger vers la page d'accueil
-      ipcRenderer.send('devtools-opened');
-    }
-  });
-}*/
-
 // Variables d'environnement par défaut
-const DEFAULT_SERVER = 'bubblereader.zapto.org';
+const DEFAULT_SERVER = 'localhost';
 const DEFAULT_PORT = '5000';
 const DEFAULT_API = `http://${DEFAULT_SERVER}:${DEFAULT_PORT}/api`;
 
@@ -50,15 +29,26 @@ try {
       // Ne pas écraser les valeurs par défaut si les variables d'environnement sont vides
       serverIp = process.env.SERVER_IP || DEFAULT_SERVER;
       serverPort = process.env.SERVER_PORT || DEFAULT_PORT;
-      apiUrl = process.env.API_URL || DEFAULT_API;
+      
+      // Construction de l'URL de l'API en tenant compte des valeurs réelles
+      if (process.env.API_URL) {
+        apiUrl = process.env.API_URL;
+      } else {
+        apiUrl = `http://${serverIp}:${serverPort}/api`;
+      }
+      
       console.log('Configuration API dans preload.js:', apiUrl);
     }
   } else {
     console.log('Fichier .env non trouvé, utilisation des valeurs par défaut');
+    // S'assurer que l'URL est correctement construite même sans fichier .env
+    apiUrl = `http://${serverIp}:${serverPort}/api`;
   }
 } catch (error) {
   console.error('Erreur lors du traitement des variables d\'environnement:', error);
   console.log('Utilisation des valeurs par défaut suite à une erreur');
+  // S'assurer que l'URL est correctement construite même en cas d'erreur
+  apiUrl = `http://${serverIp}:${serverPort}/api`;
 }
 
 // Exposer les APIs protégées Electron vers le "monde principal"

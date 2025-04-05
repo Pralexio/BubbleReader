@@ -43,9 +43,18 @@ const uniqueIdDisplay = document.getElementById('uniqueIdDisplay');
 const copyUniqueIdButton = document.getElementById('copyUniqueIdButton');
 const copyConfirmation = document.getElementById('copyConfirmation');
 
+// Fonction pour échapper les caractères spéciaux HTML
+function sanitizeHTML(text) {
+  const element = document.createElement('div');
+  element.textContent = text;
+  return element.textContent;
+}
+
 // Fonction pour afficher les alertes
 function showAlert(message, type) {
-  alertContainer.textContent = message;
+  // Sanitizer le message avant de l'afficher
+  const sanitizedMessage = sanitizeHTML(message);
+  alertContainer.textContent = sanitizedMessage;
   alertContainer.className = `alert alert-${type}`;
   alertContainer.classList.remove('hidden');
   
@@ -98,6 +107,12 @@ async function fetchApi(endpoint, method = 'GET', data = null, timeout = 10000) 
       headers,
       signal: controller.signal
     };
+    
+    // Si on a un token, l'ajouter aux headers
+    const token = sessionStorage.getItem('userToken') || localStorage.getItem('userToken'); // Compatibilité avec ancien code
+    if (token) {
+      options.headers['Authorization'] = `Bearer ${token}`;
+    }
     
     if (data && (method === 'POST' || method === 'PUT')) {
       options.body = JSON.stringify(data);
@@ -171,6 +186,17 @@ function validateForm() {
     return false;
   }
   
+  // Vérification de complexité du mot de passe
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
+  const hasSpecialChar = /[^A-Za-z0-9]/.test(password);
+  
+  if (!hasUpperCase || !hasLowerCase || !hasNumber || !hasSpecialChar) {
+    showAlert('Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial.', 'danger');
+    return false;
+  }
+  
   // Valider la confirmation du mot de passe
   if (password !== confirmPassword) {
     showAlert('Les mots de passe ne correspondent pas.', 'danger');
@@ -212,11 +238,12 @@ async function handleRegister() {
       
       console.log('Réponse du serveur après inscription:', response);
       
-      // Afficher l'identifiant unique 
+      // Afficher l'identifiant unique - avec sanitization
       if (response.uniqueId) {
-        uniqueIdDisplay.textContent = response.uniqueId;
-        // Enregistrer temporairement l'ID unique pour s'assurer qu'il reste accessible
-        localStorage.setItem('tempUniqueId', response.uniqueId);
+        const sanitizedUniqueId = sanitizeHTML(response.uniqueId);
+        uniqueIdDisplay.textContent = sanitizedUniqueId;
+        // Enregistrer temporairement l'ID unique dans sessionStorage au lieu de localStorage
+        sessionStorage.setItem('tempUniqueId', sanitizedUniqueId);
       } else {
         console.error('Identifiant unique non trouvé dans la réponse:', response);
         uniqueIdDisplay.textContent = "ERREUR: ID UNIQUE NON GÉNÉRÉ";

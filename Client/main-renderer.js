@@ -1,88 +1,3 @@
-// Bloquer l'accès à la console de développement
-(function() {
-    try {
-        // Redéfinir les méthodes de la console
-        const noOp = function() {};
-        const originalConsole = window.console;
-        
-        // Sauvegarder les fonctions console originales pour le débogage interne
-        const _console = {
-            log: originalConsole.log,
-            warn: originalConsole.warn,
-            error: originalConsole.error,
-            info: originalConsole.info,
-            debug: originalConsole.debug
-        };
-        
-        // Remplacer les méthodes de la console par des fonctions vides
-        window.console = {
-            log: noOp,
-            warn: noOp,
-            error: noOp,
-            info: noOp,
-            debug: noOp,
-            clear: noOp,
-            dir: noOp,
-            dirxml: noOp,
-            trace: noOp,
-            group: noOp,
-            groupCollapsed: noOp,
-            groupEnd: noOp,
-            time: noOp,
-            timeEnd: noOp,
-            timeStamp: noOp,
-            table: noOp,
-            count: noOp,
-            assert: noOp,
-            profile: noOp,
-            profileEnd: noOp
-        };
-        
-        // Détecter l'ouverture des outils de développement
-        const detectDevTools = function() {
-            const widthThreshold = window.outerWidth - window.innerWidth > 160;
-            const heightThreshold = window.outerHeight - window.innerHeight > 160;
-            
-            if (widthThreshold || heightThreshold) {
-                document.body.innerHTML = `
-                    <div style="display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;background:#1a1a2e;color:white;font-family:sans-serif;">
-                        <img src="assets/logo.png" alt="BubbleReader Logo" style="width:100px;margin-bottom:20px;">
-                        <h1 style="color:#ff69b4;margin-bottom:10px;">Accès non autorisé</h1>
-                        <p style="text-align:center;max-width:500px;margin-bottom:20px;">L'utilisation des outils de développement n'est pas autorisée dans cette application.</p>
-                        <button onclick="location.reload()" style="background:#ff69b4;border:none;color:white;padding:10px 20px;border-radius:5px;cursor:pointer;">Recharger l'application</button>
-                    </div>
-                `;
-            }
-        };
-        
-        // Surveiller l'ouverture des outils de développement
-        window.addEventListener('resize', detectDevTools);
-        setInterval(detectDevTools, 1000);
-        
-        // Désactiver les raccourcis clavier des outils de développement
-        window.addEventListener('keydown', function(e) {
-            // F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
-            if (
-                e.keyCode === 123 || 
-                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67))
-            ) {
-                e.preventDefault();
-            }
-        });
-        
-        // Fonction interne pour le logging sécurisé (utilisée par le code de l'application)
-        window._log = function(message) {
-            // Cette fonction peut être utilisée en interne par l'application
-            // pour enregistrer des messages importants
-            if (typeof message === 'string' && message.startsWith('SYSTÈME:')) {
-                _console.log(message);
-            }
-        };
-    } catch (e) {
-        // Silencieux en cas d'erreur
-    }
-})();
-
 // Désactiver clic droit
 document.addEventListener('contextmenu', event => event.preventDefault());
 
@@ -106,6 +21,71 @@ if (window.electron) {
   console.warn('window.electron n\'est pas disponible, utilisation de l\'URL par défaut');
   // Ne pas hardcoder l'URL mais lever une erreur si window.electron n'est pas disponible
   throw new Error('window.electron n\'est pas disponible, impossible de récupérer l\'URL de l\'API');
+}
+
+// Fonction pour échapper les caractères spéciaux HTML
+function sanitizeHTML(text) {
+  const element = document.createElement('div');
+  element.textContent = text;
+  return element.textContent;
+}
+
+// Fonction pour les appels API
+async function fetchApi(endpoint, method = 'GET', data = null, timeout = 10000) {
+  try {
+    const url = endpoint.startsWith('http') ? endpoint : `${apiUrl}${endpoint}`;
+    console.log(`🌐 Envoi d'une requête à: ${url}`);
+    
+    const options = {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    };
+
+    // Ajouter le token d'authentification si disponible (d'abord chercher dans sessionStorage)
+    const token = sessionStorage.getItem('userToken') || localStorage.getItem('userToken');
+    if (token) {
+      options.headers['Authorization'] = `Bearer ${token}`;
+      // Si le token est trouvé dans localStorage mais pas dans sessionStorage, le migrer
+      if (!sessionStorage.getItem('userToken') && localStorage.getItem('userToken')) {
+        sessionStorage.setItem('userToken', localStorage.getItem('userToken'));
+        // Optionnel: supprimer le token de localStorage
+        // localStorage.removeItem('userToken');
+      }
+    }
+
+    // Ajouter le corps de la requête pour POST/PUT
+    if (data && (method === 'POST' || method === 'PUT')) {
+      options.body = JSON.stringify(data);
+    }
+
+    // Utiliser un AbortController pour gérer le timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    options.signal = controller.signal;
+
+    const response = await fetch(url, options);
+    clearTimeout(timeoutId);
+    
+    // Pour les requêtes DELETE qui retournent 204
+    if (response.status === 204) {
+      return { success: true };
+    }
+
+    // Gérer les erreurs HTTP
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || `Erreur HTTP: ${response.status}`);
+    }
+
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error('❌ Erreur API:', error);
+    throw error;
+  }
 }
 
 // Gestionnaires d'événements pour la barre de titre
@@ -133,7 +113,59 @@ document.addEventListener('DOMContentLoaded', () => {
       ipcRenderer.send('window-close');
     });
   }
+  
+  // Vérifier l'état du serveur au chargement
+  checkServerAvailability();
 });
+
+// Fonction pour mettre à jour l'apparence du bouton de mode développement
+function updateDevModeButton(isDevMode) {
+  const devModeToggle = document.getElementById('dev-mode-toggle');
+  if (!devModeToggle) return;
+  
+  if (isDevMode) {
+    devModeToggle.classList.add('active');
+    devModeToggle.title = 'Désactiver le mode développement';
+  } else {
+    devModeToggle.classList.remove('active');
+    devModeToggle.title = 'Activer le mode développement';
+  }
+}
+
+// Fonction pour afficher une alerte
+function showAlert(message, type = 'info', duration = 3000) {
+  // Sanitizer le message
+  const sanitizedMessage = sanitizeHTML(message);
+  
+  // Créer l'élément d'alerte s'il n'existe pas
+  let alertContainer = document.getElementById('alert-container');
+  if (!alertContainer) {
+    alertContainer = document.createElement('div');
+    alertContainer.id = 'alert-container';
+    document.body.appendChild(alertContainer);
+  }
+  
+  // Créer l'alerte
+  const alert = document.createElement('div');
+  alert.className = `alert alert-${type}`;
+  alert.textContent = sanitizedMessage;
+  
+  // Ajouter l'alerte au conteneur
+  alertContainer.appendChild(alert);
+  
+  // Animer l'entrée
+  setTimeout(() => {
+    alert.classList.add('show');
+  }, 10);
+  
+  // Supprimer l'alerte après la durée spécifiée
+  setTimeout(() => {
+    alert.classList.remove('show');
+    setTimeout(() => {
+      alert.remove();
+    }, 300);
+  }, duration);
+}
 
 // Configuration pour les requêtes API
 const headers = {
@@ -141,8 +173,8 @@ const headers = {
 };
 
 // Éléments DOM
-const usernameDisplay = document.getElementById('usernameDisplay');
-const logoutButton = document.getElementById('logoutButton');
+const usernameDisplay = document.getElementById('username');
+const logoutButton = document.getElementById('logoutBtn'); // Update this to match the actual ID in HTML
 const alertContainer = document.getElementById('alertContainer');
 const loadingSpinner = document.getElementById('loadingSpinner');
 const libraryContainer = document.getElementById('libraryContainer');
@@ -180,6 +212,9 @@ const mangaListContainer = document.getElementById('mangaList');
 function showAlert(message, type = 'info') {
     console.log(`🔔 Affichage alerte (${type}):`, message);
     
+    // Sanitizer le message
+    const sanitizedMessage = sanitizeHTML(message);
+    
     const alertEl = document.getElementById('alert');
     if (!alertEl) {
         console.error('❌ Élément alerte non trouvé dans le DOM');
@@ -193,7 +228,7 @@ function showAlert(message, type = 'info') {
     void alertEl.offsetWidth;
     
     // Mettre à jour le contenu et le style
-    alertEl.textContent = message;
+    alertEl.textContent = sanitizedMessage;
     alertEl.className = `alert alert-${type}`;
     
     // Ajouter la classe visible pour déclencher l'animation
@@ -263,18 +298,24 @@ function displayMangaList(mangas) {
     mangaListElement.innerHTML = '';
 
     mangas.forEach(manga => {
+        // Sanitizer les données avant de les afficher
+        const safeTitle = sanitizeHTML(manga.title || '');
+        const safeStatus = sanitizeHTML(manga.status || '');
+        const safeSlug = sanitizeHTML(manga.slug || '');
+        const safeCover = sanitizeHTML(manga.cover || '');
+        const safeChapterCount = manga.chapterCount || 0;
+
         const mangaCard = document.createElement('div');
         mangaCard.className = 'manga-card';
-        mangaCard.setAttribute('data-manga-slug', manga.slug);
+        mangaCard.setAttribute('data-manga-slug', safeSlug);
 
         mangaCard.innerHTML = `
             <div class="manga-cover">
-                <img src="${manga.cover}" alt="${manga.title}" loading="lazy">
+                <img src="${safeCover}" alt="${safeTitle}" loading="lazy">
             </div>
             <div class="manga-info">
-                <h3>${manga.title}</h3>
-                <div class="manga-status ${manga.status.toLowerCase()}">${manga.status}</div>
-                <div class="manga-chapters">Chapitres: ${manga.chapterCount || 0}</div>
+                <h3>${safeTitle}</h3>
+                <div class="manga-chapters">Chapitres: ${safeChapterCount}</div>
             </div>
         `;
 
@@ -342,36 +383,66 @@ async function loadMangaList() {
         throw new Error('Serveur non disponible');
       }
       console.log('✅ Serveur disponible');
+      
+      // Charger la liste des mangas depuis le serveur
+      console.log('📥 Envoi de la requête GET /mangas...');
+      const response = await fetchApi('/mangas');
+      console.log('📦 Données reçues de l\'API:', response);
+      
+      // Vérifier si les données sont valides
+      if (!response || !response.mangas || !Array.isArray(response.mangas)) {
+        console.error('❌ Les données reçues ne sont pas valides:', response);
+        throw new Error('Format de données invalide');
+      }
+      
+      // Stocker les mangas dans la variable globale
+      allMangas = response.mangas.map(manga => ({
+        ...manga,
+        synopsis: manga.synopsis || 'Synopsis en cours de chargement...'
+      }));
     } catch (error) {
-      console.error('❌ Serveur non disponible:', error);
-      mangaContainer.innerHTML = `
-        <div class="error-message">
-          Le serveur est actuellement indisponible. 
-          <br>
-          Veuillez réessayer plus tard.
-          <br>
-          <small>${error.message}</small>
-        </div>
-      `;
-      return;
+      console.warn('⚠️ Serveur non disponible, utilisation de données de test:', error);
+      
+      // Utiliser des données de test pour le développement
+      allMangas = [
+        {
+          id: 1,
+          title: "One Piece (Test)",
+          slug: "one-piece",
+          cover: "https://m.media-amazon.com/images/I/51TJbz6RnBL._SY445_SX342_.jpg",
+          author: "Eiichiro Oda",
+          status: "En cours",
+          genres: ["Action", "Aventure", "Comédie"],
+          synopsis: "Monkey D. Luffy rêve de retrouver le trésor du légendaire Roi des Pirates, Gold Roger, et de devenir le nouveau Roi des Pirates.",
+          chapters: 1090
+        },
+        {
+          id: 2,
+          title: "Naruto (Test)",
+          slug: "naruto",
+          cover: "https://m.media-amazon.com/images/I/51jbIXWnK3L._SY445_SX342_.jpg",
+          author: "Masashi Kishimoto",
+          status: "Terminé",
+          genres: ["Action", "Aventure", "Fantasy"],
+          synopsis: "Naruto Uzumaki, un jeune ninja hyperactif, rêve de devenir Hokage, le ninja le plus puissant de son village.",
+          chapters: 700
+        },
+        {
+          id: 3,
+          title: "Demon Slayer (Test)",
+          slug: "demon-slayer",
+          cover: "https://m.media-amazon.com/images/I/51QZoVQiCLL._SY445_SX342_.jpg",
+          author: "Koyoharu Gotouge",
+          status: "Terminé",
+          genres: ["Action", "Aventure", "Surnaturel"],
+          synopsis: "Tanjiro Kamado voit sa vie basculer après le massacre de sa famille par un démon. Sa sœur Nezuko est la seule survivante, mais elle a été transformée en démon.",
+          chapters: 205
+        }
+      ];
+      
+      // Afficher un message d'avertissement dans l'interface
+      showAlert("Mode développement : serveur indisponible, données de test chargées", "warning");
     }
-
-    // Charger la liste des mangas
-    console.log('📥 Envoi de la requête GET /mangas...');
-    const response = await fetchApi('/mangas');
-    console.log('📦 Données reçues de l\'API:', response);
-    
-    // Vérifier si les données sont valides
-    if (!response || !response.mangas || !Array.isArray(response.mangas)) {
-      console.error('❌ Les données reçues ne sont pas valides:', response);
-      throw new Error('Format de données invalide');
-    }
-    
-    // Stocker les mangas dans la variable globale
-    allMangas = response.mangas.map(manga => ({
-      ...manga,
-      synopsis: manga.synopsis || 'Synopsis en cours de chargement...'
-    }));
     
     console.log(`✨ ${allMangas.length} mangas chargés avec succès`);
     console.log('📝 Exemple de manga avec synopsis:', allMangas[0]);
@@ -423,9 +494,32 @@ async function updateMangaChapters(slug) {
 function searchMangas(query) {
   console.log('🔍 Recherche locale pour:', query);
   
+  // Récupérer les sections à cacher/afficher
+  const recentUpdatesSection = document.getElementById('recentUpdatesSection');
+  const continueReadingSection = document.getElementById('continueReadingSection');
+  
   if (!query) {
     displayMangaList(allMangas);
+    // Réafficher les sections avec animation quand la recherche est vide
+    if (recentUpdatesSection) {
+      recentUpdatesSection.classList.remove('section-hidden');
+      recentUpdatesSection.classList.add('section-visible');
+    }
+    if (continueReadingSection) {
+      continueReadingSection.classList.remove('section-hidden');
+      continueReadingSection.classList.add('section-visible');
+    }
     return;
+  }
+
+  // Cacher les sections avec animation pendant la recherche
+  if (recentUpdatesSection) {
+    recentUpdatesSection.classList.remove('section-visible');
+    recentUpdatesSection.classList.add('section-hidden');
+  }
+  if (continueReadingSection) {
+    continueReadingSection.classList.remove('section-visible');
+    continueReadingSection.classList.add('section-hidden');
   }
 
   // Convertir la requête en minuscules pour une recherche insensible à la casse
@@ -652,18 +746,18 @@ function showMangaDetailsPopup(mangaOrSlug) {
                 
                 <div class="manga-details-actions">
                     <button class="btn btn-secondary toggle-to-read-btn" data-manga-slug="${manga.slug}">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" class="btn-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18">
                             <path fill="none" d="M0 0h24v24H0z"/>
                             <path d="M5 2h14a1 1 0 0 1 1 1v19.143a.5.5 0 0 1-.766.424L12 18.03l-7.234 4.536A.5.5 0 0 1 4 22.143V3a1 1 0 0 1 1-1zm13 2H6v15.432l6-3.761 6 3.761V4z" fill="currentColor"/>
                         </svg>
                         <span class="btn-text">Ajouter à ma liste</span>
                     </button>
                     <button class="btn btn-primary read-manga-btn" data-manga-slug="${manga.slug}">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" class="btn-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18">
                             <path fill="none" d="M0 0h24v24H0z"/>
                             <path d="M19.376 12.416L8.777 19.482A.5.5 0 0 1 8 19.066V4.934a.5.5 0 0 1 .777-.416l10.599 7.066a.5.5 0 0 1 0 .832z" fill="currentColor"/>
                         </svg>
-                        Lire
+                        <span>Lire</span>
                     </button>
                 </div>
             </div>
@@ -758,6 +852,15 @@ async function checkServerAvailability() {
     serverStatus.className = 'server-status connecting';
     statusText.textContent = 'Connexion au serveur...';
     
+    // Mode développement - forcer le serveur à être considéré comme disponible
+    const devMode = localStorage.getItem('devMode') === 'true';
+    if (devMode) {
+        console.log('🛠️ Mode développement activé : ignorer la vérification du serveur');
+        serverStatus.className = 'server-status dev-mode';
+        statusText.textContent = 'Mode développement';
+        return true;
+    }
+    
     try {
         console.log('🔍 Test de connexion au serveur...');
         console.log('URL de l\'API:', apiUrl);
@@ -778,26 +881,68 @@ async function checkServerAvailability() {
         
         console.log('Options de la requête:', options);
         
-        const response = await fetch(`${apiUrl}/health`, options);
-        clearTimeout(timeoutId);
-        
-        console.log('Réponse du serveur:', {
-            status: response.status,
-            statusText: response.statusText,
-            headers: Object.fromEntries(response.headers.entries())
-        });
-        
-        if (response.ok) {
-            const data = await response.json();
-            console.log('✅ Serveur en ligne:', data);
-            serverStatus.className = 'server-status online';
-            statusText.textContent = 'Serveur en ligne';
-            return true;
-        } else {
-            console.error('❌ Serveur en ligne mais erreur:', response.status, response.statusText);
-            serverStatus.className = 'server-status offline';
-            statusText.textContent = 'Erreur serveur';
-            return false;
+        // Tester d'abord avec fetch
+        try {
+            const response = await fetch(`${apiUrl}/health`, options);
+            clearTimeout(timeoutId);
+            
+            console.log('Réponse du serveur:', {
+                status: response.status,
+                statusText: response.statusText,
+                headers: Object.fromEntries(response.headers.entries())
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                console.log('✅ Serveur en ligne:', data);
+                serverStatus.className = 'server-status online';
+                statusText.textContent = 'Serveur en ligne';
+                return true;
+            } else {
+                console.error('❌ Serveur en ligne mais erreur:', response.status, response.statusText);
+                throw new Error(`Erreur HTTP: ${response.status} ${response.statusText}`);
+            }
+        } catch (fetchError) {
+            console.error('❌ Erreur fetch:', fetchError);
+            
+            // Si fetch échoue, essayer avec XMLHttpRequest comme fallback
+            return new Promise((resolve) => {
+                console.log('🔄 Tentative avec XMLHttpRequest...');
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', `${apiUrl}/health`);
+                xhr.timeout = 5000;
+                xhr.setRequestHeader('Accept', 'application/json');
+                
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        console.log('✅ Serveur en ligne (XHR):', xhr.responseText);
+                        serverStatus.className = 'server-status online';
+                        statusText.textContent = 'Serveur en ligne';
+                        resolve(true);
+                    } else {
+                        console.error('❌ Serveur en ligne mais erreur (XHR):', xhr.status, xhr.statusText);
+                        serverStatus.className = 'server-status offline';
+                        statusText.textContent = 'Serveur hors ligne';
+                        resolve(false);
+                    }
+                };
+                
+                xhr.onerror = function() {
+                    console.error('❌ Erreur XHR:', xhr.statusText);
+                    serverStatus.className = 'server-status offline';
+                    statusText.textContent = 'Serveur hors ligne';
+                    resolve(false);
+                };
+                
+                xhr.ontimeout = function() {
+                    console.error('⏱️ Timeout XHR');
+                    serverStatus.className = 'server-status offline';
+                    statusText.textContent = 'Serveur hors ligne';
+                    resolve(false);
+                };
+                
+                xhr.send();
+            });
         }
     } catch (error) {
         console.error('❌ Erreur détaillée de connexion au serveur:', {
@@ -809,183 +954,6 @@ async function checkServerAvailability() {
         statusText.textContent = 'Serveur hors ligne';
         return false;
     }
-}
-
-// Fonction simplifiée pour faire des requêtes API avec fetch
-async function fetchApi(endpoint, method = 'GET', data = null, timeout = 10000) {
-  try {
-    // Enlever le /api au début de l'endpoint s'il existe
-    const cleanEndpoint = endpoint.startsWith('/api/') ? endpoint.substring(4) : endpoint.startsWith('/') ? endpoint.substring(1) : endpoint;
-    
-    // Construire l'URL complète
-    const fullUrl = endpoint.startsWith('http') ? endpoint : `${apiUrl}/${cleanEndpoint}`;
-    console.log('URL construite:', fullUrl);
-    console.log('🌐 Envoi d\'une requête à:', fullUrl);
-    console.log('📤 Méthode:', method);
-    
-    // Préparer les options de la requête
-    const options = {
-      method: method.toUpperCase(), // S'assurer que la méthode est en majuscules
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
-    
-    // Ajouter le token d'authentification si disponible
-    const token = localStorage.getItem('userToken');
-    if (token) {
-      options.headers['Authorization'] = `Bearer ${token}`;
-    }
-    
-    // Ajouter le corps de la requête pour POST et PUT
-    if (data && (method === 'POST' || method === 'PUT')) {
-      options.body = JSON.stringify(data);
-    }
-    
-    // Envoyer la requête avec un timeout
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeout);
-    options.signal = controller.signal;
-    
-    const response = await fetch(fullUrl, options);
-    clearTimeout(timeoutId);
-    
-    console.log(`📥 Réponse reçue (${response.status}):`, response.statusText);
-    
-    // Traiter les réponses d'erreur HTTP
-    if (!response.ok) {
-      let errorData;
-      try {
-        errorData = await response.json();
-      } catch (e) {
-        // Si la réponse n'est pas du JSON, utiliser le texte brut
-        const errorText = await response.text();
-        errorData = { message: errorText };
-      }
-      
-      console.error('❌ Erreur de réponse:', errorData);
-      throw { 
-        status: response.status,
-        message: errorData.message || 'Erreur serveur',
-        data: errorData
-      };
-    }
-    
-    // Pour les requêtes DELETE qui retournent 204 No Content
-    if (response.status === 204) {
-      return { success: true };
-    }
-    
-    // Convertir la réponse en JSON
-    const responseData = await response.json();
-    console.log('📦 Données reçues:', responseData);
-    return responseData;
-  } catch (error) {
-    if (error.name === 'AbortError') {
-      console.error('❌ La requête a été interrompue (timeout)');
-      throw { 
-        status: 408,
-        message: 'La requête a pris trop de temps à répondre'
-      };
-    }
-    
-    if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
-      console.error('❌ Impossible de se connecter au serveur');
-      throw {
-        status: 503,
-        message: 'Impossible de se connecter au serveur. Veuillez vérifier votre connexion internet et que le serveur est bien en ligne.'
-      };
-    }
-    
-    console.error('❌ Erreur fetchApi:', error);
-    throw error;
-  }
-}
-
-// Fonction pour charger le profil utilisateur
-async function loadUserProfile() {
-  try {
-    // Vérifier si on a un token dans le localStorage
-    const token = localStorage.getItem('userToken');
-    if (!token) {
-      console.warn('Aucun token trouvé, redirection vers la page de connexion');
-      window.location.href = 'login.html';
-      return;
-    }
-    
-    // Récupérer aussi les données utilisateur du localStorage
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      const user = JSON.parse(userData);
-      const usernameElement = document.getElementById('username');
-      if (usernameElement) {
-        usernameElement.textContent = user.username;
-      }
-    }
-
-      const response = await fetch(`${apiUrl}/users/profile`, {
-        method: 'GET',
-      credentials: 'include',
-        headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      const usernameElement = document.getElementById('username');
-      if (usernameElement) {
-        usernameElement.textContent = data.username;
-      }
-      // Mettre à jour les données utilisateur dans le localStorage
-      localStorage.setItem('user', JSON.stringify({
-        id: data._id,
-        username: data.username,
-        email: data.email
-      }));
-    } else if (response.status === 401) {
-      // Token invalide ou expiré
-      console.warn('Token invalide ou expiré');
-      localStorage.removeItem('userToken');
-      localStorage.removeItem('user');
-      window.location.href = 'login.html';
-    } else {
-      throw new Error('Erreur lors du chargement du profil');
-    }
-  } catch (error) {
-    console.error('Erreur:', error);
-    // En cas d'erreur, on supprime le token et on redirige
-        localStorage.removeItem('userToken');
-    localStorage.removeItem('user');
-    window.location.href = 'login.html';
-  }
-}
-
-// Fonction pour vérifier l'état du serveur
-async function checkServerStatus() {
-  try {
-    const response = await fetch(`${apiUrl}/health`);
-      const data = await response.json();
-      
-    const serverStatus = document.getElementById('serverStatus');
-    if (response.ok && data.success) {
-      serverStatus.className = 'server-status online';
-      serverStatus.innerHTML = `
-        <div class="status-dot"></div>
-        <span class="status-text">Serveur en ligne</span>
-      `;
-      } else {
-      throw new Error('Serveur hors ligne');
-    }
-  } catch (error) {
-    const serverStatus = document.getElementById('serverStatus');
-    serverStatus.className = 'server-status offline';
-    serverStatus.innerHTML = `
-      <div class="status-dot"></div>
-      <span class="status-text">Serveur hors ligne</span>
-    `;
-  }
 }
 
 // Fonction pour charger l'historique de lecture
@@ -1050,14 +1018,14 @@ async function displayContinueReading() {
                     <div class="delete-icon" data-manga-slug="${manga.slug}" title="Supprimer de l'historique">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                             <path fill="none" d="M0 0h24v24H0z"/>
-                            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm0-9.414l2.828-2.829 1.415 1.415L13.414 12l2.829 2.828-1.415 1.415L12 13.414l-2.828 2.829-1.415-1.415L10.586 12 7.757 9.172l1.415-1.415L12 10.586z" fill="currentColor"/>
+                            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm0-8h2v6h-2V7z" fill="currentColor"/>
                         </svg>
                     </div>
                     <img src="${manga.cover}" alt="${manga.title}" loading="lazy">
                 </div>
                 <div class="manga-info">
                     <h3>${manga.title}</h3>
-                    <div class="manga-status ${manga.status.toLowerCase()}">Chapitre ${historyItem.chapter || 1}</div>
+                    <div class="manga-chapters">Chapitres: ${historyItem.chapter || 1}</div>
                 </div>
             `;
 
@@ -1095,18 +1063,28 @@ async function deleteReadingHistoryItem(slug) {
     try {
         console.log('🗑️ Suppression de l\'historique pour', slug);
         
+        // Vérifier que le slug est valide
+        if (!slug || typeof slug !== 'string') {
+            throw new Error('Slug de manga invalide');
+        }
+        
         // Appel à l'API pour supprimer la progression de lecture
-        await fetchApi(`/users/mangas/reading-progress/${slug}`, 'DELETE');
+        const response = await fetchApi(`/users/mangas/reading-progress/${slug}`, 'DELETE');
         
-        // Mettre à jour l'historique local
-        readingHistory = readingHistory.filter(item => item.mangaSlug !== slug);
-        
-        // Rafraîchir l'affichage
-        displayContinueReading();
-        
-        showAlert('Entrée d\'historique supprimée avec succès', 'success');
+        // Si l'API retourne un statut 204, c'est une réussite (pas de contenu)
+        if (response && response.success !== false) {
+            // Mettre à jour l'historique local
+            readingHistory = readingHistory.filter(item => item.mangaSlug !== slug);
+            
+            // Rafraîchir l'affichage
+            displayContinueReading();
+            
+            showAlert('Entrée d\'historique supprimée avec succès', 'success');
+        } else {
+            throw new Error(response.message || 'Erreur lors de la suppression');
+        }
     } catch (error) {
-        console.error('Erreur lors de la suppression de l\'historique:', error);
+        console.error('❌ Erreur lors de la suppression de l\'historique:', error);
         showAlert('Erreur lors de la suppression de l\'historique', 'danger');
     }
 }
@@ -1216,6 +1194,11 @@ function showDeleteConfirmation(slug, title) {
             transform: scale(1.1);
         }
         
+        .close-confirmation-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+        
         .confirmation-body {
             padding: 20px;
             text-align: center;
@@ -1273,10 +1256,16 @@ function showDeleteConfirmation(slug, title) {
         .btn-confirm:hover {
             background-color: #ff3333;
             transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(255, 0, 0, 0.3);
+        }
+        
+        .btn-confirm:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 3px rgba(255, 0, 0, 0.3);
         }
     `;
     
-    // Ajouter les styles au document
+    // Ajouter le style au document
     document.head.appendChild(dialogStyle);
     
     // Ajouter la boîte de dialogue au document
@@ -1346,11 +1335,65 @@ function showDeleteConfirmation(slug, title) {
     document.head.appendChild(styleSheet);
 }
 
+// Variables pour contrôler la fréquence des rechargements
+let lastRefreshTime = 0;
+const REFRESH_COOLDOWN = 30000; // 30 secondes (30000 ms) entre les rechargements
+
 // Fonction pour recharger la progression quand on revient à l'accueil
 async function refreshReadingProgress() {
     console.log('Rafraîchissement de la progression de lecture...');
-    await loadMangaList(); // Recharger d'abord la liste des mangas
-    await loadReadingHistory(); // Puis charger l'historique
+    
+    try {
+        // Montrer une indication visuelle de chargement
+        const refreshButton = document.getElementById('refreshButton');
+        if (refreshButton) {
+            refreshButton.classList.add('loading');
+        }
+        
+        // Vérifier d'abord si le serveur est disponible
+        const serverAvailable = await checkServerAvailability();
+        if (!serverAvailable) {
+            console.log('Serveur indisponible, rechargement annulé');
+            showAlert('Serveur indisponible, impossible de rafraîchir les données', 'warning');
+            return;
+        }
+        
+        // Mettre à jour la variable lastRefreshTime
+        lastRefreshTime = Date.now();
+        
+        // Si l'utilisateur est connecté, charger l'historique de lecture
+        if (isLoggedIn()) {
+            try {
+                const response = await fetchApi('/users/mangas/reading-progress');
+                if (response && Array.isArray(response)) {
+                    readingHistory = response.sort((a, b) => new Date(b.lastRead) - new Date(a.lastRead));
+                    console.log('Historique de lecture rechargé:', readingHistory.length, 'entrées');
+                    
+                    // Mettre à jour l'affichage de l'historique
+                    const continueReadingContainer = document.getElementById('continueReadingList');
+                    if (continueReadingContainer) {
+                        // Mettre à jour l'affichage de la section "Reprendre la lecture"
+                        await displayContinueReading();
+                        showAlert('Historique de lecture mis à jour', 'success');
+                    }
+                }
+            } catch (error) {
+                console.error('Erreur lors du rechargement de l\'historique:', error);
+                showAlert('Erreur lors de la mise à jour de l\'historique', 'error');
+            }
+        } else {
+            console.log('Utilisateur non connecté, pas d\'historique à charger');
+        }
+    } catch (error) {
+        console.error('Erreur lors du rafraîchissement de la progression:', error);
+        showAlert('Erreur lors du rafraîchissement des données', 'error');
+    } finally {
+        // Enlever l'indication de chargement
+        const refreshButton = document.getElementById('refreshButton');
+        if (refreshButton) {
+            refreshButton.classList.remove('loading');
+        }
+    }
 }
 
 // Gestionnaire du modal d'historique
@@ -1403,7 +1446,7 @@ function displayHistoryModal() {
 
 // Fonction pour vérifier si l'utilisateur est connecté
 function isLoggedIn() {
-    const token = localStorage.getItem('userToken');
+    const token = sessionStorage.getItem('userToken') || localStorage.getItem('userToken');
     return !!token; // Convertit en booléen
 }
 
@@ -1471,14 +1514,14 @@ window.showFullHistory = function(e) {
                     <div class="delete-icon" data-manga-slug="${manga.slug}" title="Supprimer de l'historique">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                             <path fill="none" d="M0 0h24v24H0z"/>
-                            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm0-9.414l2.828-2.829 1.415 1.415L13.414 12l2.829 2.828-1.415 1.415L12 13.414l-2.828 2.829-1.415-1.415L10.586 12 7.757 9.172l1.415-1.415L12 10.586z" fill="currentColor"/>
+                            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm0-8h2v6h-2V7z" fill="currentColor"/>
                         </svg>
                     </div>
                     <img src="${manga.cover}" alt="${manga.title}" loading="lazy">
                 </div>
                 <div class="manga-info">
                     <h3>${manga.title}</h3>
-                    <div class="manga-status ${manga.status ? manga.status.toLowerCase() : ''}">Chapitre ${historyItem.chapter || 1}</div>
+                    <div class="manga-chapters">Chapitres: ${historyItem.chapter || 1}</div>
                 </div>
             `;
             
@@ -1608,13 +1651,13 @@ function displayToReadList() {
             </div>
             <div class="manga-info">
                 <h3>${manga.title}</h3>
-                <div class="manga-status ${manga.status.toLowerCase()}">${manga.status}</div>
+                <div class="manga-chapters">Chapitres: ${manga.chapterCount || 0}</div>
             </div>
         `;
         
         // Ajouter les événements
         const deleteIcon = mangaCard.querySelector('.delete-icon');
-        
+
         // Ajouter le gestionnaire pour l'icône de suppression
         deleteIcon.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -1623,7 +1666,7 @@ function displayToReadList() {
                 toggleToReadManga(slug);
             }
         });
-        
+
         // Ajouter le gestionnaire de clic sur la carte
         mangaCard.addEventListener('click', () => {
             const slug = mangaCard.getAttribute('data-manga-slug');
@@ -1654,33 +1697,184 @@ function closeToReadModal() {
     document.body.style.overflow = '';
 }
 
+// Variables pour contrôler l'état et les rechargements
+let lastServerCheckTime = 0;
+const SERVER_CHECK_COOLDOWN = 30000; // 30 secondes
+
+// Vérification du statut serveur optimisée
+async function checkServerStatusOptimized() {
+    const currentTime = Date.now();
+    
+    // Vérifier si suffisamment de temps s'est écoulé depuis la dernière vérification
+    if (currentTime - lastServerCheckTime < SERVER_CHECK_COOLDOWN) {
+        console.log('Vérification serveur ignorée - trop rapprochée de la précédente');
+        return;
+    }
+    
+    lastServerCheckTime = currentTime;
+    await checkServerAvailability();
+}
+
 // Initialisation
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('🚀 Initialisation de la page');
+    debugLocalStorage(); // Ajouter le débogage
+
+    // Vérifier explicitement si un token est présent sans nom d'utilisateur et définir "Pralexio"
+    const token = sessionStorage.getItem('userToken') || localStorage.getItem('userToken');
+    if (token) {
+        console.log('💡 Token trouvé, vérification du profil utilisateur');
+        
+        const userString = localStorage.getItem('user');
+        let needsUpdate = false;
+        
+        try {
+            if (!userString || userString === '{}') {
+                needsUpdate = true;
+            } else {
+                const userData = JSON.parse(userString);
+                if (!userData.username) {
+                    needsUpdate = true;
+                }
+            }
+            
+            if (needsUpdate) {
+                console.log('💡 Données utilisateur manquantes ou incomplètes, tentative de récupération depuis le serveur');
+                
+                // Laisser fetchUserInfo s'occuper de la récupération des informations
+                // Il tentera d'abord de récupérer depuis le localStorage, puis depuis le serveur si nécessaire
+                const userInfo = await fetchUserInfo();
+                
+                // Mise à jour directe de l'élément dans le DOM si des informations ont été récupérées
+                if (userInfo && userInfo.username) {
+                    const usernameElement = document.getElementById('username');
+                    if (usernameElement) {
+                        console.log('💡 Mise à jour directe de l\'élément dans le DOM avec:', userInfo.username);
+                        usernameElement.textContent = userInfo.username;
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('💡 Erreur lors de la vérification de l\'utilisateur:', error);
+            // Ne rien définir en dur, laisser fetchUserInfo gérer cela
+        }
+    }
     
     try {
         // Vérifier l'état du serveur
-        await checkServerStatus();
-        
-        // Vérifier périodiquement l'état du serveur (toutes les 30 secondes)
-        setInterval(checkServerStatus, 30000);
-        
-        // Charger le profil utilisateur
-        await loadUserProfile();
+        await checkServerAvailability();
+        lastServerCheckTime = Date.now();
         
         // Charger d'abord la liste des mangas
         console.log('Chargement de la liste des mangas...');
         await loadMangaList();
         console.log('Liste des mangas chargée:', allMangas ? allMangas.length : 0, 'mangas');
         
+        // Charger les dernières mises à jour
+        console.log('Chargement des dernières mises à jour...');
+        await loadRecentUpdates();
+        
         // Puis charger l'historique si l'utilisateur est connecté
         if (isLoggedIn()) {
             console.log('Chargement de l\'historique de lecture...');
             await loadReadingHistory();
+            lastRefreshTime = Date.now();
         }
 
-        // Ajouter l'écouteur pour le focus de la fenêtre
-        window.addEventListener('focus', refreshReadingProgress);
+        // Gestionnaire d'événement pour le bouton "Voir toutes les mises à jour"
+        const showAllUpdatesBtn = document.getElementById('showAllUpdatesBtn');
+        if (showAllUpdatesBtn) {
+            showAllUpdatesBtn.addEventListener('click', (e) => {
+                e.preventDefault(); // Empêcher le comportement par défaut du bouton
+                showAllRecentUpdates(e); // Passer l'événement à la fonction
+            });
+            console.log('✅ Gestionnaire d\'événement ajouté au bouton "Voir toutes les mises à jour"');
+        } else {
+            console.error('❌ Bouton "Voir toutes les mises à jour" non trouvé dans le DOM');
+        }
+        
+        // Ajouter un bouton de rafraîchissement à l'interface
+        const headerRight = document.querySelector('.header-right');
+        if (headerRight) {
+            const refreshButton = document.createElement('button');
+            refreshButton.id = 'refreshButton';
+            refreshButton.className = 'btn-icon refresh-btn';
+            refreshButton.title = 'Rafraîchir la progression';
+            refreshButton.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                    <path fill="none" d="M0 0h24v24H0z"/>
+                    <path d="M5.463 4.433A9.961 9.961 0 0 1 12 2c5.523 0 10 4.477 10 10 0 2.136-.67 4.116-1.81 5.74L17 12h3A8 8 0 0 0 6.46 6.228l-.997-1.795zm13.074 15.134A9.961 9.961 0 0 1 12 22C6.477 22 2 17.523 2 12c0-2.136.67-4.116 1.81-5.74L7 12H4a8 8 0 0 0 13.54 5.772l.997 1.795z" fill="currentColor"/>
+                </svg>
+            `;
+            
+            // Ajouter le bouton avant le bouton À lire
+            const toReadListBtn = document.getElementById('toReadListBtn');
+            if (toReadListBtn) {
+                headerRight.insertBefore(refreshButton, toReadListBtn);
+            } else {
+                headerRight.appendChild(refreshButton);
+            }
+            
+            // Ajouter un gestionnaire d'événement au bouton
+            refreshButton.addEventListener('click', () => {
+                // Éviter de lancer plusieurs rafraîchissements en même temps
+                if (refreshButton.classList.contains('loading') || refreshButton.classList.contains('rotating')) {
+                    return;
+                }
+                refreshButton.classList.add('rotating');
+                // Rafraîchir la page entière au lieu de la progression
+                window.location.reload();
+            });
+            
+            // Ajouter des styles pour le bouton
+            const style = document.createElement('style');
+            style.textContent = `
+                .refresh-btn {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 36px;
+                    height: 36px;
+                    border-radius: 50%;
+                    background-color: transparent;
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    color: var(--text-secondary);
+                    cursor: pointer;
+                    margin-right: 10px;
+                    transition: all 0.2s ease;
+                }
+                
+                .refresh-btn:hover {
+                    background-color: rgba(255, 105, 180, 0.1);
+                    border-color: #ff69b4;
+                    color: #ff69b4;
+                }
+                
+                .refresh-btn.rotating svg {
+                    animation: rotate 1s linear;
+                }
+                
+                .refresh-btn.loading {
+                    background-color: rgba(255, 105, 180, 0.2);
+                    border-color: #ff69b4;
+                    color: #ff69b4;
+                    pointer-events: none;
+                }
+                
+                .refresh-btn.loading svg {
+                    animation: rotate 1.5s linear infinite;
+                }
+                
+                @keyframes rotate {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // Vérifier périodiquement l'état du serveur (toutes les 60 secondes)
+        setInterval(checkServerStatusOptimized, 60000);
         
         // Gérer la recherche
         const searchForm = document.getElementById('searchForm');
@@ -1719,7 +1913,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     }, 300);
                 } else if (query.length === 0) {
                     console.log('Réinitialisation de la liste');
-                    displayMangaList(allMangas);
+                    searchMangas(''); // Utiliser la fonction searchMangas pour gérer l'affichage/masquage des sections
                 }
             });
         }
@@ -1728,14 +1922,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const logoutBtn = document.getElementById('logoutBtn');
         if (logoutBtn) {
             logoutBtn.addEventListener('click', () => {
-                // Supprimer les données de session
-                localStorage.removeItem('userToken');
-                localStorage.removeItem('userName');
-                localStorage.removeItem('userEmail');
-                localStorage.removeItem('autoLogin');
-                
-                // Rediriger vers la page de connexion
-            window.location.href = 'index.html';
+                logout();
             });
         }
 
@@ -1796,11 +1983,175 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
         
+        // Fonction pour afficher le nom d'utilisateur
+        async function displayUsername() {
+          try {
+            console.log('Tentative d\'affichage du nom d\'utilisateur...');
+            
+            const usernameElement = document.getElementById('username');
+            if (!usernameElement) {
+              console.error('❌ Élément username non trouvé dans le DOM');
+              return;
+            }
+            
+            console.log('Élément username trouvé dans le DOM:', usernameElement);
+            
+            // Récupérer les informations utilisateur depuis le localStorage
+            const userInfo = await fetchUserInfo();
+            
+            if (userInfo && userInfo.username) {
+              // Si on a réussi à récupérer les informations
+              console.log('✅ Nom d\'utilisateur disponible, mise à jour du DOM avec:', userInfo.username);
+              usernameElement.textContent = userInfo.username;
+              
+              // Pour le débogage, vérifier si la mise à jour a fonctionné
+              setTimeout(() => {
+                console.log('Contenu actuel de l\'élément username après mise à jour:', 
+                  usernameElement.textContent || '(vide)');
+              }, 100);
+            } else {
+              // Si aucun nom d'utilisateur n'est disponible
+              const token = sessionStorage.getItem('userToken') || localStorage.getItem('userToken');
+              if (token) {
+                console.log('Token présent mais aucun nom d\'utilisateur, affichage de "Non trouvé"');
+                usernameElement.textContent = 'Non trouvé';
+              } else {
+                // Laisser le texte par défaut "Utilisateur" défini dans le HTML
+                console.log('Aucun nom d\'utilisateur et aucun token, utilisation du texte par défaut "Utilisateur"');
+              }
+            }
+          } catch (error) {
+            console.error('Erreur lors de l\'affichage du nom d\'utilisateur:', error);
+          }
+        }
+
+        // Appeler la fonction au chargement de la page
+        displayUsername();
+        
+        // Vérifier périodiquement si les informations utilisateur ont changé
+        // (toutes les 2 minutes)
+        setInterval(displayUsername, 120000);
     } catch (error) {
         console.error('Erreur lors de l\'initialisation:', error);
         showAlert('error', 'Erreur lors de l\'initialisation de l\'application');
     }
 });
+
+// Fonction pour récupérer les informations de l'utilisateur depuis le serveur
+async function fetchUserInfo() {
+  try {
+    debugLocalStorage(); // Afficher le contenu du localStorage pour débogage
+
+    const token = sessionStorage.getItem('userToken') || localStorage.getItem('userToken');
+    if (!token) {
+      console.log('Aucun token d\'utilisateur trouvé');
+      return null;
+    }
+
+    // Si le token existe uniquement dans localStorage, le copier dans sessionStorage pour cette session
+    if (!sessionStorage.getItem('userToken') && localStorage.getItem('userToken')) {
+      console.log('Token trouvé dans localStorage mais pas dans sessionStorage, copie en cours...');
+      sessionStorage.setItem('userToken', localStorage.getItem('userToken'));
+    }
+
+    // Toujours essayer de récupérer le profil depuis le serveur en premier
+    if (token) {
+      try {
+        console.log('Tentative de récupération du profil utilisateur depuis le serveur...');
+        const response = await fetch(`${apiUrl}/users/profile`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          timeout: 5000
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          if (data.user && data.user.username) {
+            console.log('Profil utilisateur récupéré depuis le serveur:', data.user.username);
+            
+            // Sauvegarder dans localStorage pour les prochaines utilisations
+            localStorage.setItem('user', JSON.stringify({
+              username: data.user.username,
+              id: data.user._id,
+              email: data.user.email
+            }));
+            
+            return { username: data.user.username };
+          }
+        } else {
+          console.warn('Impossible de récupérer le profil utilisateur depuis le serveur, utilisation des données en cache');
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération du profil depuis le serveur:', error);
+        console.log('Utilisation des données en cache suite à l\'erreur');
+      }
+    }
+
+    // Si la récupération depuis le serveur échoue, essayer depuis le localStorage
+    const userString = localStorage.getItem('user');
+    if (userString) {
+      try {
+        const userData = JSON.parse(userString);
+        console.log('Données utilisateur récupérées depuis localStorage:', userData);
+        
+        // Vérifier si le nom d'utilisateur est défini
+        if (userData.username) {
+          console.log('Nom d\'utilisateur trouvé dans cache:', userData.username);
+          return { username: userData.username };
+        } else {
+          console.warn('Le nom d\'utilisateur est undefined ou vide dans les données utilisateur');
+        }
+      } catch (error) {
+        console.error('Erreur lors du parsing des données utilisateur:', error);
+      }
+    } else {
+      console.warn('Aucune donnée utilisateur trouvée dans localStorage');
+    }
+    
+    // Tenter de récupérer le nom d'utilisateur depuis d'autres sources si disponible
+    const userName = localStorage.getItem('userName');
+    if (userName) {
+      console.log('Nom d\'utilisateur trouvé dans localStorage.userName:', userName);
+      
+      // Créer un objet utilisateur avec le nom récupéré
+      const defaultUser = {
+        username: userName
+      };
+      
+      console.log('Sauvegarde des informations utilisateur dans localStorage');
+      localStorage.setItem('user', JSON.stringify(defaultUser));
+      return defaultUser;
+    }
+    
+    // Si toujours pas de nom d'utilisateur, utiliser "Non trouvé"
+    console.log('Aucun nom d\'utilisateur trouvé malgré le token, utilisation de "Non trouvé"');
+    return { username: "Non trouvé" };
+  } catch (error) {
+    console.error('Erreur lors de la récupération des informations utilisateur:', error);
+    return null;
+  }
+}
+
+// Ajouter une fonction pour récupérer les informations de l'utilisateur depuis le localStorage
+async function fetchAndDisplayUsername() {
+  const usernameElement = document.getElementById('username');
+  if (!usernameElement) {
+    console.error('❌ Élément username non trouvé dans le DOM');
+    return;
+  }
+
+  const userInfo = await fetchUserInfo();
+  if (userInfo && userInfo.username) {
+    usernameElement.textContent = userInfo.username;
+    console.log('Nom d\'utilisateur affiché:', userInfo.username);
+  } else {
+    // Laisser le texte par défaut "Utilisateur" défini dans le HTML
+    console.log('Aucun nom d\'utilisateur trouvé, utilisation du texte par défaut');
+  }
+}
 
 // Ajouter le style CSS pour la recherche et la bulle d'information
 const style = document.createElement('style');
@@ -1904,218 +2255,6 @@ style.textContent = `
         font-size: 0.85rem;
         -webkit-line-clamp: 2;
         margin-bottom: 0.3rem;
-    }
-
-    /* Styles améliorés pour la popup de détails du manga */
-    .manga-details-container {
-        display: flex;
-        flex-direction: row;
-        height: 100%;
-        max-height: 85vh;
-        overflow: hidden;
-    }
-
-    .manga-details-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.85);
-        backdrop-filter: blur(5px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-        padding: 20px;
-        animation: fadeIn 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-
-    .manga-details-popup {
-        background-color: var(--card-background);
-        border-radius: 12px;
-        max-width: 900px;
-        width: 90%;
-        max-height: 85vh;
-        position: relative;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        overflow: hidden;
-        animation: scaleIn 0.3s ease;
-    }
-
-    @keyframes scaleIn {
-        from { transform: scale(0.95); opacity: 0; }
-        to { transform: scale(1); opacity: 1; }
-    }
-
-    .manga-details-cover {
-        flex: 0 0 40%;
-        max-width: 40%;
-        overflow: hidden;
-        background-color: rgba(0, 0, 0, 0.7);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        padding: 0;
-    }
-
-    .manga-details-cover::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-image: var(--cover-image);
-        background-size: cover;
-        background-position: center;
-        opacity: 0.15;
-        filter: blur(10px);
-        z-index: 0;
-        transform: scale(1.1);
-    }
-
-    .manga-details-cover img {
-        width: auto;
-        height: auto;
-        max-width: 85%;
-        max-height: 85%;
-        object-fit: contain;
-        position: relative;
-        z-index: 1;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
-        border-radius: 8px;
-        transition: transform 0.3s ease;
-    }
-
-    .manga-details-cover:hover img {
-        transform: scale(1.03);
-    }
-
-    .manga-details-info {
-        flex: 1;
-        padding: 30px;
-        overflow-y: auto;
-        max-height: 85vh;
-    }
-
-    .info-bubble {
-        display: none;
-        position: fixed;
-        background: rgba(30, 30, 30, 0.95);
-        backdrop-filter: blur(10px);
-        border-radius: 8px;
-        padding: 20px;
-        width: 350px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        z-index: 9999;
-        color: white;
-        pointer-events: auto;
-        max-height: none;
-    }
-
-    .manga-card:hover .info-bubble {
-        display: none;
-    }
-
-    .info-icon:hover + .info-bubble,
-    .info-bubble:hover {
-        display: block;
-    }
-
-    .info-bubble-content {
-        font-size: 14px;
-        width: 100%;
-    }
-
-    .info-bubble-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 15px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        padding-bottom: 15px;
-        width: 100%;
-        gap: 15px;
-    }
-
-    .info-bubble-header h3 {
-        margin: 0;
-        font-size: 16px;
-        line-height: 1.4;
-        flex: 1;
-    }
-
-    .info-bubble-status {
-        flex-shrink: 0;
-        padding: 4px 8px;
-        margin-top: 2px;
-    }
-
-    .info-bubble-synopsis {
-        margin: 15px 0;
-        line-height: 1.6;
-        color: #ddd;
-        text-align: justify;
-        overflow: visible;
-        max-height: none;
-        width: 100%;
-        word-wrap: break-word;
-        padding-right: 15px;
-        box-sizing: border-box;
-    }
-
-    .info-bubble-details {
-        margin-top: 15px;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding-top: 15px;
-        width: 100%;
-    }
-
-    .info-bubble-synopsis::-webkit-scrollbar {
-        width: 4px;
-        position: absolute;
-        right: 4px;
-    }
-
-    .info-bubble-synopsis::-webkit-scrollbar-track {
-        background: transparent;
-        margin: 4px;
-        border-radius: 4px;
-    }
-
-    .info-bubble-synopsis::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 4px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .info-bubble-synopsis::-webkit-scrollbar-thumb:hover {
-        background: rgba(255, 255, 255, 0.3);
-    }
-
-    .info-detail {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 8px 0;
-        gap: 15px;
-    }
-
-    .info-label {
-        color: #888;
-        flex-shrink: 0;
-    }
-
-    .info-value {
-        color: #fff;
-        text-align: right;
     }
     
     /* Styles pour la fonctionnalité "À lire" */
@@ -2519,3 +2658,541 @@ style.textContent = `
 `;
 
 document.head.appendChild(style);
+
+// Fonction pour se déconnecter
+function logout() {
+  // Nettoyer toutes les données utilisateur du stockage
+  clearUserData();
+  
+  // Rediriger vers la page de connexion
+  window.location.href = 'index.html';
+}
+
+// Fonction pour nettoyer toutes les données utilisateur
+function clearUserData() {
+  console.log('Nettoyage de toutes les données utilisateur du stockage local');
+  
+  // Supprimer les tokens
+  localStorage.removeItem('userToken');
+  sessionStorage.removeItem('userToken');
+  
+  // Supprimer les données utilisateur
+  localStorage.removeItem('user');
+  localStorage.removeItem('userName'); // Anciennes clés
+  localStorage.removeItem('userEmail');
+  localStorage.removeItem('autoLogin');
+  
+  // Notifier le processus principal si disponible
+  if (ipcRenderer && ipcRenderer.send) {
+    ipcRenderer.send('logout');
+  }
+  
+  console.log('Toutes les données utilisateur ont été supprimées');
+}
+
+// Fonction de débogage pour afficher le contenu du localStorage
+function debugLocalStorage() {
+  console.log('==== CONTENU DU LOCALSTORAGE ====');
+  console.log('userToken:', localStorage.getItem('userToken') ? 'présent' : 'absent');
+  console.log('autoLogin:', localStorage.getItem('autoLogin'));
+  
+  const userString = localStorage.getItem('user');
+  if (userString) {
+    try {
+      const userData = JSON.parse(userString);
+      console.log('user:', userData);
+    } catch (error) {
+      console.error('Erreur de parsing user:', error);
+      console.log('user (brut):', userString);
+    }
+  } else {
+    console.log('user: absent');
+  }
+  console.log('================================');
+}
+
+// Appeler la fonction de débogage au chargement de la page
+document.addEventListener('DOMContentLoaded', debugLocalStorage);
+
+// Variable pour stocker les dernières mises à jour
+let recentUpdates = [];
+
+// Fonction pour charger les dernières mises à jour (7 derniers jours)
+async function loadRecentUpdates() {
+  try {
+    console.log('📚 Chargement des mises à jour récentes...');
+    
+    // Récupération de l'API URL
+    const apiUrlEndpoint = window.electron ? window.electron.getApiUrl() : 'http://localhost:5000/api';
+    
+    // Faire la requête directement avec fetchApi
+    const response = await fetchApi(`${apiUrlEndpoint}/mangas/recently-updated`);
+    
+    // DEBUG: Afficher la réponse complète
+    console.log('📄 Réponse complète de l\'API /mangas/recently-updated:', response);
+    
+    if (!response || !Array.isArray(response)) {
+      console.log('❌ Aucune mise à jour récente récupérée depuis l\'API - Type de réponse invalide:', typeof response);
+      recentUpdates = [];
+      displayRecentUpdates();
+      return;
+    }
+    
+    console.log(`✨ ${response.length} mangas récemment mis à jour récupérés depuis l'API`);
+    
+    // DEBUG: Vérifier si Solo Leveling est présent dans les résultats
+    const soloLeveling = response.find(manga => manga.title === 'Solo Leveling');
+    if (soloLeveling) {
+      console.log('✅ Solo Leveling trouvé dans les résultats API avec:', {
+        chapitres: soloLeveling.chapterCount,
+        ancienChapitres: soloLeveling.lastChapterCount,
+        slug: soloLeveling.slug
+      });
+    } else {
+      console.log('❌ Solo Leveling non trouvé dans les résultats de l\'API');
+    }
+    
+    // Stocker la réponse directement (elle est déjà filtrée et formatée par le serveur)
+    recentUpdates = response;
+
+    // Trier par date de mise à jour (plus récent d'abord)
+    recentUpdates.sort((a, b) => {
+      // Utiliser la plus récente des deux dates pour chaque manga
+      const dateA = Math.max(
+        a.updatedAt ? new Date(a.updatedAt).getTime() : 0,
+        a.lastChapterUpdate ? new Date(a.lastChapterUpdate).getTime() : 0
+      );
+      const dateB = Math.max(
+        b.updatedAt ? new Date(b.updatedAt).getTime() : 0,
+        b.lastChapterUpdate ? new Date(b.lastChapterUpdate).getTime() : 0
+      );
+      return dateB - dateA;
+    });
+    
+    console.log('Dernières mises à jour chargées:', recentUpdates.length, 'mangas');
+    
+    // Afficher les dernières mises à jour
+    displayRecentUpdates();
+  } catch (error) {
+    console.error('❌ Erreur lors du chargement des mises à jour récentes:', error);
+    recentUpdates = [];
+    displayRecentUpdates(); // Même en cas d'erreur, on affiche un message approprié
+  }
+}
+
+// Fonction pour afficher les dernières mises à jour
+function displayRecentUpdates() {
+  try {
+    const container = document.getElementById('recentUpdatesList');
+    const showAllUpdatesBtn = document.getElementById('showAllUpdatesBtn');
+    
+    if (!container) {
+      console.log('Container des dernières mises à jour non trouvé');
+      return;
+    }
+
+    // Vider le contenu existant
+    container.innerHTML = '';
+
+    if (!recentUpdates || recentUpdates.length === 0) {
+      console.log('Aucune mise à jour récente à afficher');
+      
+      // Ajouter un bouton de rechargement en cas d'échec
+      container.innerHTML = `
+        <p class="no-updates">Aucune mise à jour récente disponible</p>
+        <button id="reloadUpdatesBtn" class="btn btn-primary">
+          Recharger les mises à jour
+        </button>
+      `;
+      
+      // Ajouter l'événement de rechargement
+      const reloadBtn = document.getElementById('reloadUpdatesBtn');
+      if (reloadBtn) {
+        reloadBtn.addEventListener('click', async () => {
+          try {
+            reloadBtn.disabled = true;
+            reloadBtn.textContent = 'Rechargement...';
+            await loadRecentUpdates();
+            reloadBtn.disabled = false;
+            reloadBtn.textContent = 'Recharger les mises à jour';
+          } catch (error) {
+            console.error('Erreur lors du rechargement:', error);
+            reloadBtn.disabled = false;
+            reloadBtn.textContent = 'Réessayer';
+          }
+        });
+      }
+      
+      // Rendre le bouton Voir tout inactif mais toujours visible
+      if (showAllUpdatesBtn) {
+        showAllUpdatesBtn.disabled = true;
+        showAllUpdatesBtn.classList.add('disabled');
+      }
+      return;
+    }
+    
+    // Filtrer les mangas qui ont réellement reçu des mises à jour (nouveaux chapitres)
+    const updatedMangas = recentUpdates.filter(manga => {
+      if (manga.lastChapterCount !== undefined && manga.chapterCount !== undefined) {
+        const difference = manga.chapterCount - manga.lastChapterCount;
+        return difference > 0;
+      }
+      return false;
+    });
+    
+    // Obtenir la date précise la plus récente pour chaque manga
+    const mangasWithTimestamp = updatedMangas.map(manga => {
+      const lastChapterDate = manga.lastChapterUpdate ? new Date(manga.lastChapterUpdate).getTime() : 0;
+      const updatedDate = manga.updatedAt ? new Date(manga.updatedAt).getTime() : 0;
+      
+      // Utiliser le timestamp le plus récent
+      const latestTimestamp = Math.max(lastChapterDate, updatedDate);
+      
+      return {
+        ...manga,
+        latestTimestamp
+      };
+    });
+    
+    // Trier par timestamp du plus récent au plus ancien
+    mangasWithTimestamp.sort((a, b) => b.latestTimestamp - a.latestTimestamp);
+    
+    // Regrouper par date (jour)
+    const mangasByDay = {};
+    mangasWithTimestamp.forEach(manga => {
+      // Créer une clé pour chaque jour (YYYY-MM-DD)
+      const date = new Date(manga.latestTimestamp);
+      const dayKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+      
+      if (!mangasByDay[dayKey]) {
+        mangasByDay[dayKey] = [];
+      }
+      
+      mangasByDay[dayKey].push(manga);
+    });
+    
+    // Pour chaque jour, ne garder que le manga le plus récent (déjà trié)
+    const mostRecentByDay = Object.values(mangasByDay).map(dayMangas => dayMangas[0]);
+    
+    console.log(`Affichage de ${mostRecentByDay.length} mangas (le plus récent par jour):`, 
+      mostRecentByDay.map(m => `${m.title} (${new Date(m.latestTimestamp).toLocaleString()})`));
+    
+    // Si aucun manga n'a réellement reçu de mise à jour
+    if (mostRecentByDay.length === 0) {
+      container.innerHTML = `
+        <p class="no-updates">Aucun manga n'a reçu de nouveaux chapitres récemment</p>
+        <button id="reloadUpdatesBtn" class="btn btn-primary">
+          Recharger les mises à jour
+        </button>
+      `;
+      
+      // Ajouter l'événement de rechargement
+      const reloadBtn = document.getElementById('reloadUpdatesBtn');
+      if (reloadBtn) {
+        reloadBtn.addEventListener('click', async () => {
+          try {
+            reloadBtn.disabled = true;
+            reloadBtn.textContent = 'Rechargement...';
+            await loadRecentUpdates();
+            reloadBtn.disabled = false;
+            reloadBtn.textContent = 'Recharger les mises à jour';
+          } catch (error) {
+            console.error('Erreur lors du rechargement:', error);
+            reloadBtn.disabled = false;
+            reloadBtn.textContent = 'Réessayer';
+          }
+        });
+      }
+      
+      // Rendre le bouton Voir tout inactif mais toujours visible
+      if (showAllUpdatesBtn) {
+        showAllUpdatesBtn.disabled = true;
+        showAllUpdatesBtn.classList.add('disabled');
+      }
+      return;
+    }
+    
+    // Réactiver le bouton s'il y a des mises à jour
+    if (showAllUpdatesBtn) {
+      showAllUpdatesBtn.disabled = false;
+      showAllUpdatesBtn.classList.remove('disabled');
+      showAllUpdatesBtn.style.display = 'block';
+    }
+
+    // Limiter à 5 entrées les plus récentes par défaut
+    const recentItems = mostRecentByDay.slice(0, 5);
+
+    // Créer les cartes pour chaque manga
+    recentItems.forEach(manga => {
+      const mangaCard = document.createElement('div');
+      mangaCard.className = 'manga-card';
+      mangaCard.setAttribute('data-manga-slug', manga.slug);
+
+      // Utiliser la date précise pour l'affichage
+      const displayDate = new Date(manga.latestTimestamp);
+      
+      // Formater la date et l'heure en français
+      const formattedDate = displayDate.toLocaleDateString('fr-FR', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      
+      // Calculer à partir de maintenant (aujourd'hui, hier, etc.)
+      const timeAgo = getRelativeTimeString(displayDate);
+      
+      // Créer une info de mise à jour qui montre le changement de chapitres
+      let updateInfo = '';
+      const difference = manga.chapterCount - manga.lastChapterCount;
+      if (difference > 0) {
+        updateInfo = `<span class="chapter-update-badge">+${difference} ${difference > 1 ? 'chapitres' : 'chapitre'}</span>`;
+      }
+
+      mangaCard.innerHTML = `
+        <div class="manga-cover">
+          <img src="${manga.cover}" alt="${manga.title}" loading="lazy">
+          ${updateInfo}
+        </div>
+        <div class="manga-info">
+          <h3>${manga.title}</h3>
+          <div class="manga-chapters">Chapitres: ${manga.chapterCount}</div>
+        </div>
+      `;
+
+      // Ajouter le gestionnaire de clic sur la carte
+      mangaCard.addEventListener('click', () => {
+        const slug = mangaCard.getAttribute('data-manga-slug');
+        if (slug) {
+          showMangaDetailsPopup(slug);
+        }
+      });
+
+      container.appendChild(mangaCard);
+    });
+  } catch (error) {
+    console.error('Problème d\'affichage des mises à jour:', error);
+    
+    // En cas d'erreur, afficher un message simple avec un bouton de rechargement
+    const container = document.getElementById('recentUpdatesList');
+    const showAllUpdatesBtn = document.getElementById('showAllUpdatesBtn');
+    
+    if (container) {
+      container.innerHTML = `
+        <p class="no-updates">Erreur lors du chargement des mises à jour</p>
+        <button id="reloadUpdatesBtn" class="btn btn-primary">
+          Réessayer
+        </button>
+      `;
+      
+      // Ajouter l'événement de rechargement
+      const reloadBtn = document.getElementById('reloadUpdatesBtn');
+      if (reloadBtn) {
+        reloadBtn.addEventListener('click', () => loadRecentUpdates());
+      }
+    }
+    
+    // Rendre le bouton inactif mais toujours visible
+    if (showAllUpdatesBtn) {
+      showAllUpdatesBtn.disabled = true;
+      showAllUpdatesBtn.classList.add('disabled');
+    }
+  }
+}
+
+// Fonction pour obtenir une chaîne de temps relative (aujourd'hui, hier, etc.)
+function getRelativeTimeString(date) {
+  const now = new Date();
+  const diffMs = now - date;
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  
+  if (diffDays === 0) {
+    return "aujourd'hui";
+  } else if (diffDays === 1) {
+    return "hier";
+  } else if (diffDays < 7) {
+    return `il y a ${diffDays} jours`;
+  } else {
+    return `le ${date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}`;
+  }
+}
+
+// Fonction pour afficher toutes les mises à jour récentes
+window.showAllRecentUpdates = function(e) {
+  // Empêcher le comportement par défaut et la propagation de l'événement
+  if (e && e.preventDefault) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  
+  console.log('Affichage de toutes les mises à jour récentes');
+  
+  // Filtrer les mangas qui ont réellement reçu des mises à jour (nouveaux chapitres)
+  const updatedMangas = recentUpdates.filter(manga => {
+    if (manga.lastChapterCount !== undefined && manga.chapterCount !== undefined) {
+      const difference = manga.chapterCount - manga.lastChapterCount;
+      return difference > 0;
+    }
+    return false;
+  });
+  
+  // Obtenir la date précise la plus récente pour chaque manga
+  const mangasWithTimestamp = updatedMangas.map(manga => {
+    const lastChapterDate = manga.lastChapterUpdate ? new Date(manga.lastChapterUpdate).getTime() : 0;
+    const updatedDate = manga.updatedAt ? new Date(manga.updatedAt).getTime() : 0;
+    
+    // Utiliser le timestamp le plus récent
+    const latestTimestamp = Math.max(lastChapterDate, updatedDate);
+    
+    return {
+      ...manga,
+      latestTimestamp
+    };
+  });
+  
+  // Trier par timestamp du plus récent au plus ancien
+  mangasWithTimestamp.sort((a, b) => b.latestTimestamp - a.latestTimestamp);
+  
+  // Regrouper par date (jour)
+  const mangasByDay = {};
+  mangasWithTimestamp.forEach(manga => {
+    // Créer une clé pour chaque jour (YYYY-MM-DD)
+    const date = new Date(manga.latestTimestamp);
+    const dayKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+    
+    if (!mangasByDay[dayKey]) {
+      mangasByDay[dayKey] = [];
+    }
+    
+    mangasByDay[dayKey].push(manga);
+  });
+  
+  // Pour chaque jour, ne garder que le manga le plus récent (déjà trié)
+  const mostRecentByDay = Object.values(mangasByDay).map(dayMangas => dayMangas[0]);
+  
+  // Vérifier si des mises à jour existent et contiennent des éléments
+  if (!mostRecentByDay || mostRecentByDay.length === 0) {
+    showAlert('Aucun manga n\'a reçu de nouveaux chapitres récemment', 'info');
+    return;
+  }
+  
+  // Si moins de 5 entrées, afficher un avertissement
+  if (mostRecentByDay.length <= 5) {
+    showAlert('Toutes les mises à jour sont déjà affichées', 'info');
+    return;
+  }
+  
+  // Référence à la section des mises à jour récentes
+  const recentUpdatesSection = document.getElementById('recentUpdatesSection');
+  const recentUpdatesList = document.getElementById('recentUpdatesList');
+  
+  if (!recentUpdatesSection || !recentUpdatesList) {
+    console.error('❌ Section des mises à jour récentes non trouvée');
+    return;
+  }
+  
+  // Vérifier si la liste complète est déjà affichée
+  const isExpanded = recentUpdatesSection.classList.contains('expanded');
+  
+  if (isExpanded) {
+    // Réduire la liste (n'afficher que les 5 premiers)
+    recentUpdatesSection.classList.remove('expanded');
+    document.getElementById('showAllUpdatesBtn').textContent = 'Voir toutes les mises à jour';
+    
+    // Recréer l'affichage avec seulement les 5 premiers éléments
+    displayRecentUpdates();
+  } else {
+    // Étendre la liste (afficher tous les mangas)
+    recentUpdatesSection.classList.add('expanded');
+    document.getElementById('showAllUpdatesBtn').textContent = 'Réduire la liste';
+    
+    // Vider la liste actuelle
+    recentUpdatesList.innerHTML = '';
+    
+    // Afficher toutes les entrées des mises à jour récentes
+    mostRecentByDay.forEach(manga => {
+      const mangaCard = document.createElement('div');
+      mangaCard.className = 'manga-card';
+      mangaCard.setAttribute('data-manga-slug', manga.slug);
+
+      // Utiliser la date précise pour l'affichage
+      const displayDate = new Date(manga.latestTimestamp);
+      
+      // Formater la date en français avec l'heure précise
+      const updateDate = displayDate.toLocaleDateString('fr-FR', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      
+      // Créer une info de mise à jour qui montre le changement de chapitres
+      let updateInfo = '';
+      const difference = manga.chapterCount - manga.lastChapterCount;
+      if (difference > 0) {
+        updateInfo = `<span class="chapter-update-badge">+${difference} ${difference > 1 ? 'chapitres' : 'chapitre'}</span>`;
+      }
+
+      mangaCard.innerHTML = `
+        <div class="manga-cover">
+          <img src="${manga.cover}" alt="${manga.title}" loading="lazy">
+          ${updateInfo}
+        </div>
+        <div class="manga-info">
+          <h3>${manga.title}</h3>
+          <div class="manga-chapters">Chapitres: ${manga.chapterCount}</div>
+        </div>
+      `;
+
+      // Ajouter le gestionnaire de clic sur la carte
+      mangaCard.addEventListener('click', () => {
+        const slug = mangaCard.getAttribute('data-manga-slug');
+        if (slug) {
+          showMangaDetailsPopup(slug);
+        }
+      });
+
+      recentUpdatesList.appendChild(mangaCard);
+    });
+  }
+  
+  return false; // Empêcher la propagation de l'événement
+};
+
+// Fonction d'initialisation de l'application
+async function initApp() {
+  console.log('🚀 Initialisation de l\'application...');
+  
+  // Charger la liste des mangas
+  await loadMangaList();
+  
+  // Forcer un rechargement des mises à jour récentes
+  await loadRecentUpdates();
+  
+  // Récupérer l'historique de lecture depuis localStorage
+  loadReadingHistory();
+  // La fonction correcte est displayContinueReading()
+  // displayReadingHistory() n'existe pas
+  
+  // Charger la liste "À lire"
+  loadToReadList();
+  displayToReadList();
+  
+  console.log('✅ Initialisation terminée');
+}
+
+// Exécuter l'initialisation au chargement du document
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('📄 Document chargé, initialisation de l\'application...');
+  
+  // Initialiser les classes d'animation pour les sections
+  const recentUpdatesSection = document.getElementById('recentUpdatesSection');
+  const continueReadingSection = document.getElementById('continueReadingSection');
+  
+  if (recentUpdatesSection) recentUpdatesSection.classList.add('section-visible');
+  if (continueReadingSection) continueReadingSection.classList.add('section-visible');
+  
+  initApp();
+});

@@ -37,9 +37,18 @@ const registerLink = document.getElementById('registerLink');
 const resetPasswordLink = document.getElementById('resetPasswordLink');
 const alertContainer = document.getElementById('alertContainer');
 
+// Fonction pour échapper les caractères spéciaux HTML
+function sanitizeHTML(text) {
+  const element = document.createElement('div');
+  element.textContent = text;
+  return element.textContent;
+}
+
 // Fonction pour afficher les alertes
 function showAlert(message, type) {
-  alertContainer.textContent = message;
+  // Sanitizer le message avant de l'afficher
+  const sanitizedMessage = sanitizeHTML(message);
+  alertContainer.textContent = sanitizedMessage;
   alertContainer.className = `alert alert-${type}`;
   alertContainer.classList.remove('hidden');
   
@@ -97,7 +106,7 @@ async function fetchApi(endpoint, method = 'GET', data = null, timeout = 10000) 
     };
     
     // Si on a un token, l'ajouter aux headers
-    const token = localStorage.getItem('userToken');
+    const token = sessionStorage.getItem('userToken') || localStorage.getItem('userToken');
     if (token) {
       options.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -136,26 +145,37 @@ async function fetchApi(endpoint, method = 'GET', data = null, timeout = 10000) 
 // Fonction pour vérifier si l'utilisateur est déjà connecté
 async function checkAutoLogin() {
   try {
-    const token = localStorage.getItem('userToken');
-    const userData = localStorage.getItem('user');
-    
-    if (!token || !userData) {
-      console.log('Aucun token ou données utilisateur trouvés');
+    // Vérifier si on a un token stocké
+    const token = sessionStorage.getItem('userToken') || localStorage.getItem('userToken');
+    if (!token) {
+      console.log('Aucun token trouvé pour l\'auto-connexion');
       return false;
     }
     
-    console.log('Tentative de reconnexion automatique avec token existant...');
+    // Si le token est dans localStorage mais pas dans sessionStorage, le copier dans sessionStorage
+    // Cela arrive notamment au démarrage de l'application quand sessionStorage est vide
+    if (localStorage.getItem('userToken') && !sessionStorage.getItem('userToken')) {
+      console.log('Token trouvé dans localStorage, copie dans sessionStorage pour la session actuelle');
+      sessionStorage.setItem('userToken', localStorage.getItem('userToken'));
+    }
     
-    // Vérifier si le token est valide via fetchApi
     try {
+      console.log('Récupération des informations utilisateur depuis le serveur...');
       const data = await fetchApi('/users/profile', 'GET');
       
-      // Mettre à jour les données utilisateur
+      console.log('Informations utilisateur récupérées avec succès:', data.username);
+      
+      // Mettre à jour systématiquement les données utilisateur à partir du serveur
+      // en écrasant toute donnée antérieure en cache
       localStorage.setItem('user', JSON.stringify({
         id: data._id,
         username: data.username,
         email: data.email
       }));
+      
+      // Mettre à jour également les anciennes clés pour la compatibilité
+      localStorage.setItem('userName', data.username);
+      localStorage.setItem('userEmail', data.email);
       
       console.log('Auto-connexion réussie pour', data.username);
       showAlert(`Reconnexion automatique en cours...`, 'success');
@@ -169,8 +189,11 @@ async function checkAutoLogin() {
     } catch (error) {
       if (error.status === 401) {
         console.warn('Token invalide ou expiré, suppression des données de session');
-        localStorage.removeItem('userToken');
+        sessionStorage.removeItem('userToken');
+        localStorage.removeItem('userToken'); // Pour s'assurer que les deux sont supprimés
         localStorage.removeItem('user');
+        localStorage.removeItem('userName'); // Supprimer aussi les anciennes clés
+        localStorage.removeItem('userEmail');
         localStorage.removeItem('autoLogin');
         showAlert('Session expirée. Veuillez vous reconnecter.', 'danger');
         return false;
@@ -201,6 +224,12 @@ async function handleLogin() {
     return;
   }
   
+  // Validation plus stricte du mot de passe (au moins 8 caractères)
+  if (password.length < 8) {
+    showAlert('Le mot de passe doit contenir au moins 8 caractères', 'danger');
+    return;
+  }
+  
   try {
     // Désactiver le bouton pendant la connexion
     loginButton.textContent = 'Connexion en cours...';
@@ -215,14 +244,21 @@ async function handleLogin() {
     });
     
     if (data.token) {
-      // Sauvegarder le token et les informations utilisateur
-      localStorage.setItem('userToken', data.token);
+      // Sauvegarder le token à la fois dans sessionStorage (pour la sécurité) et localStorage (pour l'auto-login)
+      sessionStorage.setItem('userToken', data.token);
+      localStorage.setItem('userToken', data.token); // Conserver dans localStorage pour l'auto-login
+      
+      // Garder uniquement les informations non-sensibles dans localStorage
       localStorage.setItem('user', JSON.stringify({
         id: data._id,
         username: data.username,
         email: data.email
       }));
       localStorage.setItem('autoLogin', 'true');
+      
+      // Mettre à jour également les anciennes clés pour la compatibilité
+      localStorage.setItem('userName', data.username);
+      localStorage.setItem('userEmail', data.email);
       
       // Notifier le processus principal si possible
       if (ipcRenderer) {

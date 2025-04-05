@@ -3,10 +3,16 @@ const { ipcRenderer } = require('electron');
 // Fonction pour obtenir l'URL de l'API
 async function getApiUrl() {
     try {
-        return await ipcRenderer.invoke('get-api-url');
+        if (window.electron && window.electron.getApiUrl) {
+            return window.electron.getApiUrl();
+        } else {
+            // Fallback si window.electron n'est pas disponible
+            return 'http://bubblereader.zapto.org:5000/api';
+        }
     } catch (error) {
         console.error('Erreur lors de la récupération de l\'URL de l\'API:', error);
-        throw new Error('Impossible de récupérer l\'URL de l\'API');
+        // Utiliser une URL par défaut en cas d'erreur
+        return 'http://bubblereader.zapto.org:5000/api';
     }
 }
 
@@ -38,19 +44,35 @@ async function fetchApi(endpoint, method = 'GET', data = null) {
 
         const response = await fetch(url, options);
         
-        // Pour les requêtes DELETE qui retournent 204
+        // Pour les requêtes DELETE qui retournent 204 No Content
         if (response.status === 204) {
-            return { success: true };
+            console.log(`✅ Réponse 204 No Content reçue pour ${url}`);
+            return { success: true, message: 'Opération effectuée avec succès' };
         }
 
         // Gérer les erreurs HTTP
         if (!response.ok) {
             const errorText = await response.text();
+            console.error(`❌ Erreur HTTP ${response.status}: ${errorText}`);
             throw new Error(errorText || `Erreur HTTP: ${response.status}`);
         }
 
-        const responseData = await response.json();
-        return responseData;
+        // Pour les réponses sans contenu
+        if (response.status === 204 || response.headers.get('content-length') === '0') {
+            return { success: true };
+        }
+
+        try {
+            const responseData = await response.json();
+            return responseData;
+        } catch (jsonError) {
+            console.error('❌ Erreur de parsing JSON:', jsonError);
+            if (response.ok) {
+                // Si la réponse est OK mais le JSON est invalide, on renvoie un succès
+                return { success: true };
+            }
+            throw new Error('Réponse du serveur invalide');
+        }
     } catch (error) {
         console.error('❌ Erreur API:', error);
         throw error;
@@ -73,6 +95,7 @@ const api = {
     getMangaBySlug: (slug) => fetchApi(`/mangas/${slug}`),
     getChapter: (slug, number) => fetchApi(`/mangas/${slug}/chapter/${number}`),
     searchMangas: (query) => fetchApi(`/mangas/search?query=${encodeURIComponent(query)}`),
+    getRecentlyUpdatedMangas: () => fetchApi('/mangas/recently-updated'),
 
     // Progression de lecture
     getReadingProgress: () => fetchApi('/users/mangas/reading-progress'),

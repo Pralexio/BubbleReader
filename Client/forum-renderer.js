@@ -223,6 +223,7 @@ function logout() {
   localStorage.removeItem('userName');
   localStorage.removeItem('userEmail');
   localStorage.removeItem('autoLogin');
+  sessionStorage.removeItem('userToken');
   
   if (ipcRenderer && ipcRenderer.send) {
     ipcRenderer.send('logout');

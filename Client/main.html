@@ -10,48 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
-    <script>
-        // Protection précoce contre les outils de développement
-        (function() {
-            // Vérifier si devtools est ouvert
-            function isDevToolsOpen() {
-                const devtools = /./;
-                devtools.toString = function() {
-                    this.opened = true;
-                };
-                console.log('%c', devtools);
-                return devtools.opened;
-            }
-
-            // Débordement de la pile pour ralentir le débogage
-            function stackOverflow() {
-                try {
-                    (function x(){
-                        if (isDevToolsOpen()) {
-                            document.body.innerHTML = '';
-                            while(1) console.log(1);
-                        }
-                        x();
-                    })();
-                } catch(e) {
-                    setTimeout(stackOverflow, 100);
-                }
-            }
-
-            // Empêcher le débogage
-            function preventDebugger() {
-                setInterval(() => {
-                    debugger;
-                }, 50);
-            }
-
-            // Exécuter en mode production uniquement
-            if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-                preventDebugger();
-                setTimeout(stackOverflow, 1000);
-            }
-        })();
-    </script>
 </head>
 <body>
     <div class="titlebar">
@@ -102,7 +60,7 @@
                     <span>À lire</span>
                 </button>
                 <div class="user-menu">
-                    <span id="username">Chargement...</span>
+                    <span id="username" class="username-display">Utilisateur</span>
                     <button id="logoutBtn">Déconnexion</button>
                 </div>
             </div>
@@ -117,6 +75,17 @@
             </div>
 
             <div class="content-wrapper">
+                <!-- Section Dernières mises à jour -->
+                <section id="recentUpdatesSection" class="section">
+                    <div class="section-header">
+                        <h2>Dernières mises à jour</h2>
+                        <button id="showAllUpdatesBtn" class="btn btn-primary">
+                            Voir toutes les mises à jour
+                        </button>
+                    </div>
+                    <div id="recentUpdatesList" class="manga-grid"></div>
+                </section>
+
                 <!-- Section Reprendre la lecture -->
                 <section id="continueReadingSection" class="section">
                     <div class="section-header">
@@ -179,4 +148,4 @@
 
     <script src="main-renderer.js"></script>
 </body>
-</html> 
+</html>
