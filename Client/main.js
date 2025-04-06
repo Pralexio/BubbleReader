@@ -55,7 +55,7 @@ function createWindow() {
       contextIsolation: true,
       sandbox: false,
       preload: path.join(__dirname, 'preload.js'),
-      devTools: true, // Réactiver les outils de développement
+      devTools: false, // Désactiver les outils de développement
       webSecurity: true, 
       allowRunningInsecureContent: false
     },
@@ -88,8 +88,8 @@ function createWindow() {
   mainWindow.on('ready-to-show', () => {
     mainWindow.show();
     
-    // Toujours ouvrir les DevTools pour faciliter le développement
-    mainWindow.webContents.openDevTools();
+    // Ne plus ouvrir les DevTools automatiquement
+    // mainWindow.webContents.openDevTools();
     
     mainWindow.webContents.send('window-maximized-state-changed', mainWindow.isMaximized());
   });
@@ -98,7 +98,6 @@ function createWindow() {
   mainWindow.loadFile('index.html');
 
   // Empêcher l'ouverture de la console développeur via raccourcis clavier
-  /*
   mainWindow.webContents.on('before-input-event', (event, input) => {
     // Bloquer les raccourcis qui ouvrent les DevTools
     // F12, Ctrl+Shift+I, Cmd+Option+I
@@ -114,7 +113,6 @@ function createWindow() {
       event.preventDefault();
     }
   });
-  */
 
   // Gérer la fermeture de la fenêtre
   mainWindow.on('closed', function () {
@@ -123,25 +121,24 @@ function createWindow() {
 
   // Désactiver le menu contextuel
   mainWindow.webContents.on('context-menu', (e) => {
-    // Autoriser le menu contextuel pendant le développement
-    // e.preventDefault();
+    // Bloquer complètement le menu contextuel en production
+    e.preventDefault();
   });
 
-  // Ne plus bloquer l'ouverture des DevTools
-  /*
+  // Bloquer l'ouverture des DevTools
   mainWindow.webContents.on('devtools-opened', () => {
     mainWindow.webContents.closeDevTools();
   });
 
-  // Ne plus bloquer l'inspection d'éléments
+  // Bloquer l'inspection d'éléments
   mainWindow.webContents.on('inspect-element', (event) => {
     event.preventDefault();
   });
-  */
 }
 
 // Lorsque l'application est prête, créer la fenêtre
 app.whenReady().then(() => {
+  // Désactiver les extensions de développement
   // Désactiver l'extension React DevTools et tout autre outil de développement tiers
   session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
     // Bloquer les requêtes vers React DevTools et autres extensions de développement

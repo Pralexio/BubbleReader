@@ -59,7 +59,8 @@ let chapterData = null;
 let userSettings = {
   readingDirection: 'vertical', // vertical (manhwa), ltr (manga gauche à droite), rtl (manga droite à gauche)
   pageTransition: 'fade',      // fade, slide, none
-  pageSize: 'fit-width'        // fit-width, fit-height, full
+  pageSize: 'fit-width',        // fit-width, fit-height, full
+  zoomLevel: 1.0               // niveau de zoom par défaut
 };
 
 // Variables pour le suivi de la progression
@@ -488,14 +489,31 @@ function preloadAdjacentPages(currentIndex) {
 
 // Fonction pour mettre à jour les contrôles de navigation
 function updateNavigationControls() {
-  // Activer/désactiver les boutons de navigation de page
-  prevPageBtn.disabled = currentPage <= 0;
-  nextPageBtn.disabled = currentPage >= totalPages - 1;
+  if (!pageInfo || !prevPageBtn || !nextPageBtn || !prevChapterBtn || !nextChapterBtn) return;
   
-  // Pour les boutons de chapitre, ils sont toujours actifs pour l'instant
-  // Dans une version plus avancée, nous pourrions vérifier si les chapitres existent
-  prevChapterBtn.disabled = currentChapter <= 1;
-  nextChapterBtn.disabled = false;
+  // Mettre à jour l'information de page
+  if (userSettings.readingDirection === 'vertical') {
+    pageInfo.textContent = `${totalPages} pages`;
+    
+    // En mode vertical (manhwa), masquer les boutons de navigation de page
+    prevPageBtn.style.display = 'none';
+    nextPageBtn.style.display = 'none';
+    pageInfo.style.display = 'none';
+  } else {
+    // En mode horizontal (manga), afficher tous les contrôles
+    prevPageBtn.style.display = 'flex';
+    nextPageBtn.style.display = 'flex';
+    pageInfo.style.display = 'flex';
+    pageInfo.textContent = `${currentPage + 1} / ${totalPages}`;
+    
+    // Désactiver les boutons si on est à la première ou dernière page
+    prevPageBtn.disabled = currentPage === 0;
+    nextPageBtn.disabled = currentPage >= totalPages - 1;
+  }
+  
+  // Désactiver les boutons de chapitre si nécessaire
+  prevChapterBtn.disabled = !chapterData || chapterData.prevChapter === null;
+  nextChapterBtn.disabled = !chapterData || chapterData.nextChapter === null;
 }
 
 // Fonction pour naviguer vers la page précédente
@@ -591,65 +609,88 @@ function updateSettingsUI() {
 
 // Fonction pour charger toutes les pages (mode vertical)
 function loadAllPages() {
-  if (mangaImages.length === 0) return;
-  
-  // Nettoyer le conteneur
-  mangaImageContainer.innerHTML = '';
-  
-  // Supprimer toutes les classes de taille existantes et appliquer la taille actuelle
-  mangaImageContainer.classList.remove('fit-width', 'fit-height', 'full');
-  mangaImageContainer.classList.add(userSettings.pageSize);
-  
-  let lastValidPage = -1;
-  
-  // Ajouter toutes les images
-  mangaImages.forEach((imageData, index) => {
-    const img = document.createElement('img');
-    img.className = 'manga-image';
-    img.src = imageData.url;
-    img.alt = `Page ${index + 1}`;
-    img.loading = index < 3 ? 'eager' : 'lazy';
+    if (!mangaImageContainer || mangaImages.length === 0) return;
     
-    // Gérer le chargement
-    img.onload = () => {
-      console.log(`Image ${index + 1} chargée`);
-      lastValidPage = index;
-    };
+    console.log('Chargement de toutes les pages en mode vertical...');
     
-    img.onerror = () => {
-      console.error(`Erreur lors du chargement de l'image ${index + 1}`);
-      img.remove();
-      // Si aucune image n'a été chargée
-      if (lastValidPage === -1 && index === 0) {
-        errorMessage.style.display = 'block';
-        errorMessage.textContent = 'Aucune page trouvée pour ce chapitre';
-        mangaImageContainer.innerHTML = '';
-      }
-      // Mettre à jour le nombre total de pages
-      totalPages = lastValidPage + 1;
-      updateNavigationControls();
-    };
+    // Vider le conteneur
+    mangaImageContainer.innerHTML = '';
     
-    // Ajouter un numéro de page
-    const pageNumber = document.createElement('div');
-    pageNumber.className = 'page-number';
-    pageNumber.textContent = index + 1;
+    // Supprimer toutes les classes de taille existantes et appliquer la taille actuelle
+    mangaImageContainer.classList.remove('fit-width', 'fit-height', 'full');
+    mangaImageContainer.classList.add(userSettings.pageSize);
     
-    // Créer un conteneur pour l'image et son numéro
-    const imageContainer = document.createElement('div');
-    imageContainer.className = 'single-page-container';
-    imageContainer.appendChild(img);
-    imageContainer.appendChild(pageNumber);
+    let lastValidPage = -1;
     
-    // Ajouter au conteneur principal
-    mangaImageContainer.appendChild(imageContainer);
-  });
-  
-  // Mettre à jour l'information de page
-  pageInfo.textContent = `1-${totalPages} / ${totalPages}`;
-  
-  // Mettre à jour les contrôles de navigation
-  updateNavigationControls();
+    // Ajouter chaque image avec son conteneur
+    mangaImages.forEach((image, index) => {
+        const pageContainer = document.createElement('div');
+        pageContainer.className = 'single-page-container';
+        pageContainer.dataset.pageIndex = index;
+        
+        const img = document.createElement('img');
+        img.classList.add('manga-image');
+        img.dataset.index = index;
+        img.alt = `Page ${index + 1}`;
+        img.src = image.url;
+        img.loading = index < 3 ? 'eager' : 'lazy';
+        
+        // Ajouter un numéro de page
+        const pageNumber = document.createElement('div');
+        pageNumber.className = 'page-number';
+        pageNumber.textContent = `${index + 1} / ${mangaImages.length}`;
+        
+        // Ajouter l'événement de chargement
+        img.onload = function() {
+            this.classList.add('loaded');
+            lastValidPage = Math.max(lastValidPage, index);
+            
+            // Stocker les dimensions naturelles de l'image comme attributs de données
+            this.dataset.naturalWidth = this.naturalWidth;
+            this.dataset.naturalHeight = this.naturalHeight;
+            
+            // Marquer cette page comme chargée
+            if (index === 0) {
+                // Masquer le spinner après le chargement de la première image
+                if (loadingSpinner) loadingSpinner.style.display = 'none';
+                
+                // Défiler vers le haut au chargement initial
+                if (readerContainer) readerContainer.scrollTop = 0;
+            }
+        };
+        
+        img.onerror = function() {
+            console.error(`Erreur lors du chargement de l'image ${index + 1}`);
+            this.classList.add('error');
+            this.src = 'assets/image-error.png';
+            pageNumber.textContent = `Erreur: ${index + 1} / ${mangaImages.length}`;
+            
+            // Si aucune image n'a été chargée et c'est la première page
+            if (lastValidPage === -1 && index === 0) {
+                if (errorMessage) {
+                    errorMessage.style.display = 'block';
+                    errorMessage.textContent = 'Aucune page trouvée pour ce chapitre';
+                }
+            }
+        };
+        
+        // Ajouter les éléments au DOM
+        pageContainer.appendChild(img);
+        pageContainer.appendChild(pageNumber);
+        mangaImageContainer.appendChild(pageContainer);
+    });
+    
+    // Mettre à jour les informations de progression
+    currentPage = 0;
+    totalPages = mangaImages.length;
+    updateNavigationControls();
+    
+    // Appliquer le zoom actuel aux images
+    setTimeout(() => {
+        applyZoom();
+    }, 100);
+    
+    console.log(`Toutes les images chargées (${mangaImages.length} pages)`);
 }
 
 // Fonction pour sauvegarder localement la progression
@@ -982,6 +1023,122 @@ const handleScroll = debounce(() => {
     }
 }, 1000); // Attendre 1 seconde d'inactivité avant de sauvegarder
 
+// Variables de zoom
+const zoomInBtn = document.getElementById('zoomInBtn');
+const zoomOutBtn = document.getElementById('zoomOutBtn');
+const zoomResetBtn = document.getElementById('zoomResetBtn');
+const zoomLevelDisplay = document.getElementById('zoomLevel');
+let currentZoom = 1.0;
+const zoomStep = 0.1;
+const minZoom = 0.5;
+const maxZoom = 3.0;
+
+// Gestionnaires d'événements pour la taille de page et la direction de lecture
+document.querySelectorAll('input[name="pageSize"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+        userSettings.pageSize = e.target.value;
+        localStorage.setItem('pageSize', userSettings.pageSize);
+        applyPageSize();
+    });
+});
+
+// Fonction pour appliquer la taille de page
+function applyPageSize() {
+    mangaImageContainer.classList.remove('fit-width', 'fit-height', 'full');
+    mangaImageContainer.classList.add(userSettings.pageSize);
+    applyZoom(); // Appliquer le zoom après avoir défini la taille de page
+}
+
+// Gestionnaires d'événements pour le zoom
+zoomInBtn.addEventListener('click', () => {
+    if (currentZoom < maxZoom) {
+        currentZoom = Math.min(currentZoom + zoomStep, maxZoom);
+        userSettings.zoomLevel = currentZoom;
+        saveUserSettings();
+        applyZoom();
+    }
+});
+
+zoomOutBtn.addEventListener('click', () => {
+    if (currentZoom > minZoom) {
+        currentZoom = Math.max(currentZoom - zoomStep, minZoom);
+        userSettings.zoomLevel = currentZoom;
+        saveUserSettings();
+        applyZoom();
+    }
+});
+
+zoomResetBtn.addEventListener('click', () => {
+    currentZoom = 1.0;
+    userSettings.zoomLevel = currentZoom;
+    saveUserSettings();
+    applyZoom();
+});
+
+// Ajouter le support du zoom avec la molette de la souris
+mangaImageContainer.addEventListener('wheel', (e) => {
+    if (e.ctrlKey) {
+        e.preventDefault();
+        if (e.deltaY < 0 && currentZoom < maxZoom) {
+            currentZoom = Math.min(currentZoom + zoomStep, maxZoom);
+        } else if (e.deltaY > 0 && currentZoom > minZoom) {
+            currentZoom = Math.max(currentZoom - zoomStep, minZoom);
+        }
+        userSettings.zoomLevel = currentZoom;
+        saveUserSettings();
+        applyZoom();
+    }
+});
+
+// Appliquer le niveau de zoom actuel
+function applyZoom() {
+    // En mode vertical, chaque image doit avoir le zoom appliqué
+    if (userSettings.readingDirection === 'vertical') {
+        // Solution simplifiée : au lieu d'appliquer le zoom sur chaque image,
+        // appliquons-le au conteneur principal
+        mangaImageContainer.style.transform = `scale(${currentZoom})`;
+        mangaImageContainer.style.transformOrigin = 'top center';
+        
+        // Réinitialiser les styles sur les images individuelles
+        const images = document.querySelectorAll('.manga-image');
+        images.forEach(img => {
+            img.style.transform = 'none';
+            img.style.margin = '0';
+            img.style.padding = '0';
+            img.style.display = 'block';
+        });
+        
+        // Réinitialiser les styles sur les conteneurs
+        const containers = document.querySelectorAll('.single-page-container');
+        containers.forEach(container => {
+            container.style.margin = '0';
+            container.style.padding = '0';
+            container.style.lineHeight = '0';
+            container.style.overflow = 'visible';
+        });
+    } else {
+        // En mode horizontal, appliquer le zoom au conteneur principal
+        const container = document.querySelector('.single-page-container');
+        if (container) {
+            container.style.transform = `scale(${currentZoom})`;
+            container.style.transformOrigin = 'center center';
+            
+            // Réinitialiser le zoom sur l'image elle-même
+            const currentImage = document.querySelector('.manga-image');
+            if (currentImage) {
+                currentImage.style.transform = 'none';
+            }
+        }
+    }
+    
+    zoomLevelDisplay.textContent = `${Math.round(currentZoom * 100)}%`;
+}
+
+// Fonction pour sauvegarder les paramètres utilisateur
+function saveUserSettings() {
+    localStorage.setItem('readerSettings', JSON.stringify(userSettings));
+}
+
 // Fonction pour appliquer les paramètres
 function applySettings() {
     // S'assurer que tous les éléments DOM sont disponibles
@@ -1027,10 +1184,17 @@ function applySettings() {
     // Ajouter la classe correspondant à la taille sélectionnée
     mangaImageContainer.classList.add(userSettings.pageSize);
     
-    console.log(`Taille d'affichage appliquée: ${userSettings.pageSize}`);
+    // Appliquer le niveau de zoom sauvegardé
+    currentZoom = userSettings.zoomLevel || 1.0;
+    applyZoom();
+    
+    // Mettre à jour les contrôles de navigation (masquer/afficher selon le mode)
+    updateNavigationControls();
+    
+    console.log(`Taille d'affichage appliquée: ${userSettings.pageSize}, Zoom: ${currentZoom}`);
     
     // Sauvegarder les paramètres
-    localStorage.setItem('readerSettings', JSON.stringify(userSettings));
+    saveUserSettings();
 }
 
 // Fonction d'initialisation
@@ -1080,6 +1244,9 @@ function init() {
     errorMessage.textContent = 'Paramètres manquants: slug et/ou chapitre';
     loadingSpinner.style.display = 'none';
   }
+  
+  // S'assurer que les contrôles de navigation sont correctement initialisés
+  updateNavigationControls();
   
   // Ajouter les écouteurs d'événements pour la navigation
   prevPageBtn.addEventListener('click', goToPreviousPage);
@@ -1183,21 +1350,16 @@ if (settingsBtn && settingsModal && closeSettingsBtn) {
                 }
             });
             
+            // S'assurer que le niveau de zoom actuel est enregistré
+            userSettings.zoomLevel = currentZoom;
+            
             console.log('Paramètres à sauvegarder:', userSettings);
             
             // Sauvegarder les paramètres dans le localStorage
-            localStorage.setItem('readerSettings', JSON.stringify(userSettings));
+            saveUserSettings();
             
             // Appliquer les changements
             applySettings();
-            
-            // Si nous sommes en mode vertical, recharger toutes les pages
-            if (userSettings.readingDirection === 'vertical') {
-                loadAllPages();
-            } else {
-                // Sinon, recharger la page courante
-                loadPage(currentPage);
-            }
             
             // Fermer la modale
             settingsModal.classList.remove('active');
@@ -1206,4 +1368,23 @@ if (settingsBtn && settingsModal && closeSettingsBtn) {
             showAlert('Paramètres enregistrés', 'success');
         });
     }
-} 
+}
+
+// Initialisation
+window.addEventListener('DOMContentLoaded', async () => {
+    // Récupérer les préférences utilisateur depuis le stockage local
+    const savedSettings = localStorage.getItem('readerSettings');
+    if (savedSettings) {
+        try {
+            userSettings = { ...userSettings, ...JSON.parse(savedSettings) };
+            // Mettre à jour le niveau de zoom actuel depuis les paramètres
+            currentZoom = userSettings.zoomLevel || 1.0;
+            console.log('Paramètres chargés:', userSettings);
+        } catch (error) {
+            console.error('Erreur lors du chargement des paramètres:', error);
+        }
+    }
+    
+    // Appliquer la taille de page et le zoom initial
+    applyPageSize();
+}); 

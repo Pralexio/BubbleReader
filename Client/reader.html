@@ -9,10 +9,14 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
         
         :root {
-            --primary-color: #ff69b4;
-            --primary-color-dark: #5A52D5;
-            --secondary-color: #8a2be2;
-            --background-color: #131419;
+            --primary-color: #8257e6;
+            --primary-color-dark: #6c45c4;
+            --secondary-color: #ff5e84;
+            --secondary-color-dark: #e04e6d;
+            --text-color: #ffffff;
+            --background-color: #1f1f2b;
+            --card-color: #2e2e40;
+            --border-color: #3f3f5a;
             --background-secondary: rgba(108, 99, 255, 0.05);
             --card-background: #1E1F26;
             --text-primary: #FFFFFF;
@@ -20,12 +24,17 @@
             --error-color: #FF5252;
             --success-color: #4CAF50;
             --border-radius: 8px;
-            --text-color: #ffffff;
             --titlebar-height: 32px;
             --scrollbar-width: 8px;
             --scrollbar-track: var(--card-background);
             --scrollbar-thumb: var(--background-secondary);
             --scrollbar-thumb-hover: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         /* Styles de la barre de défilement pour Webkit */
@@ -191,11 +200,11 @@
         }
 
         .manga-image {
-            width: 100%;
-            max-width: 900px;
-            height: auto;
-            display: block;
-            margin: 0;
+            max-width: 100%;
+            max-height: 100%;
+            transition: transform 0.2s ease-out;
+            transform-origin: center center;
+            margin: 0 auto;
         }
 
         /* Styles pour la page unique et son numéro */
@@ -437,58 +446,6 @@
 
         .alert-error {
             color: #ef4444;
-        }
-
-        .keyboard-shortcuts {
-            position: fixed;
-            top: 50%;
-            left: 1rem;
-            transform: translateY(-50%);
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            background-color: rgba(30, 31, 38, 0.6);
-            padding: 0.5rem;
-            border-radius: 4px;
-            opacity: 0.6;
-            transition: opacity 0.3s ease;
-        }
-
-        .keyboard-shortcuts:hover {
-            opacity: 1;
-        }
-
-        .keyboard-shortcuts ul {
-            padding-left: 1.2rem;
-            margin: 0.5rem 0;
-        }
-
-        .keyboard-shortcuts li {
-            margin-bottom: 0.3rem;
-        }
-
-        @media (max-width: 768px) {
-            .header {
-                padding: 0.5rem;
-                flex-wrap: wrap;
-            }
-            
-            .keyboard-shortcuts {
-                display: none;
-            }
-            
-            .navigation-controls {
-                padding: 0.3rem 0.5rem;
-            }
-            
-            .nav-btn {
-                width: 36px;
-                height: 36px;
-            }
-            
-            .chapter-select, .page-info {
-                padding: 0.3rem 0.5rem;
-                font-size: 0.8rem;
-            }
         }
 
         .settings-modal {
@@ -931,6 +888,255 @@
                 max-width: calc(100% - var(--scrollbar-width) - 5px);
             }
         }
+
+        .settings-section {
+            margin-bottom: 2rem;
+        }
+
+        .settings-options {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .settings-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .zoom-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .zoom-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .zoom-btn:hover {
+            background-color: var(--primary-color-dark);
+            transform: translateY(-2px);
+        }
+
+        .zoom-btn:active {
+            transform: translateY(0);
+        }
+
+        .zoom-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        #zoomResetBtn {
+            background-color: var(--secondary-color);
+            border-radius: 15px;
+            padding: 0.25rem 0.75rem;
+            width: auto;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        #zoomResetBtn:hover {
+            background-color: var(--secondary-color-dark);
+        }
+
+        #zoomLevel {
+            font-size: 1rem;
+            font-weight: 600;
+            min-width: 48px;
+            text-align: center;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 4px 8px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .manga-container {
+            flex: 1;
+            overflow: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .manga-image {
+            max-width: 100%;
+            max-height: 100%;
+            transition: transform 0.2s ease-out;
+            transform-origin: center center;
+            margin: 0 auto;
+        }
+
+        .manga-image.fit-width {
+            width: 100%;
+            height: auto;
+        }
+
+        .manga-image.fit-height {
+            height: 100%;
+            width: auto;
+        }
+
+        .manga-image.full {
+            width: auto;
+            height: auto;
+        }
+
+        /* Mode vertical avec défilement */
+        .vertical-mode .manga-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0;
+        }
+
+        /* Éliminer les espaces entre les images */
+        .vertical-mode .single-page-container {
+            transition: margin 0.2s ease-out;
+            overflow: visible !important;
+            position: relative;
+            margin: 0 !important;
+            padding: 0 !important;
+            line-height: 0;
+        }
+        
+        .vertical-mode .manga-image {
+            margin: 0 auto !important;
+            padding: 0 !important;
+            display: block;
+            transition: transform 0.2s ease-out, margin 0.2s ease-out;
+            transform-origin: center top;
+            will-change: transform, margin;
+            line-height: 0;
+        }
+
+        /* Seul le conteneur parent du mode vertical doit avoir un défilement */
+        .vertical-mode .reader-container {
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        
+        /* Désactiver les overflows sur les conteneurs internes */
+        .manga-container, .reader-content-wrapper, .manga-image-container {
+            overflow: visible !important;
+        }
+
+        /* Correction pour la numérotation des pages */
+        .page-number {
+            line-height: normal;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 10;
+        }
+
+        /* Mode horizontal avec défilement */
+        .horizontal-mode .manga-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .horizontal-mode .manga-image {
+            position: relative;
+            transition: transform 0.2s ease-out;
+        }
+
+        /* Styles spécifiques pour le zoom */
+        #mangaImageContainer {
+            transition: transform 0.2s ease-out;
+            transform-origin: top center;
+        }
+        
+        .vertical-mode #readerContainer {
+            min-height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        
+        .vertical-mode .single-page-container {
+            margin: 0 !important;
+            padding: 0 !important;
+            line-height: 0;
+            font-size: 0;
+            position: relative;
+            width: 100%;
+        }
+        
+        .manga-image {
+            display: block;
+            margin: 0 auto !important;
+            padding: 0 !important;
+            line-height: 0;
+            max-width: 100%;
+        }
+        
+        /* Mode horizontal avec zoom */
+        .horizontal-mode .single-page-container {
+            transition: transform 0.2s ease-out;
+            transform-origin: center center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: calc(100vh - 100px);
+            width: 100%;
+            position: relative;
+        }
+        
+        .horizontal-mode .manga-image {
+            max-height: 100%;
+            max-width: 100%;
+            height: auto;
+            width: auto;
+            object-fit: contain;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 0.5rem;
+                flex-wrap: wrap;
+            }
+            
+            .navigation-controls {
+                padding: 0.3rem 0.5rem;
+            }
+            
+            .nav-btn {
+                width: 36px;
+                height: 36px;
+            }
+            
+            .chapter-select, .page-info {
+                padding: 0.3rem 0.5rem;
+                font-size: 0.8rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -996,21 +1202,43 @@
                         </label>
                     </div>
                 </div>
-                <div class="settings-group">
-                    <h3>Taille d'affichage</h3>
-                    <div class="setting-options">
-                        <label>
-                            <input type="radio" name="pageSize" value="fit-width" checked>
-                            <span>Ajuster à la largeur</span>
-                        </label>
-                        <label>
-                            <input type="radio" name="pageSize" value="fit-height">
-                            <span>Ajuster à la hauteur</span>
-                        </label>
-                        <label>
-                            <input type="radio" name="pageSize" value="full">
-                            <span>Taille réelle</span>
-                        </label>
+                <div class="settings-section">
+                    <h3>Taille de la page</h3>
+                    <div class="settings-options">
+                        <div class="settings-option">
+                            <input type="radio" name="pageSize" id="pageSizeFitWidth" value="fit-width">
+                            <label for="pageSizeFitWidth">Ajuster à la largeur</label>
+                        </div>
+                        <div class="settings-option">
+                            <input type="radio" name="pageSize" id="pageSizeFitHeight" value="fit-height">
+                            <label for="pageSizeFitHeight">Ajuster à la hauteur</label>
+                        </div>
+                        <div class="settings-option">
+                            <input type="radio" name="pageSize" id="pageSizeFull" value="full">
+                            <label for="pageSizeFull">Taille réelle</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h3>Zoom</h3>
+                    <div class="zoom-controls">
+                        <button id="zoomOutBtn" class="zoom-btn">
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="currentColor" d="M19,13H5V11H19V13Z" />
+                            </svg>
+                        </button>
+                        <span id="zoomLevel">100%</span>
+                        <button id="zoomInBtn" class="zoom-btn">
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                            </svg>
+                        </button>
+                        <button id="zoomResetBtn" class="zoom-btn">
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="currentColor" d="M12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16M18.7,12.4L16.9,10.6L18.9,8.6L18.3,7.9L16.3,9.9L14.5,8.1L14.1,8.5L15.9,10.3L13.9,12.3L14.5,13L16.5,11L18.3,12.8L18.7,12.4Z" />
+                            </svg>
+                            Réinitialiser
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1062,17 +1290,6 @@
                 <polyline points="7 3 7 8 15 8"></polyline>
             </svg>
         </button>
-    </div>
-
-    <div class="keyboard-shortcuts">
-        <strong>Raccourcis clavier :</strong>
-        <ul>
-            <li>← : Page précédente</li>
-            <li>→ : Page suivante</li>
-            <li>↑ : Chapitre précédent</li>
-            <li>↓ : Chapitre suivant</li>
-            <li>Espace : Défiler</li>
-        </ul>
     </div>
 
     <div class="titlebar">
