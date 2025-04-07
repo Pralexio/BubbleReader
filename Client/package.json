@@ -3,11 +3,13 @@
   "version": "1.9.3",
   "description": "Application de lecture de scan de manga/manwha/manhua",
   "main": "main.js",
+  "homepage": "https://github.com/Pralexio/BubbleReader",
   "scripts": {
     "start": "electron .",
     "dev": "cross-env NODE_ENV=development electron .",
-    "build": "cross-env NODE_ENV=production electron-builder --win",
+    "build": "cross-env NODE_ENV=production electron-builder --win --linux",
     "build:win": "cross-env NODE_ENV=production electron-builder --win",
+    "build:linux": "cross-env NODE_ENV=production electron-builder --linux dir",
     "build:dev": "cross-env NODE_ENV=development electron-builder --win",
     "pack": "electron-builder --dir"
   },
@@ -55,6 +57,22 @@
           "arch": ["x64"]
         }
       ]
+    },
+    "linux": {
+      "icon": "assets/logo.png",
+      "target": ["dir"], 
+      "category": "Utility",
+      "maintainer": "Pralexio",
+      "vendor": "BubbleReader",
+      "synopsis": "Application de lecture de scan de manga/manwha/manhua",
+      "executableName": "bubblereader",
+      "desktop": {
+        "entry": {
+          "Name": "BubbleReader",
+          "Comment": "Application de lecture de scan de manga/manwha/manhua",
+          "Categories": "Utility;Graphics;Viewer;"
+        }
+      }
     },
     "nsis": {
       "oneClick": false,
